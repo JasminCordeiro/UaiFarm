@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/zone_trigger.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(60, 60)
+
+[node name="ZoneTrigger" type="Area2D"]
+script = ExtResource("1")
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+mouse_filter = 2
+color = Color(0.545, 0.369, 0.235, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -30.0
+offset_top = -54.0
+offset_right = 30.0
+offset_bottom = -30.0
+mouse_filter = 2
+horizontal_alignment = 1
+text = "Rocado"
+
+[node name="ContextMenu" type="Panel" parent="."]
+visible = false
+offset_left = -60.0
+offset_top = -110.0
+offset_right = 60.0
+offset_bottom = -60.0
+
+[node name="ActionButton" type="Button" parent="ContextMenu"]
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 114.0
+offset_bottom = 44.0
+text = "Plantar"
