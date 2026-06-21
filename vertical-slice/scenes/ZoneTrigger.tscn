@@ -1,18 +1,21 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://dnl8ir3pm5whn"]
 
-[ext_resource type="Script" path="res://scripts/zone_trigger.gd" id="1"]
+[ext_resource type="Script" uid="uid://dqphpxsdt13ey" path="res://scripts/zone_trigger.gd" id="1"]
+[ext_resource type="Script" uid="uid://djqlnupygwqbo" path="res://scripts/radius_indicator.gd" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(60, 60)
 
-[node name="ZoneTrigger" type="Area2D"]
+[node name="ZoneTrigger" type="Area2D" unique_id=43640657]
 script = ExtResource("1")
-input_pickable = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="RadiusIndicator" type="Node2D" parent="." unique_id=850245912]
+script = ExtResource("2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1409910485]
 shape = SubResource("RectangleShape2D_1")
 
-[node name="Visual" type="ColorRect" parent="."]
+[node name="Visual" type="ColorRect" parent="." unique_id=284499604]
 offset_left = -30.0
 offset_top = -30.0
 offset_right = 30.0
@@ -20,23 +23,23 @@ offset_bottom = 30.0
 mouse_filter = 2
 color = Color(0.545, 0.369, 0.235, 1)
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=836585868]
 offset_left = -30.0
 offset_top = -54.0
 offset_right = 30.0
 offset_bottom = -30.0
-mouse_filter = 2
+text = "Roçado"
 horizontal_alignment = 1
-text = "Rocado"
 
-[node name="ContextMenu" type="Panel" parent="."]
+[node name="ContextMenu" type="Panel" parent="." unique_id=839186617]
 visible = false
 offset_left = -60.0
 offset_top = -110.0
 offset_right = 60.0
 offset_bottom = -60.0
 
-[node name="ActionButton" type="Button" parent="ContextMenu"]
+[node name="ActionButton" type="Button" parent="ContextMenu" unique_id=767522593]
+layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
 offset_right = 114.0

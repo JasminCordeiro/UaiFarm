@@ -1,25 +1,32 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://c75u3jh5dw7na"]
 
-[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1"]
+[ext_resource type="Script" uid="uid://cu07atcirkr4g" path="res://scripts/player_controller.gd" id="1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(28, 28)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1627055334]
+z_index = 10
 script = ExtResource("1")
 
-[node name="Sprite" type="ColorRect" parent="."]
+[node name="Sprite" type="ColorRect" parent="." unique_id=32610580]
 offset_left = -14.0
 offset_top = -14.0
 offset_right = 14.0
 offset_bottom = 14.0
 mouse_filter = 2
-color = Color(1, 1, 1, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=42894839]
 shape = SubResource("RectangleShape2D_1")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1464670451]
 path_desired_distance = 4.0
 target_desired_distance = 4.0
-avoidance_enabled = false
+
+[node name="Label" type="Label" parent="." unique_id=1272098471]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -5.0
+text = "Caio"
+horizontal_alignment = 1
