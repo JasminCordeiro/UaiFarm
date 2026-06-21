@@ -1,3 +1,9 @@
+# Cache do editor Godot (regenerado automaticamente ao abrir o projeto)
+vertical-slice/.godot/
+/android/
+
+# Builds locais exportadas (nao versionadas - distribuir via GitHub Release ou itch.io)
+/_builds_local/
 # Godot 4+ specific ignores
 .godot/
 .nomedia
