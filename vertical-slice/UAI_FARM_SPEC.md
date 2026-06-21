@@ -30,21 +30,21 @@
 - **Estrutura de cenas sugerida:**
   ```
   res://
-    scenes/
-      Overworld.tscn       # mapa principal com zonas clicáveis
-      Player.tscn          # personagem controlável
-      ZoneTrigger.tscn     # área clicável reutilizável (Roçado, Curral, Paiol)
-      Match3Board.tscn     # puzzle standalone
-      UI_HUD.tscn          # barra de café e contadores
-    scripts/
-      player_controller.gd
-      zone_trigger.gd
-      match3_board.gd
-      game_state.gd        # singleton/autoload com café, recursos, dia
-      hud.gd
-    resources/
-      tile_textures/
-      piece_sprites/
+	scenes/
+	  Overworld.tscn       # mapa principal com zonas clicáveis
+	  Player.tscn          # personagem controlável
+	  ZoneTrigger.tscn     # área clicável reutilizável (Roçado, Curral, Paiol)
+	  Match3Board.tscn     # puzzle standalone
+	  UI_HUD.tscn          # barra de café e contadores
+	scripts/
+	  player_controller.gd
+	  zone_trigger.gd
+	  match3_board.gd
+	  game_state.gd        # singleton/autoload com café, recursos, dia
+	  hud.gd
+	resources/
+	  tile_textures/
+	  piece_sprites/
   ```
 - **Autoload obrigatório:** `GameState.gd` como singleton para persistir café, inventário e estado entre as cenas Overworld ↔ Match3Board sem perda de contexto.
 
@@ -135,24 +135,24 @@ extends Node
 var cafe_atual: int = 5
 var cafe_maximo: int = 5
 var recursos: Dictionary = {
-    "milho": 0,
-    "madeira": 0,
-    "leite": 0,
-    "ovos": 0
+	"milho": 0,
+	"madeira": 0,
+	"leite": 0,
+	"ovos": 0
 }
 
 func consumir_cafe() -> bool:
-    if cafe_atual <= 0:
-        return false
-    cafe_atual -= 1
-    return true
+	if cafe_atual <= 0:
+		return false
+	cafe_atual -= 1
+	return true
 
 func restaurar_cafe() -> void:
-    cafe_atual = cafe_maximo
+	cafe_atual = cafe_maximo
 
 func adicionar_recurso(tipo: String, quantidade: int) -> void:
-    if recursos.has(tipo):
-        recursos[tipo] += quantidade
+	if recursos.has(tipo):
+		recursos[tipo] += quantidade
 ```
 
 ---
