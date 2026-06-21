@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/UI_HUD.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ZoneTrigger.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Match3Board.tscn" id="4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1"]
+vertices = PackedVector2Array(0, 0, 900, 0, 900, 500, 0, 500)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+
+[node name="Overworld" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_1")
+
+[node name="GroundVisual" type="ColorRect" parent="NavigationRegion2D"]
+offset_right = 900.0
+offset_bottom = 500.0
+mouse_filter = 2
+color = Color(0.29, 0.486, 0.184, 1)
+
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(450, 250)
+
+[node name="ZoneTrigger_Rocado" parent="." instance=ExtResource("3")]
+position = Vector2(700, 350)
+match3_scene = ExtResource("4")
+
+[node name="UI_HUD" parent="." instance=ExtResource("2")]
