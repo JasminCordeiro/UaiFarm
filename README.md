@@ -16,11 +16,17 @@ Projeto acadêmico da disciplina **CSI457 — Design de Jogos (UFOP)**.
 
 ## Como jogar (vertical slice)
 
-- Clique no mapa para o personagem (Caio) andar até o ponto clicado.
-- Ande até perto da zona marrom "Roçado" e clique nela para abrir o menu de ação.
-- Confirme a ação ("Plantar") para abrir o puzzle Match-3 (consome 1 unidade de café).
-- Troque peças adjacentes para formar combos de 3+; atinja 300 pontos em até 20 movimentos para vencer e ganhar milho.
-- O café é limitado (5 unidades por sessão); quando chega a 0, novas tentativas são bloqueadas até usar o botão de debug "Reset Cafe" no HUD.
+1. Acesse a aba de releases do projeto: [v0.1.0-vertical-slice](https://github.com/JasminCordeiro/UaiFarm/releases/tag/v0.1.0-vertical-slice)
+2. Baixe o arquivo `Uai-Farm-vertical-slice-windows.zip`, como na imagem abaixo:
+
+   <img width="1119" height="453" alt="Pagina de releases do GitHub com o asset Uai-Farm-vertical-slice-windows.zip em destaque" src="https://github.com/user-attachments/assets/babeff28-287a-4d85-9aa2-3134b30ff4a6" />
+
+3. Extraia o `.zip` e execute o arquivo `Uai-Farm.exe`.
+4. Clique no mapa para o personagem (Caio) andar até o ponto clicado.
+5. Ande até perto da zona marrom "Roçado" e clique nela para abrir o menu de ação.
+6. Confirme a ação ("Plantar") para abrir o puzzle Match-3 (consome 1 unidade de café).
+7. Troque peças adjacentes para formar combos de 3+; atinja 300 pontos em até 20 movimentos para vencer e ganhar milho.
+8. O café é limitado (5 unidades por sessão); quando chega a 0, novas tentativas são bloqueadas até usar o botão de debug "Reset Café" no HUD.
 
 ## Estrutura do repositório
 
