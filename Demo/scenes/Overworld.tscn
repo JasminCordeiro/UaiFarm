@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/overworld.gd" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/UI_HUD.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ZoneTrigger.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Match3Board.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/CasaTrigger.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/UI_InfoBar.tscn" id="6"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1"]
+vertices = PackedVector2Array(0, 0, 1280, 0, 1280, 720, 0, 720)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+
+[node name="Overworld" type="Node2D"]
+script = ExtResource("7")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_1")
+
+[node name="GroundVisual" type="ColorRect" parent="NavigationRegion2D"]
+offset_right = 1280.0
+offset_bottom = 620.0
+mouse_filter = 2
+color = Color(0.29, 0.486, 0.184, 1)
+
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(640, 360)
+
+[node name="ZoneTrigger_Rocado" parent="." instance=ExtResource("3")]
+position = Vector2(1050, 490)
+zone_name = "Rocado"
+action_label = "Plantar"
+match3_scene = ExtResource("4")
+puzzle_reward_type = "milho"
+puzzle_reward_amount = 15
+puzzle_move_limit = 20
+puzzle_score_target = 300
+
+[node name="ZoneTrigger_Curral" parent="." instance=ExtResource("3")]
+position = Vector2(230, 490)
+zone_name = "Curral"
+action_label = "Ordenhar"
+match3_scene = ExtResource("4")
+puzzle_reward_type = "leite"
+puzzle_reward_amount = 10
+puzzle_move_limit = 20
+puzzle_score_target = 300
+
+[node name="ZoneTrigger_Paiol" parent="." instance=ExtResource("3")]
+position = Vector2(640, 140)
+zone_name = "Paiol"
+action_label = "Organizar"
+match3_scene = ExtResource("4")
+puzzle_reward_type = "madeira"
+puzzle_reward_amount = 12
+puzzle_move_limit = 20
+puzzle_score_target = 300
+
+[node name="CasaTrigger" parent="." instance=ExtResource("5")]
+position = Vector2(130, 140)
+
+[node name="UI_HUD" parent="." instance=ExtResource("2")]
+
+[node name="UI_InfoBar" parent="." instance=ExtResource("6")]

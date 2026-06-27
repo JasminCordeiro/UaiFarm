@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/tutorial_balloon.gd" id="1"]
+
+[node name="TutorialBalloon" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 10
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 460.0
+offset_bottom = 200.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+theme_override_constants/separation = 8
+
+[node name="NomeLabel" type="Label" parent="Panel/VBoxContainer"]
+text = "Dona Fiota:"
+theme_override_font_sizes/font_size = 14
+
+[node name="TextoLabel" type="Label" parent="Panel/VBoxContainer"]
+text = "Uai, meu filho! O rocado ta precisando de cuidado.\nClica nele pra comecar! Chega perto e aperta o botao."
+autowrap_mode = 2
+
+[node name="FecharButton" type="Button" parent="Panel/VBoxContainer"]
+text = "Entendido!"

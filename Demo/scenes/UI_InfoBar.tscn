@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/info_bar.gd" id="1"]
+
+[node name="UI_InfoBar" type="CanvasLayer"]
+script = ExtResource("1")
+layer = 5
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="Control"]
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+offset_bottom = 0.0
+visible = false
+
+[node name="HBox" type="HBoxContainer" parent="Control/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = -16.0
+offset_bottom = -8.0
+theme_override_constants/separation = 12
+
+[node name="NomeLabel" type="Label" parent="Control/Panel/HBox"]
+custom_minimum_size = Vector2(120, 0)
+text = "Dona Fiota:"
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="MensagemLabel" type="Label" parent="Control/Panel/HBox"]
+size_flags_horizontal = 3
+text = "..."
+autowrap_mode = 2
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 14
+
+[node name="FecharButton" type="Button" parent="Control/Panel/HBox"]
+custom_minimum_size = Vector2(32, 32)
+text = "X"
