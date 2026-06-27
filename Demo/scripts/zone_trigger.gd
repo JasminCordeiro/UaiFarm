@@ -16,11 +16,12 @@ signal acao_confirmada(zone_name: String)
 @onready var visual: ColorRect = $Visual
 @onready var radius_indicator = $RadiusIndicator
 @onready var name_label: Label = $Label
+@onready var status_label: Label = $StatusLabel
 
 var player_ref: Node2D = null
 var puzzle_instance: Node = null
 var jogador_proximo: bool = false
-
+ 
 func _ready() -> void:
 	input_event.connect(_on_input_event)
 	action_button.pressed.connect(_on_action_button_pressed)
@@ -31,6 +32,7 @@ func _ready() -> void:
 	name_label.text = zone_name
 	GameState.recurso_alterado.connect(_on_recurso_alterado)
 	_atualizar_visual_bloqueio()
+	_atualizar_status()
 
 func _process(_delta: float) -> void:
 	if puzzle_instance != null:
@@ -52,6 +54,14 @@ func _atualizar_proximidade(perto: bool) -> void:
 func _atualizar_visual_bloqueio() -> void:
 	var bloqueada: bool = not GameState.zona_desbloqueada(zone_name)
 	visual.color = Color(0.4, 0.4, 0.4, 1) if bloqueada else Color(0.545, 0.369, 0.235, 1)
+	status_label.modulate = Color(1, 0.75, 0.35) if bloqueada else Color(0.85, 1, 0.85)
+	_atualizar_status()
+
+func _atualizar_status() -> void:
+	if GameState.zona_desbloqueada(zone_name):
+		status_label.text = action_label
+	else:
+		status_label.text = "Bloqueado"
 
 func _on_recurso_alterado(_tipo: String, _qtd: int) -> void:
 	_atualizar_visual_bloqueio()
@@ -69,7 +79,7 @@ func _try_open_menu() -> void:
 	if not GameState.zona_desbloqueada(zone_name):
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", GameState.texto_requisito(zone_name))
+			info_bar.mostrar_mensagem("Zona bloqueada", "%s: %s" % [zone_name, GameState.texto_requisito(zone_name)])
 		return
 	action_button.text = action_label
 	action_button.disabled = false

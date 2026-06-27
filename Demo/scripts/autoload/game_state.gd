@@ -9,6 +9,7 @@ const DIAS_DA_DEMO: int = 3
 const CAFE_INICIAL: int = 5
 const DESBLOQUEIO_CURRAL: Dictionary = {"milho": 10}
 const DESBLOQUEIO_PAIOL: Dictionary = {"milho": 20, "leite": 5}
+const SPAWN_AO_LADO_DA_CASA: Vector2 = Vector2(210, 140)
 
 var cafe_atual: int = CAFE_INICIAL
 var cafe_maximo: int = CAFE_INICIAL
@@ -30,6 +31,9 @@ func reset() -> void:
 	recursos = {"milho": 0, "madeira": 0, "leite": 0, "ovos": 0}
 	cafe_alterado.emit(cafe_atual, cafe_maximo)
 	dia_alterado.emit(dia_atual)
+
+func definir_spawn_casa() -> void:
+	ponto_spawn = SPAWN_AO_LADO_DA_CASA
 
 func consumir_cafe() -> bool:
 	if cafe_atual <= 0:
