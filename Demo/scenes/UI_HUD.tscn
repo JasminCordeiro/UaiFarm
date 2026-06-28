@@ -31,7 +31,8 @@ size_flags_horizontal = 3
 text = "Milho: 0 | Madeira: 0 | Leite: 0 | Ovos: 0"
 
 [node name="EncerrarButton" type="Button" parent="TopBar"]
-text = "Encerrar Demo"
+custom_minimum_size = Vector2(80, 0)
+text = "Sair"
 
 [node name="RewardToast" type="Panel" parent="."]
 visible = false

@@ -23,7 +23,7 @@ visible = false
 [node name="HBox" type="HBoxContainer" parent="Control/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
+offset_left = 104.0
 offset_top = 8.0
 offset_right = -16.0
 offset_bottom = -8.0
@@ -45,3 +45,14 @@ theme_override_font_sizes/font_size = 14
 [node name="FecharButton" type="Button" parent="Control/Panel/HBox"]
 custom_minimum_size = Vector2(32, 32)
 text = "X"
+
+[node name="Portrait" type="TextureRect" parent="Control"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -120.0
+offset_right = 96.0
+offset_bottom = -10.0
+visible = false
+expand_mode = 1
+stretch_mode = 6

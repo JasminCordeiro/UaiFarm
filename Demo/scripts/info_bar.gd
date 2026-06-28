@@ -7,6 +7,11 @@ const TUTORIAL_DURATION: float = 4.0
 @onready var nome_label: Label = $Control/Panel/HBox/NomeLabel
 @onready var mensagem_label: Label = $Control/Panel/HBox/MensagemLabel
 @onready var fechar_button: Button = $Control/Panel/HBox/FecharButton
+@onready var portrait: TextureRect = $Control/Portrait
+
+const PORTRAITS: Dictionary = {
+	"Dona Fiota": "res://assets/dona_fiota_portrait.png",
+}
 
 var tutorial_ativo: bool = false
 
@@ -22,6 +27,7 @@ func mostrar_mensagem(nome: String, texto: String, auto_fechar: bool = true, mar
 	tutorial_ativo = marcar_como_tutorial
 	nome_label.text = nome + ":"
 	mensagem_label.text = texto
+	_atualizar_portrait(nome)
 	painel.show()
 	if auto_fechar:
 		await get_tree().create_timer(TUTORIAL_DURATION).timeout
@@ -30,9 +36,21 @@ func mostrar_mensagem(nome: String, texto: String, auto_fechar: bool = true, mar
 				GameState.tutorial_visto = true
 				tutorial_ativo = false
 			painel.hide()
+			portrait.hide()
+
+func _atualizar_portrait(nome: String) -> void:
+	var path: String = PORTRAITS.get(nome, "")
+	if path != "":
+		var tex: Texture2D = load(path)
+		if tex:
+			portrait.texture = tex
+			portrait.show()
+			return
+	portrait.hide()
 
 func _fechar() -> void:
 	if tutorial_ativo:
 		GameState.tutorial_visto = true
 		tutorial_ativo = false
 	painel.hide()
+	portrait.hide()

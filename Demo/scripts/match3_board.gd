@@ -9,23 +9,29 @@ const POINTS_PER_PIECE: int = 10
 
 const CORES_POR_TEMA: Dictionary = {
 	"rocado": [
-		Color(0.95, 0.85, 0.2),  # espiga
-		Color(0.3, 0.75, 0.3),   # folha verde
-		Color(0.95, 0.55, 0.1),  # sol
-		Color(0.3, 0.55, 0.85),  # chuva
+		Color(0.95, 0.85, 0.2),
+		Color(0.3, 0.75, 0.3),
+		Color(0.95, 0.55, 0.1),
+		Color(0.3, 0.55, 0.85),
 	],
 	"curral": [
-		Color(0.92, 0.92, 0.96), # leite
-		Color(0.85, 0.72, 0.2),  # feno
-		Color(0.55, 0.33, 0.14), # barro
+		Color(0.92, 0.92, 0.96),
+		Color(0.85, 0.72, 0.2),
+		Color(0.55, 0.33, 0.14),
 	],
 	"paiol": [
-		Color(0.42, 0.26, 0.10), # madeira
-		Color(0.62, 0.62, 0.62), # pedra
-		Color(0.90, 0.80, 0.38), # palha
-		Color(0.72, 0.34, 0.10), # ferrugem
-		Color(0.28, 0.55, 0.20), # folha seca
+		Color(0.42, 0.26, 0.10),
+		Color(0.62, 0.62, 0.62),
+		Color(0.90, 0.80, 0.38),
+		Color(0.72, 0.34, 0.10),
+		Color(0.28, 0.55, 0.20),
 	],
+}
+
+const SIMBOLOS_POR_TEMA: Dictionary = {
+	"rocado": ["🌽", "🌿", "☀", "💧"],
+	"curral": ["🥛", "🌾", "🟤"],
+	"paiol":  ["🪵", "🪨", "🌾", "🔧", "🍂"],
 }
 
 @export var tema: String = "rocado"
@@ -35,6 +41,7 @@ const CORES_POR_TEMA: Dictionary = {
 @export var win_reward_amount: int = 15
 
 var _cores: Array = []
+var _simbolos: Array = []
 
 @onready var board_container: Node2D = $BoardContainer
 @onready var score_label: Label = $UI/ScoreLabel
@@ -55,6 +62,7 @@ var resultado_pendente: Dictionary = {}
 
 func _ready() -> void:
 	_cores = CORES_POR_TEMA.get(tema, CORES_POR_TEMA["rocado"])
+	_simbolos = SIMBOLOS_POR_TEMA.get(tema, SIMBOLOS_POR_TEMA["rocado"])
 	retry_button.pressed.connect(_on_retry_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	GameState.consumir_cafe()
@@ -120,6 +128,15 @@ func _criar_peca(tipo: int) -> ColorRect:
 	rect.size = Vector2(CELL_SIZE - 6, CELL_SIZE - 6)
 	rect.color = _cores[tipo]
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if tipo < _simbolos.size():
+		var lbl := Label.new()
+		lbl.text = _simbolos[tipo]
+		lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 22)
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		rect.add_child(lbl)
 	return rect
 
 func _cell_to_pos(cell: Vector2i) -> Vector2:

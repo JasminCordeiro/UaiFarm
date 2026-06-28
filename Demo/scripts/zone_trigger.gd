@@ -53,6 +53,7 @@ func _atualizar_proximidade(perto: bool) -> void:
 	jogador_proximo = perto
 	visual.modulate = Color(1.2, 1.2, 1.2) if perto else Color(1, 1, 1)
 	radius_indicator.modulate.a = 0.9 if perto else 0.3
+	name_label.visible = not perto
 
 func _atualizar_visual_bloqueio() -> void:
 	var bloqueada: bool = not GameState.zona_desbloqueada(zone_name)

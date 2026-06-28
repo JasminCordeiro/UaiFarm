@@ -30,9 +30,8 @@ func _configurar_sprite() -> void:
 	var tex: Texture2D = load("res://assets/caio.png")
 	if tex == null:
 		return
-	var frame_h := int(tex.get_height() / NUM_LINHAS)
-	var cols := int(tex.get_width() / FRAME_W)
-	print("caio.png: %dx%d | frame: %dx%d | %d colunas" % [tex.get_width(), tex.get_height(), FRAME_W, frame_h, cols])
+	var frame_h: int = tex.get_height() / NUM_LINHAS
+	var cols: int = tex.get_width() / FRAME_W
 	var frames := SpriteFrames.new()
 	for entry in ANIM_ROWS:
 		var nome: String = entry[0]
