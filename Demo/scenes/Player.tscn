@@ -9,12 +9,8 @@ size = Vector2(28, 28)
 z_index = 10
 script = ExtResource("1")
 
-[node name="Sprite" type="ColorRect" parent="." unique_id=32610580]
-offset_left = -14.0
-offset_top = -14.0
-offset_right = 14.0
-offset_bottom = 14.0
-mouse_filter = 2
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=32610580]
+scale = Vector2(1.25, 1.25)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=42894839]
 shape = SubResource("RectangleShape2D_1")
@@ -25,9 +21,9 @@ target_desired_distance = 4.0
 
 [node name="Label" type="Label" parent="." unique_id=1272098471]
 offset_left = -30.0
-offset_top = -35.0
+offset_top = -58.0
 offset_right = 30.0
-offset_bottom = -5.0
+offset_bottom = -32.0
 text = "Caio"
 horizontal_alignment = 1
 
