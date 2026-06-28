@@ -10,6 +10,7 @@ signal acao_confirmada(zone_name: String)
 @export var puzzle_reward_amount: int = 15
 @export var puzzle_move_limit: int = 20
 @export var puzzle_score_target: int = 300
+@export var puzzle_tema: String = "rocado"
 
 @onready var context_menu: Control = $ContextMenu
 @onready var action_button: Button = $ContextMenu/ActionButton
@@ -21,6 +22,7 @@ signal acao_confirmada(zone_name: String)
 var player_ref: Node2D = null
 var puzzle_instance: Node = null
 var jogador_proximo: bool = false
+var zona_desbloqueada_anterior: bool = true
  
 func _ready() -> void:
 	input_event.connect(_on_input_event)
@@ -31,6 +33,7 @@ func _ready() -> void:
 	_atualizar_proximidade(false)
 	name_label.text = zone_name
 	GameState.recurso_alterado.connect(_on_recurso_alterado)
+	zona_desbloqueada_anterior = GameState.zona_desbloqueada(zone_name)
 	_atualizar_visual_bloqueio()
 	_atualizar_status()
 
@@ -61,10 +64,19 @@ func _atualizar_status() -> void:
 	if GameState.zona_desbloqueada(zone_name):
 		status_label.text = action_label
 	else:
-		status_label.text = "Bloqueado"
+		status_label.text = GameState.texto_progresso(zone_name)
 
 func _on_recurso_alterado(_tipo: String, _qtd: int) -> void:
+	var zona_desbloqueada_atual: bool = GameState.zona_desbloqueada(zone_name)
+	if not zona_desbloqueada_anterior and zona_desbloqueada_atual:
+		_notificar_desbloqueio()
+	zona_desbloqueada_anterior = zona_desbloqueada_atual
 	_atualizar_visual_bloqueio()
+
+func _notificar_desbloqueio() -> void:
+	var info_bar = get_tree().get_first_node_in_group("info_bar")
+	if info_bar:
+		info_bar.mostrar_mensagem("Dona Fiota", "Uai! %s desbloqueado. Agora da pra %s!" % [zone_name, action_label.to_lower()], true)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -95,11 +107,13 @@ func _on_action_button_pressed() -> void:
 	context_menu.hide()
 	if player_ref:
 		player_ref.bloquear_movimento()
+	var dif: Dictionary = GameState.dificuldade_puzzle()
 	puzzle_instance = match3_scene.instantiate()
+	puzzle_instance.tema = puzzle_tema
 	puzzle_instance.win_reward_type = puzzle_reward_type
 	puzzle_instance.win_reward_amount = puzzle_reward_amount
-	puzzle_instance.move_limit = puzzle_move_limit
-	puzzle_instance.score_target = puzzle_score_target
+	puzzle_instance.move_limit = max(8, puzzle_move_limit + dif["move_delta"])
+	puzzle_instance.score_target = puzzle_score_target + dif["score_delta"]
 	get_tree().current_scene.add_child(puzzle_instance)
 	puzzle_instance.puzzle_concluido.connect(_on_puzzle_concluido)
 	puzzle_instance.puzzle_falhou.connect(_on_puzzle_falhou)

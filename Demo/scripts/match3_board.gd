@@ -5,19 +5,36 @@ signal puzzle_falhou()
 
 const GRID_SIZE: int = 6
 const CELL_SIZE: int = 64
-const PIECE_TYPES: int = 4
 const POINTS_PER_PIECE: int = 10
-const PIECE_COLORS: Array[Color] = [
-	Color(0.95, 0.85, 0.2),  # espiga
-	Color(0.3, 0.55, 0.85),  # balde
-	Color(0.6, 0.4, 0.2),    # ferramenta
-	Color(0.4, 0.7, 0.3),    # folha
-]
 
+const CORES_POR_TEMA: Dictionary = {
+	"rocado": [
+		Color(0.95, 0.85, 0.2),  # espiga
+		Color(0.3, 0.75, 0.3),   # folha verde
+		Color(0.95, 0.55, 0.1),  # sol
+		Color(0.3, 0.55, 0.85),  # chuva
+	],
+	"curral": [
+		Color(0.92, 0.92, 0.96), # leite
+		Color(0.85, 0.72, 0.2),  # feno
+		Color(0.55, 0.33, 0.14), # barro
+	],
+	"paiol": [
+		Color(0.42, 0.26, 0.10), # madeira
+		Color(0.62, 0.62, 0.62), # pedra
+		Color(0.90, 0.80, 0.38), # palha
+		Color(0.72, 0.34, 0.10), # ferrugem
+		Color(0.28, 0.55, 0.20), # folha seca
+	],
+}
+
+@export var tema: String = "rocado"
 @export var move_limit: int = 20
 @export var score_target: int = 300
 @export var win_reward_type: String = "milho"
 @export var win_reward_amount: int = 15
+
+var _cores: Array = []
 
 @onready var board_container: Node2D = $BoardContainer
 @onready var score_label: Label = $UI/ScoreLabel
@@ -37,6 +54,7 @@ var selected_cell: Vector2i = Vector2i(-1, -1)
 var resultado_pendente: Dictionary = {}
 
 func _ready() -> void:
+	_cores = CORES_POR_TEMA.get(tema, CORES_POR_TEMA["rocado"])
 	retry_button.pressed.connect(_on_retry_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	GameState.consumir_cafe()
@@ -74,13 +92,13 @@ func _montar_grid_sem_matches() -> void:
 
 func _tipo_aleatorio_sem_match(x: int, y: int) -> int:
 	var tentativas := 0
-	var tipo := randi() % PIECE_TYPES
+	var tipo := randi() % _cores.size()
 	while tentativas < 20:
 		var esquerda_ok: bool = x < 2 or not (grid[x - 1][y] == tipo and grid[x - 2][y] == tipo)
 		var acima_ok: bool = y < 2 or not (grid[x][y - 1] == tipo and grid[x][y - 2] == tipo)
 		if esquerda_ok and acima_ok:
 			break
-		tipo = randi() % PIECE_TYPES
+		tipo = randi() % _cores.size()
 		tentativas += 1
 	return tipo
 
@@ -100,7 +118,7 @@ func _instanciar_visuais() -> void:
 func _criar_peca(tipo: int) -> ColorRect:
 	var rect := ColorRect.new()
 	rect.size = Vector2(CELL_SIZE - 6, CELL_SIZE - 6)
-	rect.color = PIECE_COLORS[tipo]
+	rect.color = _cores[tipo]
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return rect
 
@@ -231,7 +249,7 @@ func _preencher_vazios() -> void:
 	for x in range(GRID_SIZE):
 		for y in range(GRID_SIZE):
 			if grid[x][y] == -1:
-				var tipo := randi() % PIECE_TYPES
+				var tipo := randi() % _cores.size()
 				grid[x][y] = tipo
 				var node := _criar_peca(tipo)
 				var pos_final := _cell_to_pos(Vector2i(x, y))

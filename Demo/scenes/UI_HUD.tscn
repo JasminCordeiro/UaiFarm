@@ -32,3 +32,27 @@ text = "Milho: 0 | Madeira: 0 | Leite: 0 | Ovos: 0"
 
 [node name="EncerrarButton" type="Button" parent="TopBar"]
 text = "Encerrar Demo"
+
+[node name="RewardToast" type="Panel" parent="."]
+visible = false
+offset_left = 940.0
+offset_top = 52.0
+offset_right = 1256.0
+offset_bottom = 96.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RewardToast"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = -6.0
+theme_override_constants/separation = 10
+
+[node name="RewardIconLabel" type="Label" parent="RewardToast/HBoxContainer"]
+text = "🌽"
+theme_override_font_sizes/font_size = 20
+
+[node name="RewardTextLabel" type="Label" parent="RewardToast/HBoxContainer"]
+text = "+0 milho"
+vertical_alignment = 1

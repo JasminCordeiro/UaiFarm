@@ -36,6 +36,7 @@ puzzle_reward_type = "milho"
 puzzle_reward_amount = 15
 puzzle_move_limit = 20
 puzzle_score_target = 300
+puzzle_tema = "rocado"
 
 [node name="ZoneTrigger_Curral" parent="." instance=ExtResource("3")]
 position = Vector2(230, 490)
@@ -44,8 +45,9 @@ action_label = "Ordenhar"
 match3_scene = ExtResource("4")
 puzzle_reward_type = "leite"
 puzzle_reward_amount = 10
-puzzle_move_limit = 20
-puzzle_score_target = 300
+puzzle_move_limit = 18
+puzzle_score_target = 350
+puzzle_tema = "curral"
 
 [node name="ZoneTrigger_Paiol" parent="." instance=ExtResource("3")]
 position = Vector2(640, 140)
@@ -54,8 +56,9 @@ action_label = "Organizar"
 match3_scene = ExtResource("4")
 puzzle_reward_type = "madeira"
 puzzle_reward_amount = 12
-puzzle_move_limit = 20
-puzzle_score_target = 300
+puzzle_move_limit = 22
+puzzle_score_target = 350
+puzzle_tema = "paiol"
 
 [node name="CasaTrigger" parent="." instance=ExtResource("5")]
 position = Vector2(130, 140)

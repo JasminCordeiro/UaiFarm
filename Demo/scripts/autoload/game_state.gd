@@ -82,6 +82,29 @@ func texto_requisito(zona: String) -> String:
 		partes.append("%d %s" % [req[tipo], tipo])
 	return "Bloqueado — precisa: " + ", ".join(partes)
 
+func texto_progresso(zona: String) -> String:
+	var req: Dictionary = {}
+	match zona:
+		"Curral":
+			req = DESBLOQUEIO_CURRAL
+		"Paiol":
+			req = DESBLOQUEIO_PAIOL
+		_:
+			return ""
+	var partes: Array = []
+	for tipo in req.keys():
+		partes.append("%s: %d/%d" % [tipo.capitalize(), recursos.get(tipo, 0), req[tipo]])
+	return "\n".join(partes)
+
+func dificuldade_puzzle() -> Dictionary:
+	match dia_atual:
+		1:
+			return {"move_delta": 0, "score_delta": 0}
+		2:
+			return {"move_delta": -2, "score_delta": 50}
+		_:
+			return {"move_delta": -4, "score_delta": 100}
+
 func _checar_requisitos(req: Dictionary) -> bool:
 	for tipo in req.keys():
 		if recursos.get(tipo, 0) < req[tipo]:

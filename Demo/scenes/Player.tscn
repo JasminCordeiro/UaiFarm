@@ -30,3 +30,9 @@ offset_right = 30.0
 offset_bottom = -5.0
 text = "Caio"
 horizontal_alignment = 1
+
+[node name="ClickMarker" type="Polygon2D" parent="." unique_id=1439104449]
+visible = false
+z_index = 50
+polygon = PackedVector2Array(0, -10, 10, 0, 0, 10, -10, 0)
+color = Color(1, 0.94, 0.4, 0.9)
