@@ -7,7 +7,10 @@ const RESOURCE_ICONS: Dictionary = {
 	"ovos": "🥚",
 }
 
-@onready var coffee_bar: ProgressBar = $TopBar/CoffeeBar
+const COFFEE_ICON: Texture2D = preload("res://assets/coffee-energy.png")
+const COFFEE_ICON_SIZE: int = 28
+
+@onready var coffee_icons: HBoxContainer = $TopBar/CoffeeIcons
 @onready var coffee_label: Label = $TopBar/CoffeeLabel
 @onready var day_label: Label = $TopBar/DayLabel
 @onready var inventory_label: Label = $TopBar/InventoryLabel
@@ -31,9 +34,21 @@ func _ready() -> void:
 	reward_toast.hide()
 
 func _on_cafe_alterado(atual: int, maximo: int) -> void:
-	coffee_bar.max_value = maximo
-	coffee_bar.value = atual
-	coffee_label.text = "Cafe: %d/%d" % [atual, maximo]
+	while coffee_icons.get_child_count() < maximo:
+		var icone := TextureRect.new()
+		icone.texture = COFFEE_ICON
+		icone.custom_minimum_size = Vector2(COFFEE_ICON_SIZE, COFFEE_ICON_SIZE)
+		icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		coffee_icons.add_child(icone)
+	while coffee_icons.get_child_count() > maximo:
+		coffee_icons.get_child(coffee_icons.get_child_count() - 1).free()
+	for i in range(maximo):
+		var icone: TextureRect = coffee_icons.get_child(i)
+		if i < atual:
+			icone.modulate = Color(1, 1, 1, 1)
+		else:
+			icone.modulate = Color(0.35, 0.35, 0.35, 0.5)
 
 func _on_dia_alterado(dia: int) -> void:
 	day_label.text = "Dia %d" % dia
