@@ -104,6 +104,9 @@ func _on_action_button_pressed() -> void:
 	if GameState.cafe_atual < 1:
 		action_button.text = "Sem cafe!"
 		action_button.disabled = true
+		var info_bar = get_tree().get_first_node_in_group("info_bar")
+		if info_bar:
+			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha tem mais.", true)
 		return
 	context_menu.hide()
 	if player_ref:

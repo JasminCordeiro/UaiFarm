@@ -11,12 +11,16 @@ const ANIM_ROWS: Array = [
 
 @export var move_speed: float = 220.0
 
+const DISTANCIA_FORA_DO_CAMINHO: float = 32.0
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var click_marker: Polygon2D = $ClickMarker
+@onready var blocked_marker: Polygon2D = $BlockedMarker
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 var movimento_bloqueado: bool = false
 var click_marker_tween: Tween = null
+var blocked_marker_tween: Tween = null
 var sprite_pronto: bool = false
 
 func _ready() -> void:
@@ -27,7 +31,7 @@ func _ready() -> void:
 	_configurar_sprite()
 
 func _configurar_sprite() -> void:
-	var tex: Texture2D = load("res://assets/caio.png")
+	var tex: Texture2D = load("res://assets/Caio.png")
 	if tex == null:
 		return
 	var frame_h: int = tex.get_height() / NUM_LINHAS
@@ -54,8 +58,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var destino: Vector2 = get_global_mouse_position()
-		_mostrar_feedback_clique(destino)
-		mover_para(destino)
+		var ponto_alcancavel: Vector2 = NavigationServer2D.map_get_closest_point(nav_agent.get_navigation_map(), destino)
+		if destino.distance_to(ponto_alcancavel) > DISTANCIA_FORA_DO_CAMINHO:
+			_mostrar_feedback_bloqueado(destino)
+			mover_para(ponto_alcancavel)
+		else:
+			_mostrar_feedback_clique(destino)
+			mover_para(destino)
 
 func bloquear_movimento() -> void:
 	movimento_bloqueado = true
@@ -81,6 +90,21 @@ func _mostrar_feedback_clique(destino: Vector2) -> void:
 
 func _on_click_marker_tween_finished() -> void:
 	click_marker.visible = false
+
+func _mostrar_feedback_bloqueado(destino: Vector2) -> void:
+	blocked_marker.global_position = destino
+	blocked_marker.visible = true
+	blocked_marker.scale = Vector2.ONE
+	blocked_marker.modulate = Color(1, 1, 1, 1)
+	if blocked_marker_tween:
+		blocked_marker_tween.kill()
+	blocked_marker_tween = create_tween().set_parallel(true)
+	blocked_marker_tween.tween_property(blocked_marker, "scale", Vector2(1.4, 1.4), 0.35)
+	blocked_marker_tween.tween_property(blocked_marker, "modulate:a", 0.0, 0.35)
+	blocked_marker_tween.finished.connect(_on_blocked_marker_tween_finished, CONNECT_ONE_SHOT)
+
+func _on_blocked_marker_tween_finished() -> void:
+	blocked_marker.visible = false
 
 func _physics_process(_delta: float) -> void:
 	if nav_agent.is_navigation_finished():

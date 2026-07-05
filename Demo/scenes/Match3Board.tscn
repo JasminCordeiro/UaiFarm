@@ -3,10 +3,17 @@
 [ext_resource type="Script" path="res://scripts/match3_board.gd" id="1"]
 
 [node name="Match3Board" type="Node2D"]
+z_index = 50
 script = ExtResource("1")
 
+[node name="DimOverlay" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
 [node name="BoardContainer" type="Node2D" parent="."]
-position = Vector2(80, 110)
+position = Vector2(448, 168)
 
 [node name="Background" type="ColorRect" parent="BoardContainer"]
 position = Vector2(-6, -6)
@@ -17,25 +24,25 @@ mouse_filter = 2
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="ScoreLabel" type="Label" parent="UI"]
-offset_left = 20.0
-offset_top = 56.0
-offset_right = 260.0
-offset_bottom = 78.0
+offset_left = 448.0
+offset_top = 112.0
+offset_right = 688.0
+offset_bottom = 134.0
 text = "Pontos: 0 / 300"
 
 [node name="MovesLabel" type="Label" parent="UI"]
-offset_left = 20.0
-offset_top = 80.0
-offset_right = 260.0
-offset_bottom = 102.0
+offset_left = 448.0
+offset_top = 136.0
+offset_right = 688.0
+offset_bottom = 158.0
 text = "Movimentos: 20"
 
 [node name="BannerPanel" type="Panel" parent="UI"]
 visible = false
-offset_left = 326.0
-offset_top = 200.0
-offset_right = 626.0
-offset_bottom = 420.0
+offset_left = 490.0
+offset_top = 250.0
+offset_right = 790.0
+offset_bottom = 470.0
 
 [node name="BannerLabel" type="Label" parent="UI/BannerPanel"]
 offset_left = 16.0
