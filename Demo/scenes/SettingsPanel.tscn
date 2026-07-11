@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/settings_panel.gd" id="1"]
+[ext_resource type="StyleBox" path="res://theme/panel_style.tres" id="2"]
+[ext_resource type="Theme" path="res://theme/menu_theme.tres" id="3"]
+
+[node name="SettingsPanel" type="CanvasLayer"]
+layer = 25
+process_mode = 3
+script = ExtResource("1")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+color = Color(0.02, 0.02, 0.03, 0.55)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("3")
+
+[node name="PanelContainer" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2")
+
+[node name="Margin" type="MarginContainer" parent="Center/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/PanelContainer/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Configuracoes"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicRow" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MusicLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Musica"
+vertical_alignment = 1
+
+[node name="MusicButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/MusicRow"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+text = "Ligada"
+
+[node name="SfxRow" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SfxLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Efeitos sonoros"
+vertical_alignment = 1
+
+[node name="SfxButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/SfxRow"]
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+text = "Ligados"
+
+[node name="GameActions" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ActionsSeparator" type="HSeparator" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
+layout_mode = 2
+
+[node name="ReturnMenuButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Retornar ao Menu"
+
+[node name="QuitButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Sair"
+
+[node name="CloseButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Fechar"

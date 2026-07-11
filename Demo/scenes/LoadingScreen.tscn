@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://d0v2r12ba0ln6"]
+
+[ext_resource type="Script" uid="uid://71fkf5qvr00t" path="res://scripts/loading_screen.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c2pku2v836uyv" path="res://assets/Logo-UaiFarm.png" id="2"]
+[ext_resource type="Theme" uid="uid://u4f8vpcp1cyc" path="res://theme/menu_theme.tres" id="3"]
+
+[node name="LoadingScreen" type="Control" unique_id=1452788922]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3")
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1933381938]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.05, 0.05, 0.06, 1)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1914107098]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=1274915874]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="Center/VBox" unique_id=421275418]
+custom_minimum_size = Vector2(220, 220)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LoadingBar" type="ProgressBar" parent="Center/VBox" unique_id=1369662128]
+custom_minimum_size = Vector2(320, 22)
+layout_mode = 2
+size_flags_horizontal = 4
+show_percentage = false
+
+[node name="LoadingLabel" type="Label" parent="Center/VBox" unique_id=1055453326]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Carregando fazenda..."
+horizontal_alignment = 1

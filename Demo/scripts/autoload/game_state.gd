@@ -25,6 +25,7 @@ var nivel_casa: int = 1
 var zonas_ja_desbloqueadas: Dictionary = {}
 var tutorial_visto: bool = false
 var ponto_spawn: Vector2 = Vector2(-1, -1)  # -1,-1 = usar posicao padrao do Overworld
+var cena_destino: String = ""  # cena que a LoadingScreen deve abrir em seguida
 var recursos: Dictionary = {
 	"milho": 0,
 	"madeira": 0,

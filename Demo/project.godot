@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameState="*res://scripts/autoload/game_state.gd"
+ClickRipple="*res://scripts/autoload/click_ripple.gd"
+AudioSettings="*res://scripts/autoload/audio_settings.gd"
 
 [display]
 

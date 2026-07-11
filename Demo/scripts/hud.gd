@@ -9,13 +9,13 @@ const RESOURCE_ICONS: Dictionary = {
 
 const COFFEE_ICON: Texture2D = preload("res://assets/coffee-energy.png")
 const COFFEE_ICON_SIZE: int = 28
-const END_SCREEN: PackedScene = preload("res://scenes/EndScreen.tscn")
+const SETTINGS_PANEL: PackedScene = preload("res://scenes/SettingsPanel.tscn")
 
 @onready var coffee_icons: HBoxContainer = $TopBar/CoffeeIcons
 @onready var coffee_label: Label = $TopBar/CoffeeLabel
 @onready var day_label: Label = $TopBar/DayLabel
 @onready var inventory_label: Label = $TopBar/InventoryLabel
-@onready var encerrar_button: Button = $TopBar/EncerrarButton
+@onready var settings_button: Button = $TopBar/SettingsButton
 @onready var reward_toast: Panel = $RewardToast
 @onready var reward_icon_label: Label = $RewardToast/HBoxContainer/RewardIconLabel
 @onready var reward_text_label: Label = $RewardToast/HBoxContainer/RewardTextLabel
@@ -27,7 +27,7 @@ func _ready() -> void:
 	GameState.cafe_alterado.connect(_on_cafe_alterado)
 	GameState.recurso_alterado.connect(_on_recurso_alterado)
 	GameState.dia_alterado.connect(_on_dia_alterado)
-	encerrar_button.pressed.connect(_on_encerrar_pressed)
+	settings_button.pressed.connect(_on_settings_pressed)
 	_on_cafe_alterado(GameState.cafe_atual, GameState.cafe_maximo)
 	_on_dia_alterado(GameState.dia_atual)
 	_sincronizar_totais_recurso()
@@ -87,8 +87,10 @@ func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
 func _on_reward_toast_tween_finished() -> void:
 	reward_toast.hide()
 
-func _on_encerrar_pressed() -> void:
+func _on_settings_pressed() -> void:
 	if get_tree().paused:
 		return
-	get_tree().current_scene.add_child(END_SCREEN.instantiate())
+	var panel := SETTINGS_PANEL.instantiate()
+	panel.show_game_actions = true
+	get_tree().current_scene.add_child(panel)
 	get_tree().paused = true

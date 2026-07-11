@@ -9,4 +9,4 @@ func _on_back_pressed() -> void:
 
 func _on_new_game_pressed() -> void:
 	GameState.reset()
-	get_tree().change_scene_to_file("res://scenes/Overworld.tscn")
+	get_tree().change_scene_to_file("res://scenes/StoryIntro.tscn")

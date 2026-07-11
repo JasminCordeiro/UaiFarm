@@ -46,10 +46,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Milho: 0 | Madeira: 0 | Leite: 0 | Ovos: 0"
 
-[node name="EncerrarButton" type="Button" parent="TopBar" unique_id=1560959690]
-custom_minimum_size = Vector2(80, 0)
+[node name="SettingsButton" type="Button" parent="TopBar" unique_id=1560959690]
+custom_minimum_size = Vector2(44, 0)
 layout_mode = 2
-text = "Sair"
+theme_override_font_sizes/font_size = 20
+text = "⚙"
 
 [node name="RewardToast" type="Panel" parent="." unique_id=1735695423]
 visible = false
