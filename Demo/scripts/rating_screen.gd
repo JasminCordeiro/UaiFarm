@@ -1,6 +1,6 @@
 extends Control
 
-const MAIN_MENU := "res://scenes/MainMenu.tscn"
+const NEXT_SCREEN := "res://scenes/LogoScreen.tscn"
 
 var _proceeding := false
 
@@ -57,7 +57,7 @@ func _proceed(from: Vector2) -> void:
 	out.tween_interval(0.55)
 	out.tween_property(self, "modulate:a", 0.0, 0.45)
 	out.tween_callback(func() -> void:
-		get_tree().change_scene_to_file(MAIN_MENU))
+		get_tree().change_scene_to_file(NEXT_SCREEN))
 
 func _spawn_ripple(from: Vector2) -> void:
 	# Dois círculos concêntricos expandindo a partir do clique

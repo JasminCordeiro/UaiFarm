@@ -9,6 +9,7 @@ const RESOURCE_ICONS: Dictionary = {
 
 const COFFEE_ICON: Texture2D = preload("res://assets/coffee-energy.png")
 const COFFEE_ICON_SIZE: int = 28
+const END_SCREEN: PackedScene = preload("res://scenes/EndScreen.tscn")
 
 @onready var coffee_icons: HBoxContainer = $TopBar/CoffeeIcons
 @onready var coffee_label: Label = $TopBar/CoffeeLabel
@@ -87,4 +88,7 @@ func _on_reward_toast_tween_finished() -> void:
 	reward_toast.hide()
 
 func _on_encerrar_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/EndScreen.tscn")
+	if get_tree().paused:
+		return
+	get_tree().current_scene.add_child(END_SCREEN.instantiate())
+	get_tree().paused = true
