@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://bb5b5w2840gfy"]
+
+[ext_resource type="Script" uid="uid://jkgpafs7dpy2" path="res://scripts/rating_screen.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="BadgeStyle"]
+bg_color = Color(0.164706, 0.611765, 0.309804, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="RatingScreen" type="Control" unique_id=184899771]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1777087073]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.05, 0.05, 0.06, 1)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=1342078133]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -40.0
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center" unique_id=1401482184]
+layout_mode = 2
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="Badge" type="Panel" parent="Center/VBox" unique_id=1822641045]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("BadgeStyle")
+
+[node name="Letter" type="Label" parent="Center/VBox/Badge" unique_id=1045523881]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 92
+text = "L"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="Center/VBox" unique_id=156579487]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 34
+text = "LIVRE PARA TODOS OS PÚBLICOS"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Center/VBox" unique_id=2012034079]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.78, 0.8, 1)
+theme_override_font_sizes/font_size = 20
+text = "Histórias sem conteúdos potencialmente prejudiciais
+para qualquer faixa etária."
+horizontal_alignment = 1
+
+[node name="Prompt" type="Label" parent="." unique_id=1895424717]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+offset_bottom = -44.0
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "Clique em qualquer lugar da tela para prosseguir"
+horizontal_alignment = 1
+vertical_alignment = 1
