@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3ycok70vxtcs"
-path="res://.godot/imported/3-Background-Farm-Paiol-Desbloqueado.png-9bcb364fd6de8b4cc79f95dfdcd2fbce.ctex"
+uid="uid://bf617ttyqpq78"
+path="res://.godot/imported/Pause.png-45fec6763a614b6bb0edab04e96d838d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/3-Background-Farm-Paiol-Desbloqueado.png"
-dest_files=["res://.godot/imported/3-Background-Farm-Paiol-Desbloqueado.png-9bcb364fd6de8b4cc79f95dfdcd2fbce.ctex"]
+source_file="res://assets/Pause.png"
+dest_files=["res://.godot/imported/Pause.png-45fec6763a614b6bb0edab04e96d838d.ctex"]
 
 [params]
 

@@ -5,6 +5,7 @@ const SETTINGS_PANEL: PackedScene = preload("res://scenes/SettingsPanel.tscn")
 func _ready() -> void:
 	$Panel/VBoxContainer/NewGameButton.pressed.connect(_on_new_game)
 	$Panel/VBoxContainer/TutorialButton.pressed.connect(_on_tutorial)
+	$Panel/VBoxContainer/CreditsButton.pressed.connect(_on_credits)
 	$Panel/VBoxContainer/QuitButton.pressed.connect(_on_quit)
 	$SettingsButton.pressed.connect(_on_settings_pressed)
 
@@ -14,6 +15,9 @@ func _on_new_game() -> void:
 
 func _on_tutorial() -> void:
 	get_tree().change_scene_to_file("res://scenes/TutorialScreen.tscn")
+
+func _on_credits() -> void:
+	pass
 
 func _on_quit() -> void:
 	get_tree().quit()

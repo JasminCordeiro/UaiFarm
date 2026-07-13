@@ -9,7 +9,7 @@ const SLIDES: Array[String] = [
 	"Belo Horizonte, dias atuais. Desde que trocou o interior pela cidade grande, Caio vinha se sentindo cada vez mais sufocado — rotina de escritorio, contas apertadas e planilhas que nao faziam sentido nenhum.",
 	"Ate que uma carta muda tudo: seu avo falecera e deixou pra ele a Fazenda Uai, nos arredores de Conselheiro Lafaiete, MG.",
 	"Foi ai que Caio percebeu: fazia tempo que nao era feliz ali. Arrumou as malas e topou o desafio — hora de voltar pras raizes da familia.",
-	"Ao chegar, encontrou tudo abandonado: rocado seco, curral vazio, paiol sem estoque... Foi recebido por Dona Fiota, velha amiga do avo, que cuidava do lugar havia anos.\n\"Uai, meu fio, ta na hora de arregacar as manga e dar vida a essa terra de novo!\" — Dona Fiota",
+	"Ao chegar, encontrou tudo abandonado: rocado seco, curral vazio, celeiro sem estoque... Foi recebido por Dona Fiota, velha amiga do avo, que cuidava do lugar havia anos.\n\"Uai, meu fio, ta na hora de arregacar as manga e dar vida a essa terra de novo!\" — Dona Fiota",
 ]
 
 @onready var story_label: Label = $Center/PanelContainer/Margin/HBox/StoryLabel
@@ -19,6 +19,7 @@ const SLIDES: Array[String] = [
 @onready var prompt: Label = $Prompt
 @onready var scene_background: TextureRect = $SceneBackground
 @onready var car: TextureRect = $CarLayer/Car
+@onready var casa_overlay: TextureRect = $CasaOverlay
 
 var _slide_backgrounds: Array[Texture2D] = [
 	preload("res://assets/cidade-grande.png"),
@@ -77,6 +78,7 @@ func _show_slide(index: int) -> void:
 		story_label.text = SLIDES[index]
 		scene_background.texture = _slide_backgrounds[index]
 		portrait.visible = index == FIOTA_SLIDE_INDEX
+		casa_overlay.visible = index == FIOTA_SLIDE_INDEX
 		if index == CAR_SLIDE_INDEX:
 			_car_slide_locked = true
 			prompt.hide()

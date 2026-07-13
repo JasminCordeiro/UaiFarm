@@ -1,0 +1,145 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Texture2D" uid="uid://dh6t3rtbegghs" path="res://assets/Vaca.png" id="1"]
+[ext_resource type="Script" path="res://scripts/farm_animal.gd" id="2"]
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_down_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_down_1"]
+atlas = ExtResource("1")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_down_2"]
+atlas = ExtResource("1")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_down_3"]
+atlas = ExtResource("1")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_up_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_up_1"]
+atlas = ExtResource("1")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_up_2"]
+atlas = ExtResource("1")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_up_3"]
+atlas = ExtResource("1")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_0"]
+atlas = ExtResource("1")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_1"]
+atlas = ExtResource("1")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_2"]
+atlas = ExtResource("1")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_3"]
+atlas = ExtResource("1")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_4"]
+atlas = ExtResource("1")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_5"]
+atlas = ExtResource("1")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_6"]
+atlas = ExtResource("1")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_Vaca_side_7"]
+atlas = ExtResource("1")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_Vaca"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_down_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_down_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_down_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_down_3")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_up_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_up_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_up_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_up_3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_Vaca_side_7")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 8.0
+}]
+
+[node name="Vaca" type="Node2D"]
+script = ExtResource("2")
+area_min = Vector2(740, 480)
+area_max = Vector2(1000, 690)
+speed = 26.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_Vaca")
+animation = &"walk_down"
+autoplay = "walk_down"

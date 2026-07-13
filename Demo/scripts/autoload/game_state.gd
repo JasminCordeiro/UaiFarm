@@ -8,13 +8,12 @@ signal casa_melhorada(nivel: int)
 # --- Balanceamento centralizado (ajustar apos playtest) ---
 const DIAS_DA_DEMO: int = 3
 const CAFE_INICIAL: int = 5
-const DESBLOQUEIO_CURRAL: Dictionary = {"milho": 10}
-const DESBLOQUEIO_PAIOL: Dictionary = {"milho": 20, "leite": 5}
+const DESBLOQUEIO_CELEIRO: Dictionary = {"milho": 10}
+const DESBLOQUEIO_CURRAL: Dictionary = {"milho": 20, "graos": 5}
 const SPAWN_AO_LADO_DA_CASA: Vector2 = Vector2(1010, 332)
-const NIVEL_CASA_MAXIMO: int = 3
+const NIVEL_CASA_MAXIMO: int = 2
 const CUSTO_UPGRADE_CASA: Dictionary = {
 	2: {"milho": 15},
-	3: {"madeira": 12, "leite": 10},
 }
 const CAFE_UPGRADE_CASA: int = 1
 
@@ -28,7 +27,7 @@ var ponto_spawn: Vector2 = Vector2(-1, -1)  # -1,-1 = usar posicao padrao do Ove
 var cena_destino: String = ""  # cena que a LoadingScreen deve abrir em seguida
 var recursos: Dictionary = {
 	"milho": 0,
-	"madeira": 0,
+	"graos": 0,
 	"leite": 0,
 	"ovos": 0,
 }
@@ -40,7 +39,7 @@ func reset() -> void:
 	zonas_ja_desbloqueadas = {}
 	tutorial_visto = false
 	ponto_spawn = Vector2(-1, -1)
-	recursos = {"milho": 0, "madeira": 0, "leite": 0, "ovos": 0}
+	recursos = {"milho": 0, "graos": 0, "leite": 0, "ovos": 0}
 	cafe_alterado.emit(cafe_atual, cafe_maximo)
 	dia_alterado.emit(dia_atual)
 
@@ -78,8 +77,8 @@ func zona_desbloqueada(zona: String) -> bool:
 	match zona:
 		"Curral":
 			atende = _checar_requisitos(DESBLOQUEIO_CURRAL)
-		"Paiol":
-			atende = _checar_requisitos(DESBLOQUEIO_PAIOL)
+		"Celeiro":
+			atende = _checar_requisitos(DESBLOQUEIO_CELEIRO)
 		_:
 			atende = true
 	if atende:
@@ -126,8 +125,8 @@ func texto_requisito(zona: String) -> String:
 	match zona:
 		"Curral":
 			req = DESBLOQUEIO_CURRAL
-		"Paiol":
-			req = DESBLOQUEIO_PAIOL
+		"Celeiro":
+			req = DESBLOQUEIO_CELEIRO
 		_:
 			return ""
 	var partes: Array = []
@@ -140,8 +139,8 @@ func texto_progresso(zona: String) -> String:
 	match zona:
 		"Curral":
 			req = DESBLOQUEIO_CURRAL
-		"Paiol":
-			req = DESBLOQUEIO_PAIOL
+		"Celeiro":
+			req = DESBLOQUEIO_CELEIRO
 		_:
 			return ""
 	var partes: Array = []

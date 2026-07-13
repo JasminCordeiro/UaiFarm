@@ -1,5 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://u4f8vpcp1cyc"]
 
+[ext_resource type="FontFile" uid="uid://vkrrl1cd2sv2" path="res://assets/fonts/Pixellari.ttf" id="1_pixellari"]
+
 [sub_resource type="StyleBoxFlat" id="ButtonHover"]
 bg_color = Color(0.564706, 0.360784, 0.184314, 0.95)
 border_width_left = 3
@@ -56,10 +58,12 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [resource]
+default_font = ExtResource("1_pixellari")
 Button/colors/font_color = Color(1, 0.945098, 0.803922, 1)
 Button/colors/font_hover_color = Color(1, 0.870588, 0.501961, 1)
 Button/colors/font_pressed_color = Color(1, 0.807843, 0.317647, 1)
-Button/font_sizes/font_size = 20
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_pixellari")
 Button/styles/hover = SubResource("ButtonHover")
 Button/styles/normal = SubResource("ButtonNormal")
 Button/styles/pressed = SubResource("ButtonPressed")
@@ -67,5 +71,6 @@ Label/colors/font_color = Color(1, 0.945098, 0.803922, 1)
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.5)
 Label/constants/shadow_offset_x = 1
 Label/constants/shadow_offset_y = 1
+Label/fonts/font = ExtResource("1_pixellari")
 ProgressBar/styles/background = SubResource("ProgressBackground")
 ProgressBar/styles/fill = SubResource("ProgressFill")

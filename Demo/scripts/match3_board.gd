@@ -19,7 +19,7 @@ const CORES_POR_TEMA: Dictionary = {
 		Color(0.85, 0.72, 0.2),
 		Color(0.55, 0.33, 0.14),
 	],
-	"paiol": [
+	"celeiro": [
 		Color(0.42, 0.26, 0.10),
 		Color(0.62, 0.62, 0.62),
 		Color(0.90, 0.80, 0.38),
@@ -31,7 +31,7 @@ const CORES_POR_TEMA: Dictionary = {
 const SIMBOLOS_POR_TEMA: Dictionary = {
 	"rocado": ["🌽", "🌿", "☀", "💧"],
 	"curral": ["🥛", "🌾", "🟤"],
-	"paiol":  ["🪵", "🪨", "🌾", "🔧", "🍂"],
+	"celeiro": ["🌾", "🎋", "📦", "🟨", "🍂"],
 }
 
 @export var tema: String = "rocado"
@@ -316,6 +316,7 @@ func _verificar_fim_de_jogo() -> void:
 func _trigger_win() -> void:
 	game_over = true
 	is_busy = true
+	Sfx.play_win()
 	GameState.adicionar_recurso(win_reward_type, win_reward_amount)
 	resultado_pendente = {"vitoria": true, "recurso": win_reward_type, "quantidade": win_reward_amount}
 	_mostrar_banner("UAI! Desafio Concluido!\n+%d %s" % [win_reward_amount, win_reward_type], false)
@@ -323,6 +324,7 @@ func _trigger_win() -> void:
 func _trigger_lose() -> void:
 	game_over = true
 	is_busy = true
+	Sfx.play_lose()
 	resultado_pendente = {"vitoria": false}
 	_mostrar_banner("Movimentos esgotados!\nNenhum recurso ganho.", true)
 

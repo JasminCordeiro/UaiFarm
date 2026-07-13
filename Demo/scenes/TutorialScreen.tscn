@@ -50,7 +50,7 @@ horizontal_alignment = 1
 
 [node name="HowToLabel" type="Label" parent="Panel/VBoxContainer"]
 size_flags_vertical = 3
-text = "1. Clique no chao para mover o Caio.\n2. Aproxime-se de uma zona (Rocado, Curral, Paiol).\n3. Clique na zona e confirme a acao para abrir o puzzle.\n4. Cada tentativa consome 1 cafe.\n5. Venca o Match-3 para ganhar recursos.\n6. Com recursos suficientes, novas zonas desbloqueiam.\n7. Na Casa, escolha Descansar para recuperar cafe e avancar o dia."
+text = "1. Clique no chao para mover o Caio.\n2. Aproxime-se de uma zona (Rocado, Curral, Celeiro).\n3. Clique na zona e confirme a acao para abrir o puzzle.\n4. Cada tentativa consome 1 cafe.\n5. Venca o Match-3 para ganhar recursos.\n6. Com recursos suficientes, novas zonas desbloqueiam.\n7. Na Casa, escolha Descansar para recuperar cafe e avancar o dia."
 autowrap_mode = 2
 
 [node name="HintLabel" type="Label" parent="Panel/VBoxContainer"]

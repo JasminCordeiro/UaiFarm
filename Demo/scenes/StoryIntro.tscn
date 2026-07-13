@@ -6,6 +6,7 @@
 [ext_resource type="Theme" uid="uid://u4f8vpcp1cyc" path="res://theme/menu_theme.tres" id="4"]
 [ext_resource type="Texture2D" uid="uid://y3wy6i1cew46" path="res://assets/cidade-grande.png" id="5"]
 [ext_resource type="Texture2D" path="res://assets/dona_fiota_portrait.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://1a6m1na51fa8" path="res://assets/casa-1.png" id="7_casa"]
 
 [node name="StoryIntro" type="Control" unique_id=1753847129]
 layout_mode = 3
@@ -13,7 +14,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
-grow_vertical = 2custom_minimum_size
+grow_vertical = 2
 theme = ExtResource("4")
 script = ExtResource("1")
 
@@ -39,6 +40,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color(0.03, 0.03, 0.04, 0.38)
+
+[node name="CasaOverlay" type="TextureRect" parent="." unique_id=3021884467]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.643
+anchor_top = 0.103472
+anchor_right = 0.877344
+anchor_bottom = 0.338194
+mouse_filter = 2
+texture = ExtResource("7_casa")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CarLayer" type="Control" parent="." unique_id=1434277158]
 anchors_preset = 0

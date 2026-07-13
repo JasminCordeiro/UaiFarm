@@ -2,7 +2,7 @@ extends CanvasLayer
 
 const RESOURCE_ICONS: Dictionary = {
 	"milho": "🌽",
-	"madeira": "🪵",
+	"graos": "🌾",
 	"leite": "🥛",
 	"ovos": "🥚",
 }

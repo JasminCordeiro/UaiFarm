@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bplpjap4ord0h" path="res://scripts/hud.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://xmsw5cm1aarc" path="res://assets/coffee-energy.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/Pause.png" id="3_pause"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
 bg_color = Color(0, 0, 0, 0.35)
@@ -44,13 +45,13 @@ text = "Dia 1"
 [node name="InventoryLabel" type="Label" parent="TopBar" unique_id=23751995]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Milho: 0 | Madeira: 0 | Leite: 0 | Ovos: 0"
+text = "Milho: 0 | Graos: 0 | Leite: 0 | Ovos: 0"
 
 [node name="SettingsButton" type="Button" parent="TopBar" unique_id=1560959690]
 custom_minimum_size = Vector2(44, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "⚙"
+icon = ExtResource("3_pause")
+expand_icon = true
 
 [node name="RewardToast" type="Panel" parent="." unique_id=1735695423]
 visible = false

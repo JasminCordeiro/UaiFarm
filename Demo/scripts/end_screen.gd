@@ -21,8 +21,8 @@ func _montar_resumo() -> void:
 	var zonas: Array[String] = ["Rocado"]
 	if GameState.zona_desbloqueada("Curral"):
 		zonas.append("Curral")
-	if GameState.zona_desbloqueada("Paiol"):
-		zonas.append("Paiol")
+	if GameState.zona_desbloqueada("Celeiro"):
+		zonas.append("Celeiro")
 	$Center/Panel/VBoxContainer/ZonasLabel.text = "Zonas visitaveis: " + ", ".join(zonas)
 
 func _on_voltar() -> void:
