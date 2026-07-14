@@ -1,13 +1,13 @@
 extends CanvasLayer
 
-const FALA_TUTORIAL: String = "Uai, meu filho! O rocado ta precisando de cuidado. Chega perto dele e aperta o botao pra comecar!"
+const FALA_TUTORIAL: String = "Uai, meu filho! O rocado ta precisando de cuidado. Anda com WASD/setas ou clique no chao, chega perto e aperta E pra trabalhar!"
 const TUTORIAL_DURATION: float = 4.0
 
 @onready var painel: Panel = $Control/Panel
-@onready var nome_label: Label = $Control/Panel/HBox/NomeLabel
-@onready var mensagem_label: Label = $Control/Panel/HBox/MensagemLabel
-@onready var fechar_button: Button = $Control/Panel/HBox/FecharButton
-@onready var portrait: TextureRect = $Control/Portrait
+@onready var nome_label: Label = $Control/Panel/VBox/NomeLabel
+@onready var mensagem_label: Label = $Control/Panel/VBox/MensagemLabel
+@onready var fechar_button: Button = $Control/Panel/FecharButton
+@onready var portrait: TextureRect = $Control/Panel/Portrait
 
 const PORTRAITS: Dictionary = {
 	"Dona Fiota": "res://assets/dona_fiota_portrait.png",
@@ -28,7 +28,14 @@ func mostrar_mensagem(nome: String, texto: String, auto_fechar: bool = true, mar
 	nome_label.text = nome + ":"
 	mensagem_label.text = texto
 	_atualizar_portrait(nome)
+	painel.pivot_offset = painel.size / 2.0
+	painel.scale = Vector2(0.7, 0.7)
+	painel.modulate.a = 0.0
 	painel.show()
+	var pop := create_tween().set_parallel(true)
+	pop.tween_property(painel, "scale", Vector2.ONE, 0.25) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	pop.tween_property(painel, "modulate:a", 1.0, 0.15)
 	if auto_fechar:
 		await get_tree().create_timer(TUTORIAL_DURATION).timeout
 		if is_instance_valid(painel) and painel.visible:

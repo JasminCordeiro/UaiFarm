@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/info_bar.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://vkrrl1cd2sv2" path="res://assets/fonts/Pixellari.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_painel"]
+bg_color = Color(0.454902, 0.286275, 0.14902, 0.95)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.917647, 0.760784, 0.407843, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 10
 
 [node name="UI_InfoBar" type="CanvasLayer"]
 script = ExtResource("1")
@@ -12,47 +27,76 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="Control"]
-anchor_left = 0.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-offset_bottom = 0.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -110.0
+offset_right = 290.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+theme_override_styles/panel = SubResource("StyleBoxFlat_painel")
+
+[node name="Portrait" type="TextureRect" parent="Control/Panel"]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -60.0
+offset_right = 100.0
+offset_bottom = 20.0
+expand_mode = 1
+stretch_mode = 5
 visible = false
 
-[node name="HBox" type="HBoxContainer" parent="Control/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 104.0
-offset_top = 8.0
-offset_right = -16.0
-offset_bottom = -8.0
-theme_override_constants/separation = 12
+offset_left = 116.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = -20.0
+theme_override_constants/separation = 10
 
-[node name="NomeLabel" type="Label" parent="Control/Panel/HBox"]
-custom_minimum_size = Vector2(120, 0)
+[node name="NomeLabel" type="Label" parent="Control/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.807843, 0.317647, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
 text = "Dona Fiota:"
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
 
-[node name="MensagemLabel" type="Label" parent="Control/Panel/HBox"]
-size_flags_horizontal = 3
+[node name="MensagemLabel" type="Label" parent="Control/Panel/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 0.945098, 0.803922, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 17
 text = "..."
+horizontal_alignment = 1
 autowrap_mode = 2
 vertical_alignment = 1
-theme_override_font_sizes/font_size = 14
 
-[node name="FecharButton" type="Button" parent="Control/Panel/HBox"]
-custom_minimum_size = Vector2(32, 32)
+[node name="FecharButton" type="Button" parent="Control/Panel"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -38.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = 38.0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
 text = "X"
-
-[node name="Portrait" type="TextureRect" parent="Control"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = -120.0
-offset_right = 96.0
-offset_bottom = -10.0
-visible = false
-expand_mode = 1
-stretch_mode = 6

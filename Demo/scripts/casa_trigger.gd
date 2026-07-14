@@ -56,6 +56,19 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 		else:
 			context_menu.hide()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("interagir"):
+		return
+	if not jogador_proximo or is_transitioning:
+		return
+	if player_ref and player_ref.movimento_bloqueado:
+		return
+	get_viewport().set_input_as_handled()
+	if context_menu.visible:
+		_on_action_button_pressed()
+	else:
+		_abrir_menu()
+
 func _abrir_menu() -> void:
 	action_button.text = "Descansar"
 	action_button.disabled = false

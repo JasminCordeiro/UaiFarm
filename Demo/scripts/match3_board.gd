@@ -6,6 +6,13 @@ signal puzzle_falhou()
 const GRID_SIZE: int = 6
 const CELL_SIZE: int = 64
 const POINTS_PER_PIECE: int = 10
+const HINT_DELAY: float = 6.0
+
+# Pecas especiais criadas por combos grandes
+const SPECIAL_NONE: int = 0
+const SPECIAL_LINHA_H: int = 1  # limpa a linha inteira ao ser eliminada
+const SPECIAL_LINHA_V: int = 2  # limpa a coluna inteira ao ser eliminada
+const SPECIAL_BOMBA: int = 3    # explode area 3x3 ao ser eliminada
 
 const CORES_POR_TEMA: Dictionary = {
 	"rocado": [
@@ -39,6 +46,9 @@ const SIMBOLOS_POR_TEMA: Dictionary = {
 @export var score_target: int = 300
 @export var win_reward_type: String = "milho"
 @export var win_reward_amount: int = 15
+# Quando falso, a recompensa nao entra direto no inventario:
+# a zona planta o recurso no campo pra ser colhido depois
+@export var credito_direto: bool = true
 
 var _cores: Array = []
 var _simbolos: Array = []
@@ -52,6 +62,7 @@ var _simbolos: Array = []
 @onready var back_button: Button = $UI/BannerPanel/BackButton
 
 var grid: Array = []
+var special_grid: Array = []
 var piece_nodes: Array = []
 var moves_remaining: int = 0
 var score: int = 0
@@ -59,14 +70,36 @@ var is_busy: bool = false
 var game_over: bool = false
 var selected_cell: Vector2i = Vector2i(-1, -1)
 var resultado_pendente: Dictionary = {}
+var progress_bar: ProgressBar = null
+var hint_timer: float = 0.0
+var hint_cells: Array = []
+var hint_tween: Tween = null
 
 func _ready() -> void:
 	_cores = CORES_POR_TEMA.get(tema, CORES_POR_TEMA["rocado"])
 	_simbolos = SIMBOLOS_POR_TEMA.get(tema, SIMBOLOS_POR_TEMA["rocado"])
 	retry_button.pressed.connect(_on_retry_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	_criar_barra_progresso()
 	GameState.consumir_cafe()
 	_iniciar_jogo()
+
+func _criar_barra_progresso() -> void:
+	progress_bar = ProgressBar.new()
+	progress_bar.min_value = 0
+	progress_bar.show_percentage = false
+	progress_bar.position = Vector2(448, 88)
+	progress_bar.size = Vector2(GRID_SIZE * CELL_SIZE, 14)
+	progress_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color(0.95, 0.75, 0.2)
+	fill.set_corner_radius_all(6)
+	var bg := StyleBoxFlat.new()
+	bg.bg_color = Color(0.15, 0.1, 0.06, 0.85)
+	bg.set_corner_radius_all(6)
+	progress_bar.add_theme_stylebox_override("fill", fill)
+	progress_bar.add_theme_stylebox_override("background", bg)
+	$UI.add_child(progress_bar)
 
 func _iniciar_jogo() -> void:
 	score = 0
@@ -76,8 +109,11 @@ func _iniciar_jogo() -> void:
 	selected_cell = Vector2i(-1, -1)
 	resultado_pendente = {}
 	banner_panel.hide()
+	_limpar_dica()
 	_limpar_tabuleiro()
 	_montar_grid_sem_matches()
+	if _encontrar_jogada_valida().is_empty():
+		_montar_grid_sem_matches()
 	_instanciar_visuais()
 	_atualizar_labels()
 
@@ -86,14 +122,20 @@ func _limpar_tabuleiro() -> void:
 		if child.name != "Background":
 			child.queue_free()
 	grid.clear()
+	special_grid.clear()
 	piece_nodes.clear()
 
 func _montar_grid_sem_matches() -> void:
 	grid = []
+	special_grid = []
 	for x in range(GRID_SIZE):
 		var coluna: Array = []
 		coluna.resize(GRID_SIZE)
 		grid.append(coluna)
+		var coluna_esp: Array = []
+		coluna_esp.resize(GRID_SIZE)
+		coluna_esp.fill(SPECIAL_NONE)
+		special_grid.append(coluna_esp)
 	for x in range(GRID_SIZE):
 		for y in range(GRID_SIZE):
 			grid[x][y] = _tipo_aleatorio_sem_match(x, y)
@@ -118,12 +160,12 @@ func _instanciar_visuais() -> void:
 		piece_nodes.append(coluna)
 	for x in range(GRID_SIZE):
 		for y in range(GRID_SIZE):
-			var node := _criar_peca(grid[x][y])
+			var node := _criar_peca(grid[x][y], special_grid[x][y])
 			node.position = _cell_to_pos(Vector2i(x, y))
 			board_container.add_child(node)
 			piece_nodes[x][y] = node
 
-func _criar_peca(tipo: int) -> ColorRect:
+func _criar_peca(tipo: int, special: int = SPECIAL_NONE) -> ColorRect:
 	var rect := ColorRect.new()
 	rect.size = Vector2(CELL_SIZE - 6, CELL_SIZE - 6)
 	rect.color = _cores[tipo]
@@ -137,7 +179,48 @@ func _criar_peca(tipo: int) -> ColorRect:
 		lbl.add_theme_font_size_override("font_size", 22)
 		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		rect.add_child(lbl)
+	_aplicar_visual_especial(rect, special)
 	return rect
+
+func _aplicar_visual_especial(rect: ColorRect, special: int) -> void:
+	if special == SPECIAL_NONE:
+		return
+	if special == SPECIAL_LINHA_H or special == SPECIAL_LINHA_V:
+		var faixa := ColorRect.new()
+		faixa.color = Color(1, 1, 1, 0.85)
+		faixa.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if special == SPECIAL_LINHA_H:
+			faixa.position = Vector2(2, rect.size.y / 2.0 - 3)
+			faixa.size = Vector2(rect.size.x - 4, 6)
+		else:
+			faixa.position = Vector2(rect.size.x / 2.0 - 3, 2)
+			faixa.size = Vector2(6, rect.size.y - 4)
+		rect.add_child(faixa)
+	elif special == SPECIAL_BOMBA:
+		var lbl := Label.new()
+		lbl.text = "💥"
+		lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 30)
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		rect.add_child(lbl)
+
+func _definir_especial(cell: Vector2i, special: int) -> void:
+	special_grid[cell.x][cell.y] = special
+	var antigo: ColorRect = piece_nodes[cell.x][cell.y]
+	if antigo:
+		antigo.queue_free()
+	var novo := _criar_peca(grid[cell.x][cell.y], special)
+	novo.position = _cell_to_pos(cell)
+	board_container.add_child(novo)
+	piece_nodes[cell.x][cell.y] = novo
+	# Pequeno "pulo" ao nascer, pra chamar atencao
+	novo.pivot_offset = novo.size / 2.0
+	novo.scale = Vector2(0.3, 0.3)
+	var tween := create_tween()
+	tween.tween_property(novo, "scale", Vector2(1.15, 1.15), 0.15)
+	tween.tween_property(novo, "scale", Vector2.ONE, 0.1)
 
 func _cell_to_pos(cell: Vector2i) -> Vector2:
 	return Vector2(cell.x * CELL_SIZE + 3, cell.y * CELL_SIZE + 3)
@@ -145,13 +228,25 @@ func _cell_to_pos(cell: Vector2i) -> Vector2:
 func _atualizar_labels() -> void:
 	score_label.text = "Pontos: %d / %d" % [score, score_target]
 	moves_label.text = "Movimentos: %d" % moves_remaining
+	moves_label.modulate = Color(1, 0.45, 0.4) if moves_remaining <= 5 else Color(1, 1, 1)
+	if progress_bar:
+		progress_bar.max_value = score_target
+		progress_bar.value = min(score, score_target)
 
 # --- Input ---
+
+func _process(delta: float) -> void:
+	if game_over or is_busy or banner_panel.visible:
+		return
+	hint_timer += delta
+	if hint_timer >= HINT_DELAY and hint_cells.is_empty():
+		_mostrar_dica()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if game_over or is_busy:
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_limpar_dica()
 		var local_pos: Vector2 = board_container.get_local_mouse_position()
 		var cell := Vector2i(int(local_pos.x / CELL_SIZE), int(local_pos.y / CELL_SIZE))
 		if _cell_valida(cell):
@@ -187,26 +282,102 @@ func _set_destaque(cell: Vector2i, ativo: bool) -> void:
 func _is_adjacent(a: Vector2i, b: Vector2i) -> bool:
 	return abs(a.x - b.x) + abs(a.y - b.y) == 1
 
+# --- Dica e reembaralhamento ---
+
+func _mostrar_dica() -> void:
+	var jogada: Array = _encontrar_jogada_valida()
+	if jogada.is_empty():
+		return
+	hint_cells = jogada
+	var node_a: ColorRect = piece_nodes[jogada[0].x][jogada[0].y]
+	var node_b: ColorRect = piece_nodes[jogada[1].x][jogada[1].y]
+	if node_a == null or node_b == null:
+		hint_cells = []
+		return
+	hint_tween = create_tween().set_loops()
+	hint_tween.tween_property(node_a, "modulate", Color(1.6, 1.6, 1.2), 0.35)
+	hint_tween.parallel().tween_property(node_b, "modulate", Color(1.6, 1.6, 1.2), 0.35)
+	hint_tween.chain().tween_property(node_a, "modulate", Color(1, 1, 1), 0.35)
+	hint_tween.parallel().tween_property(node_b, "modulate", Color(1, 1, 1), 0.35)
+
+func _limpar_dica() -> void:
+	hint_timer = 0.0
+	if hint_tween:
+		hint_tween.kill()
+		hint_tween = null
+	for cell in hint_cells:
+		if _cell_valida(cell):
+			var node: ColorRect = piece_nodes[cell.x][cell.y]
+			if is_instance_valid(node):
+				node.modulate = Color(1, 1, 1)
+	hint_cells = []
+
+func _encontrar_jogada_valida() -> Array:
+	for x in range(GRID_SIZE):
+		for y in range(GRID_SIZE):
+			for dir in [Vector2i(1, 0), Vector2i(0, 1)]:
+				var a := Vector2i(x, y)
+				var b: Vector2i = a + dir
+				if b.x >= GRID_SIZE or b.y >= GRID_SIZE:
+					continue
+				_trocar_tipos(a, b)
+				var valida: bool = not _find_runs().is_empty()
+				_trocar_tipos(a, b)
+				if valida:
+					return [a, b]
+	return []
+
+func _trocar_tipos(a: Vector2i, b: Vector2i) -> void:
+	var tmp = grid[a.x][a.y]
+	grid[a.x][a.y] = grid[b.x][b.y]
+	grid[b.x][b.y] = tmp
+
+func _garantir_jogada_possivel() -> void:
+	if not _encontrar_jogada_valida().is_empty():
+		return
+	_spawn_texto_flutuante(Vector2(GRID_SIZE * CELL_SIZE / 2.0, GRID_SIZE * CELL_SIZE / 2.0), "Sem jogadas!\nEmbaralhando...", Color(1, 1, 1))
+	await get_tree().create_timer(0.8).timeout
+	_reembaralhar()
+
+func _reembaralhar() -> void:
+	# Sorteia novos tipos (mantendo as pecas especiais no lugar) ate existir jogada
+	var tentativas := 0
+	while tentativas < 30:
+		for x in range(GRID_SIZE):
+			for y in range(GRID_SIZE):
+				grid[x][y] = _tipo_aleatorio_sem_match(x, y)
+		if not _encontrar_jogada_valida().is_empty():
+			break
+		tentativas += 1
+	for x in range(GRID_SIZE):
+		for y in range(GRID_SIZE):
+			var node: ColorRect = piece_nodes[x][y]
+			if node:
+				node.queue_free()
+	piece_nodes.clear()
+	_instanciar_visuais()
+
 # --- Troca e resolucao ---
 
 func _tentar_troca(a: Vector2i, b: Vector2i) -> void:
 	is_busy = true
+	_limpar_dica()
 	_trocar_dados(a, b)
 	await _animar_troca(a, b)
-	var matches := _find_all_matches()
-	if matches.is_empty():
+	if _find_runs().is_empty():
 		_trocar_dados(a, b)
 		await _animar_troca(a, b)
 		is_busy = false
 	else:
 		_consumir_movimento()
-		await _resolver_matches(matches)
+		await _resolver_cascata([a, b])
 		is_busy = false
 
 func _trocar_dados(a: Vector2i, b: Vector2i) -> void:
-	var tmp_tipo = grid[a.x][a.y]
-	grid[a.x][a.y] = grid[b.x][b.y]
-	grid[b.x][b.y] = tmp_tipo
+	_trocar_tipos(a, b)
+	var tmp_esp = special_grid[a.x][a.y]
+	special_grid[a.x][a.y] = special_grid[b.x][b.y]
+	special_grid[b.x][b.y] = tmp_esp
 	var tmp_node = piece_nodes[a.x][a.y]
 	piece_nodes[a.x][a.y] = piece_nodes[b.x][b.y]
 	piece_nodes[b.x][b.y] = tmp_node
@@ -225,22 +396,139 @@ func _consumir_movimento() -> void:
 	moves_remaining -= 1
 	_atualizar_labels()
 
-func _resolver_matches(matches: Array) -> void:
-	score += matches.size() * POINTS_PER_PIECE
-	for cell in matches:
+func _resolver_cascata(swap_cells: Array) -> void:
+	var cascata := 1
+	while true:
+		var runs: Array = _find_runs()
+		if runs.is_empty():
+			break
+		await _resolver_runs(runs, swap_cells, cascata)
+		swap_cells = []
+		cascata += 1
+	_verificar_fim_de_jogo()
+	if not game_over:
+		await _garantir_jogada_possivel()
+
+func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
+	var matched := {}
+	var contagem := {}
+	for run in runs:
+		for cell in run["cells"]:
+			matched[cell] = true
+			contagem[cell] = contagem.get(cell, 0) + 1
+
+	# Decide quais celulas viram pecas especiais em vez de sumir
+	var novos_especiais := {}
+	for cell in contagem.keys():
+		if contagem[cell] >= 2:
+			novos_especiais[cell] = SPECIAL_BOMBA  # intersecao em L/T
+	for run in runs:
+		var cells: Array = run["cells"]
+		if cells.size() < 4:
+			continue
+		var ja_tem := false
+		for cell in cells:
+			if novos_especiais.has(cell):
+				ja_tem = true
+				break
+		if ja_tem:
+			continue
+		var alvo: Vector2i = cells[cells.size() >> 1]
+		for sc in swap_cells:
+			if cells.has(sc):
+				alvo = sc
+				break
+		if cells.size() >= 5:
+			novos_especiais[alvo] = SPECIAL_BOMBA
+		else:
+			novos_especiais[alvo] = SPECIAL_LINHA_H if run["horizontal"] else SPECIAL_LINHA_V
+
+	# Expande a eliminacao com os efeitos das pecas especiais atingidas
+	var eliminar := {}
+	var fila: Array = matched.keys()
+	while not fila.is_empty():
+		var cell: Vector2i = fila.pop_back()
+		if eliminar.has(cell) or novos_especiais.has(cell):
+			continue
+		if grid[cell.x][cell.y] == -1:
+			continue
+		eliminar[cell] = true
+		match special_grid[cell.x][cell.y]:
+			SPECIAL_LINHA_H:
+				for x in range(GRID_SIZE):
+					fila.append(Vector2i(x, cell.y))
+			SPECIAL_LINHA_V:
+				for y in range(GRID_SIZE):
+					fila.append(Vector2i(cell.x, y))
+			SPECIAL_BOMBA:
+				for dx in range(-1, 2):
+					for dy in range(-1, 2):
+						var vizinho := cell + Vector2i(dx, dy)
+						if _cell_valida(vizinho):
+							fila.append(vizinho)
+
+	# Pontuacao com multiplicador de cascata
+	var pontos: int = eliminar.size() * POINTS_PER_PIECE * cascata
+	score += pontos
+	_atualizar_labels()
+	_spawn_texto_pontos(eliminar.keys(), pontos, cascata)
+
+	# Animacao de "pop" das pecas eliminadas
+	if not eliminar.is_empty():
+		var tween := create_tween().set_parallel(true)
+		for cell in eliminar.keys():
+			var node: ColorRect = piece_nodes[cell.x][cell.y]
+			if node:
+				node.pivot_offset = node.size / 2.0
+				tween.tween_property(node, "scale", Vector2(0.05, 0.05), 0.18)
+				tween.tween_property(node, "modulate:a", 0.0, 0.18)
+		await tween.finished
+	for cell in eliminar.keys():
 		var node: ColorRect = piece_nodes[cell.x][cell.y]
 		if node:
 			node.queue_free()
 		piece_nodes[cell.x][cell.y] = null
 		grid[cell.x][cell.y] = -1
-	_atualizar_labels()
+		special_grid[cell.x][cell.y] = SPECIAL_NONE
+
+	# Cria as novas pecas especiais no lugar
+	for cell in novos_especiais.keys():
+		_definir_especial(cell, novos_especiais[cell])
+
 	await _aplicar_gravidade()
 	await _preencher_vazios()
-	var novos_matches := _find_all_matches()
-	if not novos_matches.is_empty():
-		await _resolver_matches(novos_matches)
-	else:
-		_verificar_fim_de_jogo()
+
+func _spawn_texto_pontos(cells: Array, pontos: int, cascata: int) -> void:
+	if cells.is_empty():
+		return
+	var centro := Vector2.ZERO
+	for cell in cells:
+		centro += Vector2(_cell_to_pos(cell)) + Vector2(CELL_SIZE / 2.0, CELL_SIZE / 2.0)
+	centro /= cells.size()
+	var texto := "+%d" % pontos
+	var cor := Color(1, 1, 0.6)
+	if cascata > 1:
+		texto = "COMBO x%d  +%d" % [cascata, pontos]
+		cor = Color(1, 0.6, 0.2)
+	_spawn_texto_flutuante(centro, texto, cor)
+
+func _spawn_texto_flutuante(pos_local: Vector2, texto: String, cor: Color) -> void:
+	var lbl := Label.new()
+	lbl.text = texto
+	lbl.modulate = cor
+	lbl.z_index = 10
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lbl.add_theme_font_size_override("font_size", 24)
+	lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	lbl.add_theme_constant_override("outline_size", 6)
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board_container.add_child(lbl)
+	lbl.position = pos_local - Vector2(60, 14)
+	lbl.custom_minimum_size = Vector2(120, 28)
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(lbl, "position:y", lbl.position.y - 42.0, 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(lbl, "modulate:a", 0.0, 0.8).set_delay(0.25)
+	tween.chain().tween_callback(lbl.queue_free)
 
 func _aplicar_gravidade() -> void:
 	var tween: Tween = null
@@ -251,6 +539,8 @@ func _aplicar_gravidade() -> void:
 				if write_y != y:
 					grid[x][write_y] = grid[x][y]
 					grid[x][y] = -1
+					special_grid[x][write_y] = special_grid[x][y]
+					special_grid[x][y] = SPECIAL_NONE
 					piece_nodes[x][write_y] = piece_nodes[x][y]
 					piece_nodes[x][y] = null
 					var node: ColorRect = piece_nodes[x][write_y]
@@ -268,6 +558,7 @@ func _preencher_vazios() -> void:
 			if grid[x][y] == -1:
 				var tipo := randi() % _cores.size()
 				grid[x][y] = tipo
+				special_grid[x][y] = SPECIAL_NONE
 				var node := _criar_peca(tipo)
 				var pos_final := _cell_to_pos(Vector2i(x, y))
 				node.position = pos_final - Vector2(0, CELL_SIZE * (y + 2))
@@ -279,8 +570,11 @@ func _preencher_vazios() -> void:
 	if tween != null:
 		await tween.finished
 
-func _find_all_matches() -> Array:
-	var encontrados := {}
+# --- Deteccao de matches ---
+
+# Retorna sequencias de 3+ pecas iguais: [{"cells": Array[Vector2i], "horizontal": bool}, ...]
+func _find_runs() -> Array:
+	var runs: Array = []
 	for y in range(GRID_SIZE):
 		var tipo_atual = grid[0][y]
 		var inicio := 0
@@ -288,8 +582,10 @@ func _find_all_matches() -> Array:
 			var tipo = grid[x][y] if x < GRID_SIZE else -2
 			if tipo != tipo_atual:
 				if tipo_atual != -1 and x - inicio >= 3:
+					var cells: Array = []
 					for rx in range(inicio, x):
-						encontrados[Vector2i(rx, y)] = true
+						cells.append(Vector2i(rx, y))
+					runs.append({"cells": cells, "horizontal": true})
 				inicio = x
 				tipo_atual = tipo
 	for x in range(GRID_SIZE):
@@ -299,11 +595,13 @@ func _find_all_matches() -> Array:
 			var tipo = grid[x][y] if y < GRID_SIZE else -2
 			if tipo != tipo_atual:
 				if tipo_atual != -1 and y - inicio >= 3:
+					var cells: Array = []
 					for ry in range(inicio, y):
-						encontrados[Vector2i(x, ry)] = true
+						cells.append(Vector2i(x, ry))
+					runs.append({"cells": cells, "horizontal": false})
 				inicio = y
 				tipo_atual = tipo
-	return encontrados.keys()
+	return runs
 
 # --- Fim de jogo ---
 
@@ -316,14 +614,19 @@ func _verificar_fim_de_jogo() -> void:
 func _trigger_win() -> void:
 	game_over = true
 	is_busy = true
+	_limpar_dica()
 	Sfx.play_win()
-	GameState.adicionar_recurso(win_reward_type, win_reward_amount)
 	resultado_pendente = {"vitoria": true, "recurso": win_reward_type, "quantidade": win_reward_amount}
-	_mostrar_banner("UAI! Desafio Concluido!\n+%d %s" % [win_reward_amount, win_reward_type], false)
+	if credito_direto:
+		GameState.adicionar_recurso(win_reward_type, win_reward_amount)
+		_mostrar_banner("UAI! Desafio Concluido!\n+%d %s" % [win_reward_amount, win_reward_type], false)
+	else:
+		_mostrar_banner("UAI! Desafio Concluido!\n%d %s plantado no campo!" % [win_reward_amount, win_reward_type], false)
 
 func _trigger_lose() -> void:
 	game_over = true
 	is_busy = true
+	_limpar_dica()
 	Sfx.play_lose()
 	resultado_pendente = {"vitoria": false}
 	_mostrar_banner("Movimentos esgotados!\nNenhum recurso ganho.", true)

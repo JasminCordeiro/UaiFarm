@@ -4,6 +4,7 @@ signal cafe_alterado(atual: int, maximo: int)
 signal recurso_alterado(tipo: String, quantidade_total: int)
 signal dia_alterado(dia: int)
 signal casa_melhorada(nivel: int)
+signal zona_desbloqueada_manualmente(zona: String)
 
 # --- Balanceamento centralizado (ajustar apos playtest) ---
 const DIAS_DA_DEMO: int = 3
@@ -23,6 +24,7 @@ var dia_atual: int = 1
 var nivel_casa: int = 1
 var zonas_ja_desbloqueadas: Dictionary = {}
 var tutorial_visto: bool = false
+var dialogo_dia_mostrado: Dictionary = {}
 var ponto_spawn: Vector2 = Vector2(-1, -1)  # -1,-1 = usar posicao padrao do Overworld
 var cena_destino: String = ""  # cena que a LoadingScreen deve abrir em seguida
 var recursos: Dictionary = {
@@ -38,6 +40,7 @@ func reset() -> void:
 	nivel_casa = 1
 	zonas_ja_desbloqueadas = {}
 	tutorial_visto = false
+	dialogo_dia_mostrado = {}
 	ponto_spawn = Vector2(-1, -1)
 	recursos = {"milho": 0, "graos": 0, "leite": 0, "ovos": 0}
 	cafe_alterado.emit(cafe_atual, cafe_maximo)
@@ -71,19 +74,22 @@ func demo_concluida() -> bool:
 	return dia_atual > DIAS_DA_DEMO
 
 func zona_desbloqueada(zona: String) -> bool:
-	if zonas_ja_desbloqueadas.get(zona, false):
-		return true
-	var atende: bool
+	return zonas_ja_desbloqueadas.get(zona, false)
+
+func requisitos_zona_atendidos(zona: String) -> bool:
 	match zona:
 		"Curral":
-			atende = _checar_requisitos(DESBLOQUEIO_CURRAL)
+			return _checar_requisitos(DESBLOQUEIO_CURRAL)
 		"Celeiro":
-			atende = _checar_requisitos(DESBLOQUEIO_CELEIRO)
+			return _checar_requisitos(DESBLOQUEIO_CELEIRO)
 		_:
-			atende = true
-	if atende:
-		zonas_ja_desbloqueadas[zona] = true
-	return atende
+			return true
+
+func desbloquear_zona(zona: String) -> void:
+	if zonas_ja_desbloqueadas.get(zona, false):
+		return
+	zonas_ja_desbloqueadas[zona] = true
+	zona_desbloqueada_manualmente.emit(zona)
 
 # --- Upgrade da casa ---
 

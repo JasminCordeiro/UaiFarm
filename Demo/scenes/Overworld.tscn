@@ -13,21 +13,12 @@
 [ext_resource type="PackedScene" path="res://scenes/Vaca.tscn" id="10_vaca"]
 [ext_resource type="PackedScene" path="res://scenes/Porco.tscn" id="11_porco"]
 [ext_resource type="Texture2D" uid="uid://bhmmhj0k5kjtq" path="res://assets/Curral.png" id="13_vvo0y"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_vvo0y"]
-vertices = PackedVector2Array(964, 644.9375, 786, 644.0469, 786, 603.9375, 964, 603.0469)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(974, 593, 776, 594, 776, 654, 974, 655)])
+[ext_resource type="PackedScene" path="res://scenes/MilhoCrop.tscn" id="14_milho"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b5655"]
 vertices = PackedVector2Array(1287.8594, 320.15625, 1290.0703, 344.97656, 715.64844, 343.97656, 1012.72656, 325.14844, 639.03906, 133.22656, 639.9531, 345.72656, 364.15625, 338.77344, 391.1172, 139, 361.35938, 139, 312.53125, 411.0703, 354.6797, 417.3828, 641, 464.25, 641, 708.7422, 620.8906, 708.2422, 617.8906, 442.22656, 10.2890625, 436.10938, 10.8203125, 405.39844, 270.3828, 416.02344, 281.8203, 438.9922, 373.96094, 436.46094, 682, 406.6797, 719.65625, 462.25, 682, 10, 717.0625, 10, 719.0625, 320.90625, 958.34375, 323.09375, 996.9219, 240.82031, 963.7031, 243.9375, 776.03125, 244.9375, 776.96094, 6.09375, 1082.3672, 8.96875, 1208.1797, 243.92188, 1234.8281, 93.35156, 1249.4688, 191.21875)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 7, 6, 9), PackedInt32Array(9, 6, 10), PackedInt32Array(11, 12, 13, 14), PackedInt32Array(15, 16, 17, 18), PackedInt32Array(19, 18, 17, 9, 10), PackedInt32Array(19, 10, 20, 14), PackedInt32Array(11, 14, 20, 21), PackedInt32Array(2, 21, 20, 22), PackedInt32Array(2, 22, 23, 24), PackedInt32Array(3, 2, 24, 25), PackedInt32Array(26, 3, 25, 27), PackedInt32Array(27, 28, 29, 30, 26), PackedInt32Array(31, 26, 30, 32, 33)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-1, 446, 282, 449, 373.9851, 446.46054, 608, 452, 611, 718, 651, 719, 651, 474, 730, 472, 726, 354, 1301, 355, 1297, 310, 1021, 315, 1009, 251, 1213, 254, 1260, 194, 1244, 87, 1085, -1, 767, -4, 766, 255, 953, 254, 949, 313, 729, 311, 727, 0, 672, 0, 672, 397, 366, 407, 373, 349, 650, 356, 649, 123, 391, 129, 353, 129, 304, 402, 270, 406, 1, 395, 0, 453)])
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_8xaq6"]
-vertices = PackedVector2Array(574.1328, 166.86719, 575.8594, 289, 517.78906, 289, 515.21094, 166.13281)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(505, 156, 508, 299, 586, 299, 584, 157)])
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_curral"]
 vertices = PackedVector2Array(359.64844, 513.0781, 385.0703, 530.2422, 350.85156, 537.77344, 319.14063, 531.1875, 293.0625, 508.28125, 279.4375, 526.21875, 341.04688, 625.9219, 253.32031, 625.14844, 256.07813, 620.4219, 317.85938, 614.03125, 1010.9531, 326.20313, 1287.8594, 320.20313, 1290.0938, 345.29688, 1089.9219, 350.9922, 1006.25, 348, 962.15625, 331.46875, 356.4375, 138, 638.21875, 138, 642.7578, 335.78125, 412.04688, 331.0078, 348.8125, 270.54688, 345.29688, 317.89844, 311.85938, 320.47656, 343.8672, 375.17188, 309.79688, 372.20313, 641, 464.25, 641, 708.7422, 620.8906, 708.2422, 617.8906, 442.22656, 291.8203, 439.10156, 10.2890625, 436.10938, 10.8203125, 405.10938, 261.2422, 408.03906, 364.6172, 436.2422, 388.89063, 406.14844, 960.85156, 245, 776.03906, 245, 776.96094, 6.09375, 1082.3672, 8.96875, 1234.8281, 93.35156, 1249.4688, 191.21875, 1208.1094, 244.02344, 1002.96875, 245.0625, 715.64844, 343.85156, 719.0625, 320.5625, 682, 407.03125, 682, 10, 717.0625, 10, 719.65625, 462.25)
@@ -46,16 +37,10 @@ script = ExtResource("7")
 position = Vector2(640, 360)
 texture = ExtResource("2_b5655")
 
-[node name="AreaVacas" type="NavigationRegion2D" parent="Principal" unique_id=803746591]
-position = Vector2(-637, -361)
-navigation_polygon = SubResource("NavigationPolygon_vvo0y")
-
 [node name="Acesso Principal - Casa" type="NavigationRegion2D" parent="Principal" unique_id=483004948]
+visible = false
 position = Vector2(-640, -360)
 navigation_polygon = SubResource("NavigationPolygon_b5655")
-
-[node name="AreaPorcos" type="NavigationRegion2D" parent="Principal" unique_id=566818957]
-navigation_polygon = SubResource("NavigationPolygon_8xaq6")
 
 [node name="Curral-Desbloqueado" type="Sprite2D" parent="." unique_id=767875705]
 visible = false
@@ -63,19 +48,21 @@ position = Vector2(641, 363)
 texture = ExtResource("9_0n4wa")
 
 [node name="Curra-Desbloqueado-Navigation" type="NavigationRegion2D" parent="Curral-Desbloqueado" unique_id=1228881618]
+visible = false
 position = Vector2(-640, -360)
 navigation_polygon = SubResource("NavigationPolygon_curral")
 enabled = false
 
 [node name="Curral e Celeiro-Desbloqueado" type="Sprite2D" parent="." unique_id=861818186]
-visible = false
 position = Vector2(640, 360)
 texture = ExtResource("4_666lb")
+metadata/_edit_lock_ = true
 
 [node name="Celeiro-Desbloqueado-Navigation" type="NavigationRegion2D" parent="Curral e Celeiro-Desbloqueado" unique_id=1580949104]
 position = Vector2(-640, -360)
 navigation_polygon = SubResource("NavigationPolygon_celeiro")
 enabled = false
+metadata/_edit_lock_ = true
 
 [node name="Player" parent="." unique_id=1123099374 instance=ExtResource("1")]
 position = Vector2(6, 417)
@@ -87,6 +74,10 @@ position = Vector2(973, 156)
 position = Vector2(526, 232)
 action_label = "Plantar"
 match3_scene = ExtResource("4")
+puzzle_reward_amount = 20
+plantar_apos_vitoria = true
+cena_plantacao = ExtResource("14_milho")
+plantas_por_vitoria = 20
 
 [node name="ZoneTrigger_Curral" parent="." unique_id=365989436 instance=ExtResource("3")]
 position = Vector2(1073, 609)
@@ -111,17 +102,46 @@ puzzle_score_target = 350
 puzzle_tema = "celeiro"
 
 [node name="Vaca1" parent="." unique_id=1959444081 instance=ExtResource("10_vaca")]
+position = Vector2(900, 626)
 
 [node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
+position = Vector2(822, 621)
+
+[node name="Vaca3" parent="." unique_id=289854157 instance=ExtResource("10_vaca")]
+position = Vector2(850, 600)
+
+[node name="Vaca4" parent="." unique_id=289854158 instance=ExtResource("10_vaca")]
+position = Vector2(950, 610)
+
+[node name="Vaca5" parent="." unique_id=289854159 instance=ExtResource("10_vaca")]
+position = Vector2(980, 640)
 
 [node name="Porco1" parent="." unique_id=870639174 instance=ExtResource("11_porco")]
+position = Vector2(1186, 628)
 
 [node name="Porco2" parent="." unique_id=1371058158 instance=ExtResource("11_porco")]
+position = Vector2(1185, 556)
+
+[node name="Porco3" parent="." unique_id=1371058159 instance=ExtResource("11_porco")]
+position = Vector2(1200, 590)
 
 [node name="UI_HUD" parent="." unique_id=1702996510 instance=ExtResource("2")]
 
 [node name="UI_InfoBar" parent="." unique_id=1021988062 instance=ExtResource("6")]
 
 [node name="Curral" type="Sprite2D" parent="." unique_id=1883743462]
+visible = false
 position = Vector2(986, 580)
 texture = ExtResource("13_vvo0y")
+
+[node name="Transicao" type="CanvasLayer" parent="." unique_id=1273601964]
+layer = 10
+
+[node name="ColorRect" type="ColorRect" parent="Transicao" unique_id=1515778825]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)

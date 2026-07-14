@@ -135,8 +135,8 @@ animations = [{
 
 [node name="Porco" type="Node2D"]
 script = ExtResource("2")
-area_min = Vector2(1000, 460)
-area_max = Vector2(1220, 690)
+area_min = Vector2(1152, 512)
+area_max = Vector2(1232, 656)
 speed = 22.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -15,14 +15,6 @@ script = ExtResource("2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1409910485]
 shape = SubResource("RectangleShape2D_1")
 
-[node name="Visual" type="ColorRect" parent="." unique_id=284499604]
-offset_left = -30.0
-offset_top = -30.0
-offset_right = 30.0
-offset_bottom = 30.0
-mouse_filter = 2
-color = Color(0.545, 0.369, 0.235, 1)
-
 [node name="Label" type="Label" parent="." unique_id=836585868]
 offset_left = -40.0
 offset_top = -54.0

@@ -2,6 +2,19 @@ extends Area2D
 
 signal acao_confirmada(zone_name: String)
 
+const FALAS_VITORIA: Array[String] = [
+	"Uai, que servico bonito! Ta pegando o jeito da roca, so!",
+	"Ocê trabaia que e uma beleza, Caio! Continua assim!",
+	"Trem bao demais! Seu avo ia ficar orgulhoso, uai!",
+	"Capricho puro! A fazenda ta voltando a vida, fio!",
+]
+
+const FALAS_DERROTA: Array[String] = [
+	"Ihh, nao deu dessa vez... Mas desanima nao, uai! Toma um golinho de cafe e tenta de novo.",
+	"A roca ensina errando tambem, fio. Bola pra frente!",
+	"Nem todo dia a lida rende. Amanha ce acerta, pode cre!",
+]
+
 @export var zone_name: String = "Rocado"
 @export var action_label: String = "Trabalhar"
 @export var adjacency_radius: float = 90.0
@@ -11,10 +24,20 @@ signal acao_confirmada(zone_name: String)
 @export var puzzle_move_limit: int = 20
 @export var puzzle_score_target: int = 300
 @export var puzzle_tema: String = "rocado"
+@export var plantar_apos_vitoria: bool = false
+@export var cena_plantacao: PackedScene
+@export var plantas_por_vitoria: int = 5
+@export var tempo_crescimento: float = 10.0
+
+const DESLOCAMENTOS_PLANTIO: Array = [
+	Vector2(-84, -67), Vector2(-41, -67), Vector2(2, -67), Vector2(45, -67), Vector2(88, -67),
+	Vector2(-84, -12), Vector2(-41, -12), Vector2(2, -12), Vector2(45, -12), Vector2(88, -12),
+	Vector2(-84, 53), Vector2(-41, 53), Vector2(2, 53), Vector2(45, 53), Vector2(88, 53),
+	Vector2(-84, 88), Vector2(-41, 88), Vector2(2, 88), Vector2(45, 88), Vector2(88, 88),
+]
 
 @onready var context_menu: Control = $ContextMenu
 @onready var action_button: Button = $ContextMenu/ActionButton
-@onready var visual: ColorRect = $Visual
 @onready var radius_indicator = $RadiusIndicator
 @onready var name_label: Label = $Label
 @onready var status_label: Label = $StatusLabel
@@ -22,8 +45,9 @@ signal acao_confirmada(zone_name: String)
 var player_ref: Node2D = null
 var puzzle_instance: Node = null
 var jogador_proximo: bool = false
-var zona_desbloqueada_anterior: bool = true
- 
+var modo_desbloqueio: bool = false
+var plantacoes: Array = []
+
 func _ready() -> void:
 	input_event.connect(_on_input_event)
 	action_button.pressed.connect(_on_action_button_pressed)
@@ -33,11 +57,11 @@ func _ready() -> void:
 	_atualizar_proximidade(false)
 	name_label.text = zone_name
 	GameState.recurso_alterado.connect(_on_recurso_alterado)
-	zona_desbloqueada_anterior = GameState.zona_desbloqueada(zone_name)
 	_atualizar_visual_bloqueio()
 	_atualizar_status()
 
 func _process(_delta: float) -> void:
+	_atualizar_status_plantio()
 	if puzzle_instance != null:
 		return
 	if player_ref == null:
@@ -49,30 +73,89 @@ func _process(_delta: float) -> void:
 		if not perto:
 			context_menu.hide()
 
+# --- Plantio (usado no Rocado) ---
+
+func _limpar_plantacoes_invalidas() -> void:
+	plantacoes = plantacoes.filter(func(p): return is_instance_valid(p) and not p.foi_colhido)
+
+func _tem_plantacao_crescendo() -> bool:
+	_limpar_plantacoes_invalidas()
+	for planta in plantacoes:
+		if not planta.pronto:
+			return true
+	return false
+
+func _atualizar_status_plantio() -> void:
+	if not plantar_apos_vitoria:
+		return
+	if _tem_plantacao_crescendo():
+		var restante := 0
+		for planta in plantacoes:
+			if not planta.pronto:
+				restante = max(restante, planta.tempo_restante())
+		status_label.text = "Crescendo... %ds" % restante
+	elif not plantacoes.is_empty():
+		status_label.text = "Milho pronto! Colhe ai!"
+	# sem plantacao ativa, o texto volta pelo fluxo normal de _atualizar_status
+
+func _plantar(total: int) -> void:
+	if cena_plantacao == null or total <= 0:
+		return
+	var n: int = clampi(plantas_por_vitoria, 1, DESLOCAMENTOS_PLANTIO.size())
+	var base: int = total / n
+	var resto: int = total % n
+	for i in range(n):
+		var qtd: int = base + (1 if i < resto else 0)
+		if qtd <= 0:
+			continue
+		var planta = cena_plantacao.instantiate()
+		planta.quantidade = qtd
+		planta.tempo_crescimento = tempo_crescimento
+		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[i] \
+			+ Vector2(randf_range(-8, 8), randf_range(-8, 8))
+		planta.colhido.connect(_on_planta_colhida)
+		get_tree().current_scene.add_child(planta)
+		plantacoes.append(planta)
+
+func _on_planta_colhida(_quantidade: int) -> void:
+	# quando a ultima planta for colhida, restaura o texto da zona
+	_limpar_plantacoes_invalidas()
+	if plantacoes.is_empty():
+		_atualizar_status()
+
 func _atualizar_proximidade(perto: bool) -> void:
 	jogador_proximo = perto
-	visual.modulate = Color(1.2, 1.2, 1.2) if perto else Color(1, 1, 1)
 	radius_indicator.modulate.a = 0.9 if perto else 0.3
 	name_label.visible = not perto
 
 func _atualizar_visual_bloqueio() -> void:
-	var bloqueada: bool = not GameState.zona_desbloqueada(zone_name)
-	visual.color = Color(0.4, 0.4, 0.4, 1) if bloqueada else Color(0.545, 0.369, 0.235, 1)
-	status_label.modulate = Color(1, 0.75, 0.35) if bloqueada else Color(0.85, 1, 0.85)
+	var desbloqueada: bool = GameState.zona_desbloqueada(zone_name)
+	var pronta_para_desbloquear: bool = not desbloqueada and GameState.requisitos_zona_atendidos(zone_name)
+	if desbloqueada:
+		status_label.modulate = Color(0.85, 1, 0.85)
+	elif pronta_para_desbloquear:
+		status_label.modulate = Color(1, 0.95, 0.5)
+	else:
+		status_label.modulate = Color(1, 0.75, 0.35)
 	_atualizar_status()
 
 func _atualizar_status() -> void:
 	if GameState.zona_desbloqueada(zone_name):
 		status_label.text = action_label
+	elif GameState.requisitos_zona_atendidos(zone_name):
+		status_label.text = "Pronto! Aperte E pra desbloquear"
 	else:
 		status_label.text = GameState.texto_progresso(zone_name)
 
 func _on_recurso_alterado(_tipo: String, _qtd: int) -> void:
-	var zona_desbloqueada_atual: bool = GameState.zona_desbloqueada(zone_name)
-	if not zona_desbloqueada_anterior and zona_desbloqueada_atual:
-		_notificar_desbloqueio()
-	zona_desbloqueada_anterior = zona_desbloqueada_atual
 	_atualizar_visual_bloqueio()
+
+func _confirmar_desbloqueio() -> void:
+	modo_desbloqueio = false
+	context_menu.hide()
+	GameState.desbloquear_zona(zone_name)
+	_atualizar_visual_bloqueio()
+	_notificar_desbloqueio()
 
 func _notificar_desbloqueio() -> void:
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
@@ -83,6 +166,19 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_try_open_menu()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("interagir"):
+		return
+	if not jogador_proximo or puzzle_instance != null:
+		return
+	if player_ref and player_ref.movimento_bloqueado:
+		return
+	get_viewport().set_input_as_handled()
+	if context_menu.visible:
+		_on_action_button_pressed()
+	else:
+		_try_open_menu()
+
 func _try_open_menu() -> void:
 	if puzzle_instance != null:
 		return
@@ -90,16 +186,34 @@ func _try_open_menu() -> void:
 		context_menu.hide()
 		return
 	if not GameState.zona_desbloqueada(zone_name):
+		if GameState.requisitos_zona_atendidos(zone_name):
+			modo_desbloqueio = true
+			action_button.text = "Desbloquear"
+			action_button.disabled = false
+			context_menu.show()
+		else:
+			var info_bar = get_tree().get_first_node_in_group("info_bar")
+			if info_bar:
+				info_bar.mostrar_mensagem("Zona bloqueada", "%s: %s" % [zone_name, GameState.texto_requisito(zone_name)])
+		return
+	if _tem_plantacao_crescendo():
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Zona bloqueada", "%s: %s" % [zone_name, GameState.texto_requisito(zone_name)])
+			info_bar.mostrar_mensagem("Dona Fiota", "Calma, uai! O milho ainda ta crescendo. Espera um cadinho que ja da pra colher.", true)
 		return
+	modo_desbloqueio = false
 	action_button.text = action_label
 	action_button.disabled = false
 	context_menu.show()
 
 func _on_action_button_pressed() -> void:
+	if modo_desbloqueio:
+		_confirmar_desbloqueio()
+		return
 	if not GameState.zona_desbloqueada(zone_name):
+		return
+	if _tem_plantacao_crescendo():
+		context_menu.hide()
 		return
 	if GameState.cafe_atual < 1:
 		action_button.text = "Sem cafe!"
@@ -118,16 +232,35 @@ func _on_action_button_pressed() -> void:
 	puzzle_instance.win_reward_amount = puzzle_reward_amount
 	puzzle_instance.move_limit = max(8, puzzle_move_limit + dif["move_delta"])
 	puzzle_instance.score_target = puzzle_score_target + dif["score_delta"]
+	puzzle_instance.credito_direto = not plantar_apos_vitoria
 	get_tree().current_scene.add_child(puzzle_instance)
 	puzzle_instance.puzzle_concluido.connect(_on_puzzle_concluido)
 	puzzle_instance.puzzle_falhou.connect(_on_puzzle_falhou)
 	acao_confirmada.emit(zone_name)
 
-func _on_puzzle_concluido(_recurso: String, _quantidade: int) -> void:
+func _on_puzzle_concluido(_recurso: String, quantidade: int) -> void:
 	_fechar_puzzle()
+	if plantar_apos_vitoria and cena_plantacao:
+		_plantar(quantidade)
+		var info_bar = get_tree().get_first_node_in_group("info_bar")
+		if info_bar:
+			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, ai e so o Caio passar pra colher.", true)
+	else:
+		_falar_fiota(FALAS_VITORIA)
 
 func _on_puzzle_falhou() -> void:
 	_fechar_puzzle()
+	if GameState.cafe_atual > 0:
+		_falar_fiota(FALAS_DERROTA)
+	else:
+		var info_bar = get_tree().get_first_node_in_group("info_bar")
+		if info_bar:
+			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha a lida continua.", true)
+
+func _falar_fiota(falas: Array[String]) -> void:
+	var info_bar = get_tree().get_first_node_in_group("info_bar")
+	if info_bar:
+		info_bar.mostrar_mensagem("Dona Fiota", falas.pick_random(), true)
 
 func _fechar_puzzle() -> void:
 	if puzzle_instance:
