@@ -28,9 +28,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if not fechar_no_movimento or not painel.visible:
 		return
-	if event is InputEventMouseMotion:
-		_fechar()
-	elif event.is_action_pressed("mover_cima") or event.is_action_pressed("mover_baixo") \
+	if event.is_action_pressed("mover_cima") or event.is_action_pressed("mover_baixo") \
 			or event.is_action_pressed("mover_esquerda") or event.is_action_pressed("mover_direita"):
 		_fechar()
 

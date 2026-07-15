@@ -28,7 +28,7 @@ offset_right = 69.0
 offset_bottom = 128.0
 horizontal_alignment = 1
 
-[node name="ContextMenu" type="Panel" parent="." unique_id=1864078196]
+[node name="ContextMenu" type="Control" parent="." unique_id=1864078196]
 offset_left = -66.0
 offset_top = 51.0
 offset_right = 74.0
