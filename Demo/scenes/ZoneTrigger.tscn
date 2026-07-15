@@ -31,7 +31,7 @@ offset_bottom = 58.0
 text = "Disponivel"
 horizontal_alignment = 1
 
-[node name="ContextMenu" type="Panel" parent="." unique_id=839186617]
+[node name="ContextMenu" type="Control" parent="." unique_id=839186617]
 visible = false
 offset_left = -55.0
 offset_top = -28.0
