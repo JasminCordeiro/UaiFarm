@@ -38,6 +38,9 @@ func _process(_delta: float) -> void:
 		status_label.modulate = Color(1, 1, 1) if perto else Color(0.8, 0.8, 0.8)
 		if not perto:
 			context_menu.hide()
+			var info_bar = get_tree().get_first_node_in_group("info_bar")
+			if info_bar:
+				info_bar.fechar_por_distancia()
 
 func _atualizar_sprite() -> void:
 	var idx: int = clampi(GameState.nivel_casa - 1, 0, TEXTURAS_CASA.size() - 1)
@@ -70,6 +73,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_abrir_menu()
 
 func _abrir_menu() -> void:
+	var info_bar = get_tree().get_first_node_in_group("info_bar")
+	if info_bar:
+		info_bar.fechar_para_nova_acao()
 	action_button.text = "Descansar"
 	action_button.disabled = false
 	if GameState.nivel_casa >= GameState.NIVEL_CASA_MAXIMO:

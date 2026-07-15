@@ -83,6 +83,10 @@ func _ready() -> void:
 	_criar_barra_progresso()
 	GameState.consumir_cafe()
 	_iniciar_jogo()
+	Music.pause()
+
+func _exit_tree() -> void:
+	Music.resume()
 
 func _criar_barra_progresso() -> void:
 	progress_bar = ProgressBar.new()
@@ -365,6 +369,7 @@ func _tentar_troca(a: Vector2i, b: Vector2i) -> void:
 	_trocar_dados(a, b)
 	await _animar_troca(a, b)
 	if _find_runs().is_empty():
+		Sfx.play_move()
 		_trocar_dados(a, b)
 		await _animar_troca(a, b)
 		is_busy = false
@@ -410,6 +415,7 @@ func _resolver_cascata(swap_cells: Array) -> void:
 		await _garantir_jogada_possivel()
 
 func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
+	Sfx.play_match()
 	var matched := {}
 	var contagem := {}
 	for run in runs:

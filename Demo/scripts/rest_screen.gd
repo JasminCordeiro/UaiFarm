@@ -35,6 +35,7 @@ func _on_confirmar() -> void:
 	is_transitioning = true
 	$Panel/VBoxContainer/ConfirmButton.disabled = true
 	$Panel/VBoxContainer/CancelButton.disabled = true
+	Sfx.play_descanso()
 	GameState.avancar_dia()
 	if GameState.demo_concluida():
 		get_tree().change_scene_to_file("res://scenes/EndScreen.tscn")
