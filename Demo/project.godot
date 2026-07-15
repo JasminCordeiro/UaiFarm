@@ -30,6 +30,10 @@ window/size/viewport_height=720
 window/size/mode=2
 window/stretch/mode="canvas_items"
 
+[gui]
+
+theme/custom="res://theme/menu_theme.tres"
+
 [input]
 
 mover_cima={

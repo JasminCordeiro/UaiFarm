@@ -16,10 +16,12 @@ const SPECIAL_BOMBA: int = 3    # explode area 3x3 ao ser eliminada
 
 const CORES_POR_TEMA: Dictionary = {
 	"rocado": [
-		Color(0.95, 0.85, 0.2),
-		Color(0.3, 0.75, 0.3),
-		Color(0.95, 0.55, 0.1),
-		Color(0.3, 0.55, 0.85),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
 	],
 	"curral": [
 		Color(0.92, 0.92, 0.96),
@@ -27,19 +29,39 @@ const CORES_POR_TEMA: Dictionary = {
 		Color(0.55, 0.33, 0.14),
 	],
 	"celeiro": [
-		Color(0.42, 0.26, 0.10),
-		Color(0.62, 0.62, 0.62),
-		Color(0.90, 0.80, 0.38),
-		Color(0.72, 0.34, 0.10),
-		Color(0.28, 0.55, 0.20),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
 	],
 }
 
 const SIMBOLOS_POR_TEMA: Dictionary = {
-	"rocado": ["🌽", "🌿", "☀", "💧"],
+	"rocado": ["", "", "", "", "", ""],
 	"curral": ["🥛", "🌾", "🟤"],
-	"celeiro": ["🌾", "🎋", "📦", "🟨", "🍂"],
+	"celeiro": ["", "", "", "", ""],
 }
+
+# Pecas de temas que usam imagem em vez de emoji (index igual ao da cor/simbolo)
+const IMG_ESPIGA_MILHO: Texture2D = preload("res://assets/EspigaMilho.png")
+const IMG_ALGODAO: Texture2D = preload("res://assets/Algodao.png")
+const IMG_BATATAS: Texture2D = preload("res://assets/Batatas.png")
+const IMG_CANA_DE_ACUCAR: Texture2D = preload("res://assets/CanaDeAcucar.png")
+const IMG_PILHA_CAFE: Texture2D = preload("res://assets/PilhaCafe.png")
+const IMG_LARANJAS: Texture2D = preload("res://assets/Laranjas.png")
+const IMG_MANGUEIRA: Texture2D = preload("res://assets/Mangueira.png")
+const IMG_FERTILIZANTE: Texture2D = preload("res://assets/Fertilizante.png")
+const IMG_REGADOR: Texture2D = preload("res://assets/Regador.png")
+const IMG_ENXADA: Texture2D = preload("res://assets/Enxada.png")
+const IMG_RASTELO: Texture2D = preload("res://assets/Rastelo.png")
+const IMAGENS_POR_TEMA: Dictionary = {
+	"rocado": [IMG_ESPIGA_MILHO, IMG_ALGODAO, IMG_BATATAS, IMG_CANA_DE_ACUCAR, IMG_PILHA_CAFE, IMG_LARANJAS],
+	"celeiro": [IMG_MANGUEIRA, IMG_FERTILIZANTE, IMG_REGADOR, IMG_ENXADA, IMG_RASTELO],
+}
+
+const IMG_COLHEITADEIRA: Texture2D = preload("res://assets/Colheitadeira.png")
+const IMG_TESOURA: Texture2D = preload("res://assets/Tesoura.png")
 
 @export var tema: String = "rocado"
 @export var move_limit: int = 20
@@ -53,13 +75,14 @@ const SIMBOLOS_POR_TEMA: Dictionary = {
 var _cores: Array = []
 var _simbolos: Array = []
 
-@onready var board_container: Node2D = $BoardContainer
+@onready var board_container: Node2D = $UI/BoardContainer
 @onready var score_label: Label = $UI/ScoreLabel
 @onready var moves_label: Label = $UI/MovesLabel
 @onready var banner_panel: Panel = $UI/BannerPanel
-@onready var banner_label: Label = $UI/BannerPanel/BannerLabel
-@onready var retry_button: Button = $UI/BannerPanel/RetryButton
-@onready var back_button: Button = $UI/BannerPanel/BackButton
+@onready var banner_label: Label = $UI/BannerPanel/Margin/VBoxContainer/BannerLabel
+@onready var retry_button: Button = $UI/BannerPanel/Margin/VBoxContainer/RetryButton
+@onready var back_button: Button = $UI/BannerPanel/Margin/VBoxContainer/BackButton
+@onready var exit_button: Button = $UI/ExitButton
 
 var grid: Array = []
 var special_grid: Array = []
@@ -80,7 +103,9 @@ func _ready() -> void:
 	_simbolos = SIMBOLOS_POR_TEMA.get(tema, SIMBOLOS_POR_TEMA["rocado"])
 	retry_button.pressed.connect(_on_retry_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	exit_button.pressed.connect(_on_exit_button_pressed)
 	_criar_barra_progresso()
+	_garantir_solo()
 	GameState.consumir_cafe()
 	_iniciar_jogo()
 	Music.pause()
@@ -113,6 +138,7 @@ func _iniciar_jogo() -> void:
 	selected_cell = Vector2i(-1, -1)
 	resultado_pendente = {}
 	banner_panel.hide()
+	exit_button.show()
 	_limpar_dica()
 	_limpar_tabuleiro()
 	_montar_grid_sem_matches()
@@ -123,11 +149,36 @@ func _iniciar_jogo() -> void:
 
 func _limpar_tabuleiro() -> void:
 	for child in board_container.get_children():
-		if child.name != "Background":
+		if child.name != "Background" and child.name != "SoloContainer":
 			child.queue_free()
 	grid.clear()
 	special_grid.clear()
 	piece_nodes.clear()
+
+# Cria os "canteiros de terra arada" atras das pecas, uma vez so (persiste entre reinicios)
+func _garantir_solo() -> void:
+	if board_container.has_node("SoloContainer"):
+		return
+	var solo := Node2D.new()
+	solo.name = "SoloContainer"
+	board_container.add_child(solo)
+	board_container.move_child(solo, 1)
+	for x in range(GRID_SIZE):
+		for y in range(GRID_SIZE):
+			solo.add_child(_criar_solo_da_celula(Vector2i(x, y)))
+
+func _criar_solo_da_celula(cell: Vector2i) -> Panel:
+	var canteiro := Panel.new()
+	canteiro.position = Vector2(cell.x * CELL_SIZE + 1, cell.y * CELL_SIZE + 1)
+	canteiro.size = Vector2(CELL_SIZE - 2, CELL_SIZE - 2)
+	canteiro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.46, 0.33, 0.19)
+	estilo.border_color = Color(0.30, 0.20, 0.10)
+	estilo.set_border_width_all(2)
+	estilo.set_corner_radius_all(6)
+	canteiro.add_theme_stylebox_override("panel", estilo)
+	return canteiro
 
 func _montar_grid_sem_matches() -> void:
 	grid = []
@@ -169,12 +220,24 @@ func _instanciar_visuais() -> void:
 			board_container.add_child(node)
 			piece_nodes[x][y] = node
 
-func _criar_peca(tipo: int, special: int = SPECIAL_NONE) -> ColorRect:
-	var rect := ColorRect.new()
+func _criar_peca(tipo: int, special: int = SPECIAL_NONE) -> Panel:
+	var rect := Panel.new()
 	rect.size = Vector2(CELL_SIZE - 6, CELL_SIZE - 6)
-	rect.color = _cores[tipo]
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if tipo < _simbolos.size():
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = _cores[tipo]
+	estilo.border_color = Color(0.35, 0.24, 0.14, 0.6)
+	estilo.set_border_width_all(2)
+	estilo.set_corner_radius_all(10)
+	rect.add_theme_stylebox_override("panel", estilo)
+	# Pecas especiais mostram so o icone do bonus, sem o desenho do tipo por baixo
+	if special != SPECIAL_NONE:
+		_aplicar_visual_especial(rect, special)
+		return rect
+	var imagem: Texture2D = _imagem_do_tipo(tipo)
+	if imagem:
+		rect.add_child(_criar_icone(imagem))
+	elif tipo < _simbolos.size() and _simbolos[tipo] != "":
 		var lbl := Label.new()
 		lbl.text = _simbolos[tipo]
 		lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -183,12 +246,40 @@ func _criar_peca(tipo: int, special: int = SPECIAL_NONE) -> ColorRect:
 		lbl.add_theme_font_size_override("font_size", 22)
 		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		rect.add_child(lbl)
-	_aplicar_visual_especial(rect, special)
 	return rect
 
-func _aplicar_visual_especial(rect: ColorRect, special: int) -> void:
+func _imagem_do_tipo(tipo: int) -> Texture2D:
+	var imagens: Array = IMAGENS_POR_TEMA.get(tema, [])
+	if tipo < imagens.size():
+		return imagens[tipo]
+	return null
+
+func _criar_icone(imagem: Texture2D) -> TextureRect:
+	var icone := TextureRect.new()
+	icone.texture = imagem
+	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return icone
+
+func _aplicar_visual_especial(rect: Panel, special: int) -> void:
 	if special == SPECIAL_NONE:
 		return
+	# Icones de colheitadeira/tesoura sao exclusivos do roçado; outros temas usam o visual generico
+	if tema != "rocado":
+		_aplicar_visual_especial_generico(rect, special)
+		return
+	if special == SPECIAL_LINHA_H or special == SPECIAL_LINHA_V:
+		var icone := _criar_icone(IMG_TESOURA)
+		if special == SPECIAL_LINHA_V:
+			icone.pivot_offset = rect.size / 2.0
+			icone.rotation = deg_to_rad(90)
+		rect.add_child(icone)
+	elif special == SPECIAL_BOMBA:
+		rect.add_child(_criar_icone(IMG_COLHEITADEIRA))
+
+func _aplicar_visual_especial_generico(rect: Panel, special: int) -> void:
 	if special == SPECIAL_LINHA_H or special == SPECIAL_LINHA_V:
 		var faixa := ColorRect.new()
 		faixa.color = Color(1, 1, 1, 0.85)
@@ -212,7 +303,7 @@ func _aplicar_visual_especial(rect: ColorRect, special: int) -> void:
 
 func _definir_especial(cell: Vector2i, special: int) -> void:
 	special_grid[cell.x][cell.y] = special
-	var antigo: ColorRect = piece_nodes[cell.x][cell.y]
+	var antigo: Panel = piece_nodes[cell.x][cell.y]
 	if antigo:
 		antigo.queue_free()
 	var novo := _criar_peca(grid[cell.x][cell.y], special)
@@ -279,7 +370,7 @@ func _processar_clique(cell: Vector2i) -> void:
 		_set_destaque(cell, true)
 
 func _set_destaque(cell: Vector2i, ativo: bool) -> void:
-	var node: ColorRect = piece_nodes[cell.x][cell.y]
+	var node: Panel = piece_nodes[cell.x][cell.y]
 	if node:
 		node.modulate = Color(1.3, 1.3, 1.3) if ativo else Color(1, 1, 1)
 
@@ -293,8 +384,8 @@ func _mostrar_dica() -> void:
 	if jogada.is_empty():
 		return
 	hint_cells = jogada
-	var node_a: ColorRect = piece_nodes[jogada[0].x][jogada[0].y]
-	var node_b: ColorRect = piece_nodes[jogada[1].x][jogada[1].y]
+	var node_a: Panel = piece_nodes[jogada[0].x][jogada[0].y]
+	var node_b: Panel = piece_nodes[jogada[1].x][jogada[1].y]
 	if node_a == null or node_b == null:
 		hint_cells = []
 		return
@@ -311,7 +402,7 @@ func _limpar_dica() -> void:
 		hint_tween = null
 	for cell in hint_cells:
 		if _cell_valida(cell):
-			var node: ColorRect = piece_nodes[cell.x][cell.y]
+			var node: Panel = piece_nodes[cell.x][cell.y]
 			if is_instance_valid(node):
 				node.modulate = Color(1, 1, 1)
 	hint_cells = []
@@ -355,7 +446,7 @@ func _reembaralhar() -> void:
 		tentativas += 1
 	for x in range(GRID_SIZE):
 		for y in range(GRID_SIZE):
-			var node: ColorRect = piece_nodes[x][y]
+			var node: Panel = piece_nodes[x][y]
 			if node:
 				node.queue_free()
 	piece_nodes.clear()
@@ -388,8 +479,8 @@ func _trocar_dados(a: Vector2i, b: Vector2i) -> void:
 	piece_nodes[b.x][b.y] = tmp_node
 
 func _animar_troca(a: Vector2i, b: Vector2i) -> void:
-	var node_a: ColorRect = piece_nodes[a.x][a.y]
-	var node_b: ColorRect = piece_nodes[b.x][b.y]
+	var node_a: Panel = piece_nodes[a.x][a.y]
+	var node_b: Panel = piece_nodes[b.x][b.y]
 	var tween := create_tween().set_parallel(true)
 	if node_a:
 		tween.tween_property(node_a, "position", _cell_to_pos(a), 0.15)
@@ -483,14 +574,14 @@ func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
 	if not eliminar.is_empty():
 		var tween := create_tween().set_parallel(true)
 		for cell in eliminar.keys():
-			var node: ColorRect = piece_nodes[cell.x][cell.y]
+			var node: Panel = piece_nodes[cell.x][cell.y]
 			if node:
 				node.pivot_offset = node.size / 2.0
 				tween.tween_property(node, "scale", Vector2(0.05, 0.05), 0.18)
 				tween.tween_property(node, "modulate:a", 0.0, 0.18)
 		await tween.finished
 	for cell in eliminar.keys():
-		var node: ColorRect = piece_nodes[cell.x][cell.y]
+		var node: Panel = piece_nodes[cell.x][cell.y]
 		if node:
 			node.queue_free()
 		piece_nodes[cell.x][cell.y] = null
@@ -549,7 +640,7 @@ func _aplicar_gravidade() -> void:
 					special_grid[x][y] = SPECIAL_NONE
 					piece_nodes[x][write_y] = piece_nodes[x][y]
 					piece_nodes[x][y] = null
-					var node: ColorRect = piece_nodes[x][write_y]
+					var node: Panel = piece_nodes[x][write_y]
 					if tween == null:
 						tween = create_tween().set_parallel(true)
 					tween.tween_property(node, "position", _cell_to_pos(Vector2i(x, write_y)), 0.15)
@@ -643,6 +734,7 @@ func _mostrar_banner(texto: String, permitir_retry: bool) -> void:
 	if permitir_retry:
 		retry_button.disabled = GameState.cafe_atual <= 0
 		retry_button.text = "Tentar Novamente" if GameState.cafe_atual > 0 else "Sem cafe"
+	exit_button.hide()
 	banner_panel.show()
 
 func _on_retry_pressed() -> void:
@@ -657,3 +749,13 @@ func _on_back_pressed() -> void:
 		puzzle_concluido.emit(resultado_pendente["recurso"], resultado_pendente["quantidade"])
 	elif resultado_pendente.has("vitoria"):
 		puzzle_falhou.emit()
+
+# Botao persistente (fora do banner) pra sair do desafio a qualquer momento, sem recompensa
+func _on_exit_button_pressed() -> void:
+	if game_over:
+		return
+	game_over = true
+	is_busy = true
+	_limpar_dica()
+	resultado_pendente = {"vitoria": false}
+	puzzle_falhou.emit()

@@ -32,7 +32,7 @@ func _mostrar_fala_do_dia() -> void:
 		return
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", FALAS_DIA[dia])
+		info_bar.mostrar_mensagem("Dona Fiota", FALAS_DIA[dia], false, true)
 
 func _on_zona_desbloqueada_manualmente(_zona: String) -> void:
 	_transicionar_ambiente(GameState.zona_desbloqueada("Curral"))
