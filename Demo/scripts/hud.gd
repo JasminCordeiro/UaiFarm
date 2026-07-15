@@ -87,6 +87,11 @@ func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
 func _on_reward_toast_tween_finished() -> void:
 	reward_toast.hide()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_on_settings_pressed()
+
 func _on_settings_pressed() -> void:
 	if get_tree().paused:
 		return
