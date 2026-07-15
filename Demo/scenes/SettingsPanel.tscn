@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/settings_panel.gd" id="1"]
-[ext_resource type="StyleBox" path="res://theme/panel_style.tres" id="2"]
+[ext_resource type="StyleBox" path="res://theme/wood_panel_style.tres" id="2"]
 [ext_resource type="Theme" path="res://theme/menu_theme.tres" id="3"]
 
 [node name="SettingsPanel" type="CanvasLayer"]
@@ -75,25 +75,22 @@ custom_minimum_size = Vector2(130, 40)
 layout_mode = 2
 text = "Ligados"
 
+[node name="CloseButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Fechar"
+
 [node name="GameActions" type="VBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ActionsSeparator" type="HSeparator" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
-layout_mode = 2
-
 [node name="ReturnMenuButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "Retornar ao Menu"
+text = "Voltar ao Menu"
 
 [node name="QuitButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/GameActions"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 text = "Sair"
-
-[node name="CloseButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer"]
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
-text = "Fechar"

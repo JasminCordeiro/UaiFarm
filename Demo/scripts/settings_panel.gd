@@ -20,6 +20,7 @@ func _ready() -> void:
 	close_button.pressed.connect(_on_close_pressed)
 	dim.gui_input.connect(_on_dim_input)
 	game_actions.visible = show_game_actions
+	close_button.text = "Continuar Jogando" if show_game_actions else "Fechar"
 	_refresh_buttons()
 
 func _refresh_buttons() -> void:
