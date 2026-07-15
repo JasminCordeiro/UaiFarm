@@ -22,6 +22,8 @@ const SETTINGS_PANEL: PackedScene = preload("res://scenes/SettingsPanel.tscn")
 
 var ultimos_totais_recurso: Dictionary = {}
 var reward_toast_tween: Tween = null
+var reward_toast_tipo_atual: String = ""
+var reward_toast_acumulado: int = 0
 
 func _ready() -> void:
 	GameState.cafe_alterado.connect(_on_cafe_alterado)
@@ -72,8 +74,11 @@ func _sincronizar_totais_recurso() -> void:
 		ultimos_totais_recurso[tipo] = GameState.recursos[tipo]
 
 func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
+	var em_andamento: bool = reward_toast.visible and reward_toast_tipo_atual == tipo
+	reward_toast_acumulado = reward_toast_acumulado + ganho if em_andamento else ganho
+	reward_toast_tipo_atual = tipo
 	reward_icon_label.text = RESOURCE_ICONS.get(tipo, "+")
-	reward_text_label.text = "+%d %s" % [ganho, tipo]
+	reward_text_label.text = "+%d %s" % [reward_toast_acumulado, tipo]
 	reward_toast.show()
 	reward_toast.modulate = Color(1, 1, 1, 0)
 	if reward_toast_tween:
@@ -86,6 +91,8 @@ func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
 
 func _on_reward_toast_tween_finished() -> void:
 	reward_toast.hide()
+	reward_toast_tipo_atual = ""
+	reward_toast_acumulado = 0
 
 func _on_settings_pressed() -> void:
 	if get_tree().paused:

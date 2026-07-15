@@ -61,3 +61,15 @@ func _fechar() -> void:
 	painel.hide()
 	portrait.hide()
 	click_catcher.hide()
+
+func fechar_por_distancia() -> void:
+	if tutorial_ativo or not painel.visible:
+		return
+	painel.hide()
+	portrait.hide()
+	click_catcher.hide()
+
+func fechar_para_nova_acao() -> void:
+	if not painel.visible:
+		return
+	_fechar()

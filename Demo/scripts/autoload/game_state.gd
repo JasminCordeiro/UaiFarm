@@ -90,6 +90,7 @@ func desbloquear_zona(zona: String) -> void:
 		return
 	zonas_ja_desbloqueadas[zona] = true
 	zona_desbloqueada_manualmente.emit(zona)
+	Sfx.play_desbloqueio_zona()
 
 # --- Upgrade da casa ---
 
@@ -114,6 +115,7 @@ func melhorar_casa() -> bool:
 	cafe_alterado.emit(cafe_atual, cafe_maximo)
 	nivel_casa += 1
 	casa_melhorada.emit(nivel_casa)
+	Sfx.play_reforma_casa()
 	return true
 
 func texto_custo_casa() -> String:

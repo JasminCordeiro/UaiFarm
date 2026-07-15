@@ -21,6 +21,7 @@ GameState="*res://scripts/autoload/game_state.gd"
 ClickRipple="*res://scripts/autoload/click_ripple.gd"
 AudioSettings="*res://scripts/autoload/audio_settings.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
+Music="*res://scripts/autoload/music.gd"
 
 [display]
 

@@ -72,6 +72,9 @@ func _process(_delta: float) -> void:
 		_atualizar_proximidade(perto)
 		if not perto:
 			context_menu.hide()
+			var info_bar = get_tree().get_first_node_in_group("info_bar")
+			if info_bar:
+				info_bar.fechar_por_distancia()
 
 # --- Plantio (usado no Rocado) ---
 
@@ -185,6 +188,9 @@ func _try_open_menu() -> void:
 	if not jogador_proximo:
 		context_menu.hide()
 		return
+	var info_bar_atual = get_tree().get_first_node_in_group("info_bar")
+	if info_bar_atual:
+		info_bar_atual.fechar_para_nova_acao()
 	if not GameState.zona_desbloqueada(zone_name):
 		if GameState.requisitos_zona_atendidos(zone_name):
 			modo_desbloqueio = true
@@ -207,6 +213,9 @@ func _try_open_menu() -> void:
 	context_menu.show()
 
 func _on_action_button_pressed() -> void:
+	var info_bar_atual = get_tree().get_first_node_in_group("info_bar")
+	if info_bar_atual:
+		info_bar_atual.fechar_para_nova_acao()
 	if modo_desbloqueio:
 		_confirmar_desbloqueio()
 		return
