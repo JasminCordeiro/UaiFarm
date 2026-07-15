@@ -77,6 +77,7 @@ func _colher() -> void:
 		return
 	foi_colhido = true
 	GameState.adicionar_recurso("milho", quantidade)
+	TextoFlutuante.criar_recurso(self, global_position + Vector2(0, -44), "milho", quantidade)
 	colhido.emit(quantidade)
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(self, "scale", Vector2(0.05, 0.05), 0.2) \

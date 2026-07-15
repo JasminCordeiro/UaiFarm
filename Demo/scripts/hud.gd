@@ -94,6 +94,11 @@ func _on_reward_toast_tween_finished() -> void:
 	reward_toast_tipo_atual = ""
 	reward_toast_acumulado = 0
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_on_settings_pressed()
+
 func _on_settings_pressed() -> void:
 	if get_tree().paused:
 		return
