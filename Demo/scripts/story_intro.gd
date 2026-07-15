@@ -25,7 +25,7 @@ var _slide_backgrounds: Array[Texture2D] = [
 	preload("res://assets/cidade-grande.png"),
 	preload("res://assets/cidade-grande.png"),
 	preload("res://assets/rua-viagem.png"),
-	preload("res://assets/1-Background-Principal-Farm.png"),
+	preload("res://assets/Background-Principal-Farm.png"),
 ]
 
 var _index: int = -1

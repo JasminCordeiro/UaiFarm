@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca6h1jx6o08te"
-path="res://.godot/imported/1-Background-Principal-Farm.png-b24408499049a80f72df9b4b4b121cca.ctex"
+uid="uid://d3ycok70vxtcs"
+path="res://.godot/imported/Background-Principal-Farm.png-3f8d8932810e9aea9caae9faf1207147.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/1-Background-Principal-Farm.png"
-dest_files=["res://.godot/imported/1-Background-Principal-Farm.png-b24408499049a80f72df9b4b4b121cca.ctex"]
+source_file="res://assets/Background-Principal-Farm.png"
+dest_files=["res://.godot/imported/Background-Principal-Farm.png-3f8d8932810e9aea9caae9faf1207147.ctex"]
 
 [params]
 

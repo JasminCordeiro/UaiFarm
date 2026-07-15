@@ -160,7 +160,7 @@ func _confirmar_desbloqueio() -> void:
 func _notificar_desbloqueio() -> void:
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", "Uai! %s desbloqueado. Agora da pra %s!" % [zone_name, action_label.to_lower()], true)
+		info_bar.mostrar_mensagem("Dona Fiota", "Uai! %s desbloqueado. Agora da pra %s!" % [zone_name, action_label.to_lower()])
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -199,7 +199,7 @@ func _try_open_menu() -> void:
 	if _tem_plantacao_crescendo():
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "Calma, uai! O milho ainda ta crescendo. Espera um cadinho que ja da pra colher.", true)
+			info_bar.mostrar_mensagem("Dona Fiota", "Calma, uai! O milho ainda ta crescendo. Espera um cadinho que ja da pra colher.")
 		return
 	modo_desbloqueio = false
 	action_button.text = action_label
@@ -220,7 +220,7 @@ func _on_action_button_pressed() -> void:
 		action_button.disabled = true
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha tem mais.", true)
+			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha tem mais.")
 		return
 	context_menu.hide()
 	if player_ref:
@@ -244,7 +244,7 @@ func _on_puzzle_concluido(_recurso: String, quantidade: int) -> void:
 		_plantar(quantidade)
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, ai e so o Caio passar pra colher.", true)
+			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, ai e so o Caio passar pra colher.")
 	else:
 		_falar_fiota(FALAS_VITORIA)
 
@@ -255,12 +255,12 @@ func _on_puzzle_falhou() -> void:
 	else:
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha a lida continua.", true)
+			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha a lida continua.")
 
 func _falar_fiota(falas: Array[String]) -> void:
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", falas.pick_random(), true)
+		info_bar.mostrar_mensagem("Dona Fiota", falas.pick_random())
 
 func _fechar_puzzle() -> void:
 	if puzzle_instance:

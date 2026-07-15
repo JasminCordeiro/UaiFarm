@@ -47,7 +47,7 @@ func _on_casa_melhorada(nivel: int) -> void:
 	_atualizar_sprite()
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", "Uai, que capricho! A casa subiu pro nivel %d!" % nivel, true)
+		info_bar.mostrar_mensagem("Dona Fiota", "Uai, que capricho! A casa subiu pro nivel %d!" % nivel)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -93,4 +93,4 @@ func _on_upgrade_button_pressed() -> void:
 	else:
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "Pra melhorar a casa precisa de: %s. Ainda falta coisa, uai!" % GameState.texto_custo_casa(), true)
+			info_bar.mostrar_mensagem("Dona Fiota", "Pra melhorar a casa precisa de: %s. Ainda falta coisa, uai!" % GameState.texto_custo_casa())
