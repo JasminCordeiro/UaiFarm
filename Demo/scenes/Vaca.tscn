@@ -135,8 +135,8 @@ animations = [{
 
 [node name="Vaca" type="Node2D"]
 script = ExtResource("2")
-area_min = Vector2(768, 576)
-area_max = Vector2(992, 656)
+area_min = Vector2(727, 532)
+area_max = Vector2(1000, 652)
 speed = 26.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

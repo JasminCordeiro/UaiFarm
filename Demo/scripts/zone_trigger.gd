@@ -255,6 +255,7 @@ func _on_puzzle_concluido(_recurso: String, quantidade: int) -> void:
 		if info_bar:
 			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, ai e so o Caio passar pra colher.")
 	else:
+		TextoFlutuante.criar_recurso(self, global_position + Vector2(0, -60), puzzle_reward_type, quantidade)
 		_falar_fiota(FALAS_VITORIA)
 
 func _on_puzzle_falhou() -> void:

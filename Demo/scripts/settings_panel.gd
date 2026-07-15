@@ -42,12 +42,19 @@ func _on_return_menu_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		_fechar()
+
 func _on_close_pressed() -> void:
-	get_tree().paused = false
-	queue_free()
+	_fechar()
 
 func _on_dim_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT) \
 			or (event is InputEventScreenTouch and event.pressed):
-		get_tree().paused = false
-		queue_free()
+		_fechar()
+
+func _fechar() -> void:
+	get_tree().paused = false
+	queue_free()
