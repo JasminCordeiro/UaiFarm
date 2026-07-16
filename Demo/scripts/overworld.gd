@@ -12,9 +12,9 @@ const BG_PADRAO: Texture2D = preload("res://assets/Background-Principal-Farm.png
 const BG_CASA_E_CERCADO_REFORMADOS: Texture2D = preload("res://assets/Background-Farm-CasaNivel3-CercadoReformado.png")
 
 # Ao desbloquear o Curral aparece 1 de cada animal; depois da reforma do cercado
-# (2a etapa) aparecem os demais: porcos 1->2, vacas 1->3
-@onready var animais_curral_base: Array[Node2D] = [$Vaca1, $Porco1]
-@onready var animais_curral_extra: Array[Node2D] = [$Vaca2, $Vaca3, $Porco2]
+# (2a etapa) aparecem os demais: porcos 1->2, vacas 1->3, galinhas 1->4
+@onready var animais_curral_base: Array[Node2D] = [$Vaca1, $Porco1, $Galinha1]
+@onready var animais_curral_extra: Array[Node2D] = [$Vaca2, $Vaca3, $Porco2, $Galinha2, $Galinha3, $Galinha4]
 @onready var transicao: ColorRect = $Transicao/ColorRect
 @onready var background_sprite: Sprite2D = $Principal
 
