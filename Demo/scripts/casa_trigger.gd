@@ -6,10 +6,16 @@ const TEXTURAS_CASA: Array = [
 	"res://assets/casa-2.png",
 	"res://assets/casa-3.png",
 ]
+<<<<<<< HEAD
 # Escala e posicao independentes por nivel (indice 0 = casa nivel 1, indice 1 = nivel 2, etc.)
 # Editaveis pelo Inspector: selecione o CasaTrigger, expanda os arrays abaixo.
 @export var escalas_casa: Array[float] = [1.1, 1.0, 1.1]
 @export var posicoes_casa: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO, Vector2.ZERO]
+=======
+# Escala independente por nivel (indice 0 = casa nivel 1, etc.) — ajuste aqui pra mudar
+# o tamanho de um nivel especifico sem afetar os outros
+const ESCALAS_CASA: Array = [1.1, 1.1, 1.1]
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 
 @onready var context_menu: Control = $ContextMenu
 @onready var action_button: Button = $ContextMenu/ActionButton
@@ -48,9 +54,14 @@ func _process(_delta: float) -> void:
 func _atualizar_sprite() -> void:
 	var idx: int = clampi(GameState.nivel_casa - 1, 0, TEXTURAS_CASA.size() - 1)
 	casa_sprite.texture = load(TEXTURAS_CASA[idx])
+<<<<<<< HEAD
 	var escala: float = escalas_casa[idx]
 	casa_sprite.scale = Vector2(escala, escala)
 	casa_sprite.position = posicoes_casa[idx]
+=======
+	var escala: float = ESCALAS_CASA[idx]
+	casa_sprite.scale = Vector2(escala, escala)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 
 func _on_casa_melhorada(nivel: int) -> void:
 	_atualizar_sprite()

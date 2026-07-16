@@ -33,7 +33,11 @@ navigation_polygon = SubResource("NavigationPolygon_b5655")
 position = Vector2(6, 417)
 
 [node name="CasaTrigger" parent="." unique_id=1950213014 instance=ExtResource("5")]
+<<<<<<< HEAD
 position = Vector2(967, 146)
+=======
+position = Vector2(973, 148)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 scale = Vector2(1.2, 1.2)
 
 [node name="ZoneTrigger_Rocado" parent="." unique_id=108337746 instance=ExtResource("3")]
@@ -69,6 +73,7 @@ puzzle_tema = "celeiro"
 deslocamento_menu = Vector2(35, 30)
 
 [node name="Vaca1" parent="." unique_id=1959444081 instance=ExtResource("10_vaca")]
+<<<<<<< HEAD
 position = Vector2(1170, 535)
 
 [node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
@@ -94,6 +99,21 @@ position = Vector2(830, 469)
 
 [node name="Galinha4" parent="." unique_id=1371058162 instance=ExtResource("15_galinha")]
 position = Vector2(830, 482)
+=======
+position = Vector2(817, 621)
+
+[node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
+position = Vector2(726, 671)
+
+[node name="Vaca3" parent="." unique_id=289854157 instance=ExtResource("10_vaca")]
+position = Vector2(908, 683)
+
+[node name="Porco1" parent="." unique_id=870639174 instance=ExtResource("11_porco")]
+position = Vector2(1207, 649)
+
+[node name="Porco2" parent="." unique_id=1371058158 instance=ExtResource("11_porco")]
+position = Vector2(1194, 512)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 
 [node name="UI_HUD" parent="." unique_id=1702996510 instance=ExtResource("2")]
 
