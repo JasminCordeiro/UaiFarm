@@ -43,7 +43,7 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 20
 
 [node name="DiaLabel" type="Label" parent="Panel/VBoxContainer"]
-text = "Dia 1 concluido..."
+text = "Dia 1 concluído..."
 horizontal_alignment = 1
 
 [node name="FiotaLabel" type="Label" parent="Panel/VBoxContainer"]
@@ -54,7 +54,7 @@ horizontal_alignment = 1
 [node name="Separator" type="HSeparator" parent="Panel/VBoxContainer"]
 
 [node name="StatusLabel" type="Label" parent="Panel/VBoxContainer"]
-text = "Ao confirmar, o cafe volta ao maximo e o Dia 2 comeca."
+text = "Ao confirmar, o café volta ao máximo e o Dia 2 começa."
 autowrap_mode = 2
 horizontal_alignment = 1
 

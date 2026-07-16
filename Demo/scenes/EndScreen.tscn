@@ -35,7 +35,7 @@ offset_bottom = -22.0
 theme_override_constants/separation = 14
 
 [node name="TituloLabel" type="Label" parent="Center/Panel/VBoxContainer"]
-text = "Demo Concluida!"
+text = "Demo Concluída!"
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 26
 
@@ -48,7 +48,7 @@ text = "Recursos coletados:"
 autowrap_mode = 2
 
 [node name="ZonasLabel" type="Label" parent="Center/Panel/VBoxContainer"]
-text = "Zonas visitaveis: Rocado"
+text = "Zonas visitáveis: Roçado"
 autowrap_mode = 2
 
 [node name="Separator" type="HSeparator" parent="Center/Panel/VBoxContainer"]

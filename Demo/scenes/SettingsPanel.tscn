@@ -39,7 +39,7 @@ theme_override_constants/separation = 16
 [node name="TitleLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "Configuracoes"
+text = "Configurações"
 horizontal_alignment = 1
 
 [node name="Separator" type="HSeparator" parent="Center/PanelContainer/Margin/VBoxContainer"]
@@ -52,7 +52,7 @@ theme_override_constants/separation = 12
 [node name="MusicLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer/MusicRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Musica"
+text = "Música"
 vertical_alignment = 1
 
 [node name="MusicButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer/MusicRow"]
@@ -92,6 +92,24 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(130, 40)
 layout_mode = 2
 text = "Ligados"
+
+[node name="SfxVolumeRow" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SfxVolumeLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer/SfxVolumeRow"]
+layout_mode = 2
+text = "Volume"
+vertical_alignment = 1
+
+[node name="SfxVolumeSlider" type="HSlider" parent="Center/PanelContainer/Margin/VBoxContainer/SfxVolumeRow"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
 
 [node name="CloseButton" type="Button" parent="Center/PanelContainer/Margin/VBoxContainer"]
 custom_minimum_size = Vector2(0, 44)

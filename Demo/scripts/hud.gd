@@ -11,11 +11,12 @@ const COFFEE_ICON: Texture2D = preload("res://assets/coffee-energy.png")
 const COFFEE_ICON_SIZE: int = 28
 const SETTINGS_PANEL: PackedScene = preload("res://scenes/SettingsPanel.tscn")
 
-@onready var coffee_icons: HBoxContainer = $TopBar/CoffeeIcons
-@onready var coffee_label: Label = $TopBar/CoffeeLabel
-@onready var day_label: Label = $TopBar/DayLabel
-@onready var inventory_label: Label = $TopBar/InventoryLabel
-@onready var settings_button: Button = $TopBar/SettingsButton
+@onready var topbar_panel: PanelContainer = $TopBarPanel
+@onready var coffee_icons: HBoxContainer = $TopBarPanel/Margin/TopBar/CoffeeIcons
+@onready var coffee_label: Label = $TopBarPanel/Margin/TopBar/CoffeeLabel
+@onready var day_label: Label = $TopBarPanel/Margin/TopBar/DayLabel
+@onready var inventory_label: Label = $TopBarPanel/Margin/TopBar/InventoryLabel
+@onready var settings_button: Button = $TopBarPanel/Margin/TopBar/SettingsButton
 @onready var reward_toast: Panel = $RewardToast
 @onready var reward_icon_label: Label = $RewardToast/HBoxContainer/RewardIconLabel
 @onready var reward_text_label: Label = $RewardToast/HBoxContainer/RewardTextLabel
@@ -35,6 +36,8 @@ func _ready() -> void:
 	_sincronizar_totais_recurso()
 	_atualizar_inventario()
 	reward_toast.hide()
+	# a barra fica encolhida no conteúdo (Café/Dia/Inventário/Botão), não mais esticada pela tela
+	topbar_panel.reset_size()
 
 func _on_cafe_alterado(atual: int, maximo: int) -> void:
 	while coffee_icons.get_child_count() < maximo:
@@ -66,8 +69,11 @@ func _on_recurso_alterado(tipo: String, quantidade_total: int) -> void:
 func _atualizar_inventario() -> void:
 	var partes: Array = []
 	for tipo in GameState.recursos.keys():
-		partes.append("%s: %d" % [tipo.capitalize(), GameState.recursos[tipo]])
+		partes.append("%s: %d" % [GameState.nome_recurso(tipo), GameState.recursos[tipo]])
 	inventory_label.text = " | ".join(partes)
+	# o texto muda de tamanho conforme os números crescem; reajusta a barra pro conteúdo novo
+	if topbar_panel:
+		topbar_panel.reset_size()
 
 func _sincronizar_totais_recurso() -> void:
 	for tipo in GameState.recursos.keys():
@@ -78,7 +84,7 @@ func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
 	reward_toast_acumulado = reward_toast_acumulado + ganho if em_andamento else ganho
 	reward_toast_tipo_atual = tipo
 	reward_icon_label.text = RESOURCE_ICONS.get(tipo, "+")
-	reward_text_label.text = "+%d %s" % [reward_toast_acumulado, tipo]
+	reward_text_label.text = "+%d %s" % [reward_toast_acumulado, GameState.nome_recurso(tipo).to_lower()]
 	reward_toast.show()
 	reward_toast.modulate = Color(1, 1, 1, 0)
 	if reward_toast_tween:

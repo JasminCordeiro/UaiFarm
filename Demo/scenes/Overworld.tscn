@@ -13,15 +13,15 @@
 [ext_resource type="PackedScene" path="res://scenes/MilhoCrop.tscn" id="14_milho"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b5655"]
-vertices = PackedVector2Array(1056.6719, 439.2578, 1010.3906, 432.75, 1023.8203, 423.8125, 1208.1797, 243.92188, 1109.1016, 159.95313, 1097.0078, 142.35938, 1236.2734, 168.89063, 1248.2188, 192.79688, 364, 508.4297, 385.32813, 522.27344, 344.14063, 531.10156, 332.34375, 531.96094, 289.14063, 522.8594, 303.22656, 512.65625, 1077.8281, 422.78906, 1104.0234, 442.9922, 1089.7109, 449.84375, 1287.8594, 320.15625, 1290.0703, 344.97656, 1080.5, 344.60938, 1012.72656, 325.14844, 1098.5391, 645, 1064.6172, 645, 647.1172, 463.1328, 644.1172, 709.52344, 620.8906, 708.4375, 617.8906, 442.22656, 639.03906, 133.22656, 639.9531, 345.72656, 364.15625, 338.77344, 391.1172, 139, 361.35938, 139, 312.53125, 411.0703, 354.6797, 417.3828, 314.6797, 440.14844, 10.2890625, 436.14063, 10.8203125, 405.39844, 270.3828, 416.02344, 682, 406.6797, 682, 10, 717.0625, 10, 719.0625, 320.90625, 715.64844, 343.85156, 963.7031, 243.9375, 775.8828, 244.9375, 775.0781, 173.25781, 861.71094, 199.15625, 974.96094, 235.49219, 840.5469, 152.25, 355.85938, 646.3281, 270.14844, 641.28125, 267.84375, 638.28906, 281.6328, 622, 328.59375, 622, 1012.64844, 348.1172, 958.34375, 323.09375, 363.97656, 436.21875, 719.65625, 462.1328, 996.9219, 240.82031, 1080.3203, 202.5)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5, 6, 7), PackedInt32Array(8, 9, 10), PackedInt32Array(11, 12, 13), PackedInt32Array(14, 15, 16, 0), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(16, 21, 22, 0), PackedInt32Array(23, 24, 25, 26), PackedInt32Array(27, 28, 29, 30), PackedInt32Array(31, 30, 29, 32), PackedInt32Array(32, 29, 33, 34), PackedInt32Array(35, 36, 37, 34), PackedInt32Array(34, 37, 32), PackedInt32Array(38, 39, 40, 41, 42), PackedInt32Array(43, 44, 45, 46, 47), PackedInt32Array(45, 48, 46), PackedInt32Array(49, 50, 51, 52, 53), PackedInt32Array(10, 49, 53, 11), PackedInt32Array(20, 19, 14, 0, 2, 54), PackedInt32Array(20, 54, 42, 41, 55), PackedInt32Array(56, 8, 10, 11, 13, 34, 33), PackedInt32Array(56, 33, 38, 26), PackedInt32Array(23, 26, 38, 57), PackedInt32Array(42, 57, 38), PackedInt32Array(58, 20, 55, 43, 47), PackedInt32Array(58, 47, 59, 3), PackedInt32Array(3, 59, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-1, 446, 303, 450, 294, 507, 265, 528, 322, 540, 319, 612, 277, 612, 255, 638, 265, 651, 367, 657, 355, 539, 411, 527, 374, 503, 373.9851, 446.46054, 608, 452, 611, 718, 654, 720, 657, 473, 730, 472, 726, 354, 1004, 358, 1013, 419, 983, 439, 1047, 448, 1055, 655, 1109, 655, 1100, 456, 1123, 445, 1088, 418, 1090.1643, 354.6333, 1301, 355, 1297, 310, 1021, 315, 1009, 251, 1213, 254, 1260, 194, 1243, 160, 1075, 128, 1097, 160, 1074, 194, 975, 225, 869, 191, 846, 140, 765, 166, 766, 255, 953, 254, 949, 313, 729, 311, 727, 0, 672, 0, 672, 397, 366, 407, 373, 349, 650, 356, 649, 123, 391, 129, 353, 129, 304, 402, 270, 406, 1, 395, 0, 453)])
+vertices = PackedVector2Array(14, 706.28906, 14, 639.2578, 132.92969, 707.4922, 135.21094, 709.9922, 1174.3828, 77.27344, 1189.7109, 87.671875, 1153.1563, 110.63281, 1107, 116, 1069.9375, 424.71094, 1079.1563, 432.20313, 1078.6016, 432.57813, 1024.0234, 449.5625, 1010.0469, 431.78906, 1015.90625, 422.5703, 253.82031, 640.09375, 243.95313, 709, 1018.2578, 330, 890.84375, 303.0703, 892.14844, 219.03125, 975.5703, 235.29688, 1071.1172, 329, 246.03906, 297, 155.53125, 298.77344, 163.22656, 244.10938, 245.74219, 194.40625, 561.9531, 512.0625, 561.0469, 709, 265.54688, 613.1172, 408.75, 553.46875, 648.7578, 437.52344, 654.7578, 704.6719, 612, 703.3125, 612, 422.28906, 1135.1719, 298.9297, 1270.5781, 299.92188, 1269.3984, 329, 1009.1719, 431.1328, 1065.3594, 632.14844, 1023.0469, 632.8281, 1072.0625, 452.20313, 389.96094, 126, 637.7422, 126.96094, 633.2422, 306.8672, 413.6797, 304.02344, 398.6172, 299, 373.57813, 299, 354.14063, 126, 293.2422, 126.859375, 342.28125, 301.60938, 291.45313, 149.28125, 8.8828125, 417.9297, 8.203125, 382, 257.04688, 382, 300.8672, 415.9297, 297.29688, 373.46094, 344.45313, 375.8125, 373.92188, 401.59375, 352.8828, 414.70313, 286.8672, 298.10156, 253.4375, 162.61719, 310.10156, 318.42188, 692.10156, 402.1797, 688.10156, 10, 727.0703, 10, 719.35156, 325.6797, 715.3594, 440.54688, 331.5078, 339.32813, 430.5, 535.0625, 432.95313, 512.9297, 1107, 163.0625, 1167.7813, 157.40625, 1239.6875, 153.46875, 1246.1328, 190.00781, 1218.0078, 213.3125, 1133.8438, 220.86719, 1080.3203, 202.5, 1108.7031, 64.10156, 1148.4609, 60.28125, 1174.3828, 77.25781, 729.0703, 301.9297, 851.03125, 330, 273.14844, 579.4531, 270.9375, 562.96875, 269.22656, 544.0625, 275.0078, 533.21094, 302.0625, 508.34375, 354.0625, 517.4297, 403.64063, 397.0078, 846.8203, 210.20313, 891.96094, 219, 783.9922, 219, 849.9922, 66.078125, 778, 162.53906, 778.9375, 13.5625, 848.28125, 10.4375)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 9, 10, 11, 12, 13), PackedInt32Array(3, 2, 14, 15), PackedInt32Array(16, 17, 18, 19, 20), PackedInt32Array(21, 22, 23, 24), PackedInt32Array(25, 26, 15, 14, 27, 28), PackedInt32Array(29, 30, 31, 32), PackedInt32Array(33, 34, 35, 20), PackedInt32Array(12, 36, 13), PackedInt32Array(37, 38, 11, 39), PackedInt32Array(40, 41, 42, 43, 44), PackedInt32Array(40, 44, 45, 46), PackedInt32Array(47, 46, 45, 48, 49), PackedInt32Array(50, 51, 52, 53), PackedInt32Array(53, 52, 54, 55, 56, 57), PackedInt32Array(58, 24, 59, 49, 48, 60), PackedInt32Array(61, 62, 63, 64, 65), PackedInt32Array(58, 21, 24), PackedInt32Array(60, 48, 66, 54), PackedInt32Array(54, 66, 55), PackedInt32Array(67, 68, 25), PackedInt32Array(69, 70, 71, 72, 73, 74, 75), PackedInt32Array(7, 76, 77, 78, 4), PackedInt32Array(69, 7, 6, 70), PackedInt32Array(10, 39, 11), PackedInt32Array(20, 8, 13, 16), PackedInt32Array(75, 74, 33, 20, 19), PackedInt32Array(79, 17, 16, 80, 64), PackedInt32Array(81, 82, 83, 84, 85, 86, 28), PackedInt32Array(28, 67, 25), PackedInt32Array(28, 27, 81), PackedInt32Array(57, 86, 85, 53), PackedInt32Array(32, 57, 56, 87, 61), PackedInt32Array(29, 32, 61, 65), PackedInt32Array(63, 79, 64), PackedInt32Array(88, 89, 90), PackedInt32Array(91, 88, 90, 92, 93, 94)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-1, 428, 291, 426, 292, 504, 267, 527, 259, 542, 261, 564, 263, 579, 256, 610, 246, 633, 133, 696, 4, 622, 4, 716, 135, 720, 244, 719, 571, 719, 572, 502, 424, 503, 421, 530, 408, 541, 364, 512, 363, 425, 602, 432, 602, 713, 665, 715, 659, 448, 725, 451, 729, 336, 851, 340, 1008, 340, 1006, 419, 995, 433, 1003, 439, 1014, 453, 1013, 643, 1075, 642, 1082, 454, 1087, 439, 1096, 433, 1080, 420, 1081, 339, 1279, 339, 1281, 290, 1145, 289, 1144, 230, 1222, 223, 1257, 194, 1248, 143, 1175, 147, 1165, 115, 1208, 88, 1180, 69, 1151, 50, 1099, 55, 1097, 116, 1097, 160, 1074, 194, 974, 222, 861, 194, 860, 66, 860, 66, 858, 1, 858, 0, 769, 4, 768, 163, 775, 229, 882, 229, 881, 293, 739, 292, 737, 0, 678, 0, 682, 392, 403, 387, 377, 391, 353, 370, 342, 339, 350, 311, 374, 309, 397, 309, 412, 314, 643, 317, 648, 117, 390, 116, 354, 116, 284, 117, 282, 142, 245, 155, 237, 188, 154, 238, 144, 309, 246, 307, 283, 308, 299, 322, 289, 365, 256, 372, -2, 372, -1, 424)])
 
 [node name="Overworld" type="Node2D" unique_id=1063054356]
 script = ExtResource("7")
 
 [node name="Principal" type="Sprite2D" parent="." unique_id=2097982066]
-position = Vector2(640, 360)
+position = Vector2(642, 369)
 texture = ExtResource("4_666lb")
 
 [node name="Acesso Principal - Casa" type="NavigationRegion2D" parent="Principal" unique_id=483004948]
@@ -32,19 +32,20 @@ navigation_polygon = SubResource("NavigationPolygon_b5655")
 position = Vector2(6, 417)
 
 [node name="CasaTrigger" parent="." unique_id=1950213014 instance=ExtResource("5")]
-position = Vector2(973, 156)
+position = Vector2(973, 148)
+scale = Vector2(1.2, 1.2)
 
 [node name="ZoneTrigger_Rocado" parent="." unique_id=108337746 instance=ExtResource("3")]
-position = Vector2(526, 232)
+position = Vector2(517, 239)
 action_label = "Plantar"
 match3_scene = ExtResource("4")
 puzzle_reward_amount = 20
 plantar_apos_vitoria = true
 cena_plantacao = ExtResource("14_milho")
-plantas_por_vitoria = 20
+plantas_por_vitoria = 16
 
 [node name="ZoneTrigger_Curral" parent="." unique_id=365989436 instance=ExtResource("3")]
-position = Vector2(1073, 609)
+position = Vector2(1047, 577)
 zone_name = "Curral"
 action_label = "Ordenhar"
 match3_scene = ExtResource("4")
@@ -67,28 +68,19 @@ puzzle_tema = "celeiro"
 deslocamento_menu = Vector2(35, 30)
 
 [node name="Vaca1" parent="." unique_id=1959444081 instance=ExtResource("10_vaca")]
-position = Vector2(848, 561)
+position = Vector2(817, 621)
 
 [node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
-position = Vector2(722, 661)
+position = Vector2(726, 671)
 
 [node name="Vaca3" parent="." unique_id=289854157 instance=ExtResource("10_vaca")]
-position = Vector2(747, 563)
-
-[node name="Vaca4" parent="." unique_id=289854158 instance=ExtResource("10_vaca")]
-position = Vector2(942, 533)
-
-[node name="Vaca5" parent="." unique_id=289854159 instance=ExtResource("10_vaca")]
-position = Vector2(885, 661)
+position = Vector2(908, 683)
 
 [node name="Porco1" parent="." unique_id=870639174 instance=ExtResource("11_porco")]
-position = Vector2(1252, 655)
+position = Vector2(1207, 649)
 
 [node name="Porco2" parent="." unique_id=1371058158 instance=ExtResource("11_porco")]
-position = Vector2(1158, 511)
-
-[node name="Porco3" parent="." unique_id=1371058159 instance=ExtResource("11_porco")]
-position = Vector2(1165, 609)
+position = Vector2(1194, 512)
 
 [node name="UI_HUD" parent="." unique_id=1702996510 instance=ExtResource("2")]
 

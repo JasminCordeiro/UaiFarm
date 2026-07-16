@@ -3,19 +3,19 @@ extends Area2D
 signal acao_confirmada(zone_name: String)
 
 const FALAS_VITORIA: Array[String] = [
-	"Uai, que servico bonito! Ta pegando o jeito da roca, so!",
-	"Ocê trabaia que e uma beleza, Caio! Continua assim!",
-	"Trem bao demais! Seu avo ia ficar orgulhoso, uai!",
-	"Capricho puro! A fazenda ta voltando a vida, fio!",
+	"Uai, que serviço bonito! Tá pegando o jeito da roça, só!",
+	"Ocê trabaia que é uma beleza, Caio! Continua assim!",
+	"Trem bão demais! Seu avô ia ficar orgulhoso, uai!",
+	"Capricho puro! A fazenda tá voltando à vida, fio!",
 ]
 
 const FALAS_DERROTA: Array[String] = [
-	"Ihh, nao deu dessa vez... Mas desanima nao, uai! Toma um golinho de cafe e tenta de novo.",
-	"A roca ensina errando tambem, fio. Bola pra frente!",
-	"Nem todo dia a lida rende. Amanha ce acerta, pode cre!",
+	"Ihh, não deu dessa vez... Mas desanima não, uai! Toma um golinho de café e tenta de novo.",
+	"A roça ensina errando também, fio. Bola pra frente!",
+	"Nem todo dia a lida rende. Amanhã cê acerta, pode cre!",
 ]
 
-@export var zone_name: String = "Rocado"
+@export var zone_name: String = "Roçado"
 @export var action_label: String = "Trabalhar"
 @export var adjacency_radius: float = 90.0
 @export var match3_scene: PackedScene
@@ -28,17 +28,16 @@ const FALAS_DERROTA: Array[String] = [
 @export var cena_plantacao: PackedScene
 @export var plantas_por_vitoria: int = 5
 @export var tempo_crescimento: float = 10.0
-# Ajuste fino pra afastar o menu de partes do cenario (ex.: o telhado do Celeiro)
+# Ajuste fino pra afastar o menu de partes do cenário (ex.: o telhado do Celeiro)
 @export var deslocamento_menu: Vector2 = Vector2.ZERO
 
-# Posicoes alinhadas aos dois canteiros de terra do Rocado (background):
-# canteiro de cima = 2 fileiras x 4 plantas, canteiro de baixo = 3 fileiras x 4 plantas
+# Posições alinhadas aos dois canteiros de terra do Roçado (background):
+# os dois canteiros tem 2 fileiras x 4 plantas cada, em linha reta (sem jitter)
 const DESLOCAMENTOS_PLANTIO: Array = [
 	Vector2(-76, -65), Vector2(-36, -65), Vector2(4, -65), Vector2(44, -65),
 	Vector2(-76, -35), Vector2(-36, -35), Vector2(4, -35), Vector2(44, -35),
-	Vector2(-76, 38), Vector2(-36, 38), Vector2(4, 38), Vector2(44, 38),
-	Vector2(-76, 58), Vector2(-36, 58), Vector2(4, 58), Vector2(44, 58),
-	Vector2(-76, 78), Vector2(-36, 78), Vector2(4, 78), Vector2(44, 78),
+	Vector2(-76, 43), Vector2(-36, 43), Vector2(4, 43), Vector2(44, 43),
+	Vector2(-76, 73), Vector2(-36, 73), Vector2(4, 73), Vector2(44, 73),
 ]
 
 @onready var context_menu: Control = $ContextMenu
@@ -84,7 +83,7 @@ func _process(_delta: float) -> void:
 			if info_bar:
 				info_bar.fechar_por_distancia()
 
-# --- Plantio (usado no Rocado) ---
+# --- Plantio (usado no Roçado) ---
 
 func _limpar_plantacoes_invalidas() -> void:
 	plantacoes = plantacoes.filter(func(p): return is_instance_valid(p) and not p.foi_colhido)
@@ -106,8 +105,8 @@ func _atualizar_status_plantio() -> void:
 				restante = max(restante, planta.tempo_restante())
 		status_label.text = "Crescendo... %ds" % restante
 	elif not plantacoes.is_empty():
-		status_label.text = "Milho pronto! Colhe ai!"
-	# sem plantacao ativa, o texto volta pelo fluxo normal de _atualizar_status
+		status_label.text = "Milho pronto! Colhe aí!"
+	# sem plantação ativa, o texto volta pelo fluxo normal de _atualizar_status
 
 func _plantar(total: int) -> void:
 	if cena_plantacao == null or total <= 0:
@@ -122,15 +121,14 @@ func _plantar(total: int) -> void:
 		var planta = cena_plantacao.instantiate()
 		planta.quantidade = qtd
 		planta.tempo_crescimento = tempo_crescimento
-		# jitter pequeno pra parecer organico sem sobrepor as plantas vizinhas na fileira
-		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[i] \
-			+ Vector2(randf_range(-3, 3), randf_range(-3, 3))
+		# sem jitter: plantas ficam alinhadas em linha reta, seguindo a fileira do canteiro
+		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[i]
 		planta.colhido.connect(_on_planta_colhida)
 		get_tree().current_scene.add_child(planta)
 		plantacoes.append(planta)
 
 func _on_planta_colhida(_quantidade: int) -> void:
-	# quando a ultima planta for colhida, restaura o texto da zona
+	# quando a última planta for colhida, restaura o texto da zona
 	_limpar_plantacoes_invalidas()
 	if plantacoes.is_empty():
 		_atualizar_status()
@@ -172,7 +170,7 @@ func _confirmar_desbloqueio() -> void:
 func _notificar_desbloqueio() -> void:
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", "Uai! %s desbloqueado. Agora da pra %s!" % [zone_name, action_label.to_lower()])
+		info_bar.mostrar_mensagem("Dona Fiota", "Uai! %s desbloqueado. Agora dá pra %s!" % [zone_name, action_label.to_lower()])
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -215,7 +213,7 @@ func _try_open_menu() -> void:
 	if _tem_plantacao_crescendo():
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "Calma, uai! O milho ainda ta crescendo. Espera um cadinho que ja da pra colher.")
+			info_bar.mostrar_mensagem("Dona Fiota", "Calma, uai! O milho ainda tá crescendo. Espera um cadinho que já dá pra colher.")
 		return
 	modo_desbloqueio = false
 	action_button.text = action_label
@@ -223,14 +221,12 @@ func _try_open_menu() -> void:
 	_atualizar_upgrade_button()
 	context_menu.show()
 
-# Centraliza o menu em cima do jogador (que para dentro do raio de adjacencia,
-# nao num ponto fixo), pra garantir leitura mesmo vindo de qualquer direcao.
+# Fica fixo no centro da zona (onde o jogador naturalmente para pra interagir),
+# com um ajuste fino opcional por zona (ex.: Celeiro, pra sair de cima do telhado).
 func _posicionar_menu() -> void:
-	if player_ref == null:
-		return
-	context_menu.position = to_local(player_ref.global_position) + deslocamento_menu
+	context_menu.position = deslocamento_menu
 
-# Reforma do cercado: acao exclusiva do Curral, só disponível depois da casa toda reformada
+# Reforma do cercado: ação exclusiva do Curral, só disponível depois da casa toda reformada
 func _atualizar_upgrade_button() -> void:
 	if zone_name != "Curral" or GameState.cercado_reformado:
 		upgrade_button.hide()
@@ -265,11 +261,11 @@ func _on_action_button_pressed() -> void:
 		context_menu.hide()
 		return
 	if GameState.cafe_atual < 1:
-		action_button.text = "Sem cafe!"
+		action_button.text = "Sem café!"
 		action_button.disabled = true
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha tem mais.")
+			info_bar.mostrar_mensagem("Dona Fiota", "O café acabou, uai! Vai pra Casa descansar que amanhã tem mais.")
 		return
 	context_menu.hide()
 	if player_ref:
@@ -293,7 +289,7 @@ func _on_puzzle_concluido(_recurso: String, quantidade: int) -> void:
 		_plantar(quantidade)
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, ai e so o Caio passar pra colher.")
+			info_bar.mostrar_mensagem("Dona Fiota", "Milho plantado, uai! Espera um cadinho que ele cresce, aí é só o Caio passar pra colher.")
 	else:
 		TextoFlutuante.criar_recurso(self, global_position + Vector2(0, -60), puzzle_reward_type, quantidade)
 		_falar_fiota(FALAS_VITORIA)
@@ -305,7 +301,7 @@ func _on_puzzle_falhou() -> void:
 	else:
 		var info_bar = get_tree().get_first_node_in_group("info_bar")
 		if info_bar:
-			info_bar.mostrar_mensagem("Dona Fiota", "O cafe acabou, uai! Vai pra Casa descansar que amanha a lida continua.")
+			info_bar.mostrar_mensagem("Dona Fiota", "O café acabou, uai! Vai pra Casa descansar que amanhã a lida continua.")
 
 func _falar_fiota(falas: Array[String]) -> void:
 	var info_bar = get_tree().get_first_node_in_group("info_bar")

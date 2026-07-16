@@ -8,7 +8,7 @@ const CELL_SIZE: int = 64
 const POINTS_PER_PIECE: int = 10
 const HINT_DELAY: float = 6.0
 
-# Pecas especiais criadas por combos grandes
+# Peças especiais criadas por combos grandes
 const SPECIAL_NONE: int = 0
 const SPECIAL_LINHA_H: int = 1  # limpa a linha inteira ao ser eliminada
 const SPECIAL_LINHA_V: int = 2  # limpa a coluna inteira ao ser eliminada
@@ -80,7 +80,7 @@ const IMG_TESOURA: Texture2D = preload("res://assets/Tesoura.png")
 @export var score_target: int = 300
 @export var win_reward_type: String = "milho"
 @export var win_reward_amount: int = 15
-# Quando falso, a recompensa nao entra direto no inventario:
+# Quando falso, a recompensa não entra direto no inventário:
 # a zona planta o recurso no campo pra ser colhido depois
 @export var credito_direto: bool = true
 
@@ -167,7 +167,7 @@ func _limpar_tabuleiro() -> void:
 	special_grid.clear()
 	piece_nodes.clear()
 
-# Cria os "canteiros de terra arada" atras das pecas, uma vez so (persiste entre reinicios)
+# Cria os "canteiros de terra arada" atrás das peças, uma vez só (persiste entre reinícios)
 func _garantir_solo() -> void:
 	if board_container.has_node("SoloContainer"):
 		return
@@ -242,7 +242,7 @@ func _criar_peca(tipo: int, special: int = SPECIAL_NONE) -> Panel:
 	estilo.set_border_width_all(2)
 	estilo.set_corner_radius_all(10)
 	rect.add_theme_stylebox_override("panel", estilo)
-	# Pecas especiais mostram so o icone do bonus, sem o desenho do tipo por baixo
+	# Peças especiais mostram só o ícone do bônus, sem o desenho do tipo por baixo
 	if special != SPECIAL_NONE:
 		_aplicar_visual_especial(rect, special)
 		return rect
@@ -278,7 +278,7 @@ func _criar_icone(imagem: Texture2D) -> TextureRect:
 func _aplicar_visual_especial(rect: Panel, special: int) -> void:
 	if special == SPECIAL_NONE:
 		return
-	# Icones de colheitadeira/tesoura sao exclusivos do roçado; outros temas usam o visual generico
+	# Ícones de colheitadeira/tesoura são exclusivos do roçado; outros temas usam o visual genérico
 	if tema != "rocado":
 		_aplicar_visual_especial_generico(rect, special)
 		return
@@ -322,7 +322,7 @@ func _definir_especial(cell: Vector2i, special: int) -> void:
 	novo.position = _cell_to_pos(cell)
 	board_container.add_child(novo)
 	piece_nodes[cell.x][cell.y] = novo
-	# Pequeno "pulo" ao nascer, pra chamar atencao
+	# Pequeno "pulo" ao nascer, pra chamar atenção
 	novo.pivot_offset = novo.size / 2.0
 	novo.scale = Vector2(0.3, 0.3)
 	var tween := create_tween()
@@ -447,7 +447,7 @@ func _garantir_jogada_possivel() -> void:
 	_reembaralhar()
 
 func _reembaralhar() -> void:
-	# Sorteia novos tipos (mantendo as pecas especiais no lugar) ate existir jogada
+	# Sorteia novos tipos (mantendo as peças especiais no lugar) até existir jogada
 	var tentativas := 0
 	while tentativas < 30:
 		for x in range(GRID_SIZE):
@@ -464,7 +464,7 @@ func _reembaralhar() -> void:
 	piece_nodes.clear()
 	_instanciar_visuais()
 
-# --- Troca e resolucao ---
+# --- Troca e resolução ---
 
 func _tentar_troca(a: Vector2i, b: Vector2i) -> void:
 	is_busy = true
@@ -526,11 +526,11 @@ func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
 			matched[cell] = true
 			contagem[cell] = contagem.get(cell, 0) + 1
 
-	# Decide quais celulas viram pecas especiais em vez de sumir
+	# Decide quais células viram peças especiais em vez de sumir
 	var novos_especiais := {}
 	for cell in contagem.keys():
 		if contagem[cell] >= 2:
-			novos_especiais[cell] = SPECIAL_BOMBA  # intersecao em L/T
+			novos_especiais[cell] = SPECIAL_BOMBA  # interseção em L/T
 	for run in runs:
 		var cells: Array = run["cells"]
 		if cells.size() < 4:
@@ -552,7 +552,7 @@ func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
 		else:
 			novos_especiais[alvo] = SPECIAL_LINHA_H if run["horizontal"] else SPECIAL_LINHA_V
 
-	# Expande a eliminacao com os efeitos das pecas especiais atingidas
+	# Expande a eliminação com os efeitos das peças especiais atingidas
 	var eliminar := {}
 	var fila: Array = matched.keys()
 	while not fila.is_empty():
@@ -576,13 +576,13 @@ func _resolver_runs(runs: Array, swap_cells: Array, cascata: int) -> void:
 						if _cell_valida(vizinho):
 							fila.append(vizinho)
 
-	# Pontuacao com multiplicador de cascata
+	# Pontuação com multiplicador de cascata
 	var pontos: int = eliminar.size() * POINTS_PER_PIECE * cascata
 	score += pontos
 	_atualizar_labels()
 	_spawn_texto_pontos(eliminar.keys(), pontos, cascata)
 
-	# Animacao de "pop" das pecas eliminadas
+	# Animação de "pop" das peças eliminadas
 	if not eliminar.is_empty():
 		var tween := create_tween().set_parallel(true)
 		for cell in eliminar.keys():
@@ -679,9 +679,9 @@ func _preencher_vazios() -> void:
 	if tween != null:
 		await tween.finished
 
-# --- Deteccao de matches ---
+# --- Detecção de matches ---
 
-# Retorna sequencias de 3+ pecas iguais: [{"cells": Array[Vector2i], "horizontal": bool}, ...]
+# Retorna sequências de 3+ peças iguais: [{"cells": Array[Vector2i], "horizontal": bool}, ...]
 func _find_runs() -> Array:
 	var runs: Array = []
 	for y in range(GRID_SIZE):
@@ -728,9 +728,9 @@ func _trigger_win() -> void:
 	resultado_pendente = {"vitoria": true, "recurso": win_reward_type, "quantidade": win_reward_amount}
 	if credito_direto:
 		GameState.adicionar_recurso(win_reward_type, win_reward_amount)
-		_mostrar_banner("UAI! Desafio Concluido!\n+%d %s" % [win_reward_amount, win_reward_type], false)
+		_mostrar_banner("UAI! Desafio Concluído!\n+%d %s" % [win_reward_amount, GameState.nome_recurso(win_reward_type).to_lower()], false)
 	else:
-		_mostrar_banner("UAI! Desafio Concluido!\n%d %s plantado no campo!" % [win_reward_amount, win_reward_type], false)
+		_mostrar_banner("UAI! Desafio Concluído!\n%d %s plantado no campo!" % [win_reward_amount, GameState.nome_recurso(win_reward_type).to_lower()], false)
 
 func _trigger_lose() -> void:
 	game_over = true
@@ -745,14 +745,14 @@ func _mostrar_banner(texto: String, permitir_retry: bool) -> void:
 	retry_button.visible = permitir_retry
 	if permitir_retry:
 		retry_button.disabled = GameState.cafe_atual <= 0
-		retry_button.text = "Tentar Novamente" if GameState.cafe_atual > 0 else "Sem cafe"
+		retry_button.text = "Tentar Novamente" if GameState.cafe_atual > 0 else "Sem café"
 	exit_button.hide()
 	banner_panel.show()
 
 func _on_retry_pressed() -> void:
 	if not GameState.consumir_cafe():
 		retry_button.disabled = true
-		retry_button.text = "Sem cafe"
+		retry_button.text = "Sem café"
 		return
 	_iniciar_jogo()
 
@@ -762,7 +762,7 @@ func _on_back_pressed() -> void:
 	elif resultado_pendente.has("vitoria"):
 		puzzle_falhou.emit()
 
-# Botao persistente (fora do banner) pra sair do desafio a qualquer momento, sem recompensa
+# Botão persistente (fora do banner) pra sair do desafio a qualquer momento, sem recompensa
 func _on_exit_button_pressed() -> void:
 	if game_over:
 		return
