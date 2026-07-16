@@ -11,14 +11,17 @@ const FALAS_DIA: Dictionary = {
 const BG_PADRAO: Texture2D = preload("res://assets/Background-Principal-Farm.png")
 const BG_CASA_E_CERCADO_REFORMADOS: Texture2D = preload("res://assets/Background-Farm-CasaNivel3-CercadoReformado.png")
 
-@onready var animais_curral: Array[Node2D] = [$Vaca1, $Vaca2, $Vaca3, $Porco1, $Porco2]
+# Ao desbloquear o Curral aparece 1 de cada animal; depois da reforma do cercado
+# (2a etapa) aparecem os demais: porcos 1->2, vacas 1->3
+@onready var animais_curral_base: Array[Node2D] = [$Vaca1, $Porco1]
+@onready var animais_curral_extra: Array[Node2D] = [$Vaca2, $Vaca3, $Porco2]
 @onready var transicao: ColorRect = $Transicao/ColorRect
 @onready var background_sprite: Sprite2D = $Principal
 
 func _ready() -> void:
 	GameState.zona_desbloqueada_manualmente.connect(_on_zona_desbloqueada_manualmente)
-	GameState.casa_melhorada.connect(_on_progresso_reforma)
-	GameState.cercado_melhorado.connect(_on_progresso_reforma)
+	GameState.casa_melhorada.connect(_on_casa_melhorada)
+	GameState.cercado_melhorado.connect(_on_cercado_melhorado)
 	_atualizar_background()
 	_aplicar_ambiente(GameState.zona_desbloqueada("Curral"))
 	if GameState.ponto_spawn != Vector2(-1, -1):
@@ -46,16 +49,22 @@ func _mostrar_fala_do_dia() -> void:
 func _on_zona_desbloqueada_manualmente(_zona: String) -> void:
 	_transicionar_ambiente(GameState.zona_desbloqueada("Curral"))
 
-func _on_progresso_reforma(_nivel: int = -1) -> void:
+func _on_casa_melhorada(_nivel: int) -> void:
 	_atualizar_background()
+
+func _on_cercado_melhorado() -> void:
+	_atualizar_background()
+	_transicionar_ambiente(GameState.zona_desbloqueada("Curral"))
 
 func _atualizar_background() -> void:
 	var tudo_reformado: bool = GameState.nivel_casa >= GameState.NIVEL_CASA_MAXIMO and GameState.cercado_reformado
 	background_sprite.texture = BG_CASA_E_CERCADO_REFORMADOS if tudo_reformado else BG_PADRAO
 
 func _aplicar_ambiente(curral_aberto: bool) -> void:
-	for animal in animais_curral:
+	for animal in animais_curral_base:
 		animal.visible = curral_aberto
+	for animal in animais_curral_extra:
+		animal.visible = curral_aberto and GameState.cercado_reformado
 
 func _transicionar_ambiente(curral_aberto: bool) -> void:
 	var tween := create_tween()
