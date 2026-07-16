@@ -24,9 +24,13 @@ const CORES_POR_TEMA: Dictionary = {
 		Color(0.97, 0.94, 0.86),
 	],
 	"curral": [
-		Color(0.92, 0.92, 0.96),
-		Color(0.85, 0.72, 0.2),
-		Color(0.55, 0.33, 0.14),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
+		Color(0.97, 0.94, 0.86),
 	],
 	"celeiro": [
 		Color(0.97, 0.94, 0.86),
@@ -39,7 +43,7 @@ const CORES_POR_TEMA: Dictionary = {
 
 const SIMBOLOS_POR_TEMA: Dictionary = {
 	"rocado": ["", "", "", "", "", ""],
-	"curral": ["🥛", "🌾", "🟤"],
+	"curral": ["", "", "", "", "", "", ""],
 	"celeiro": ["", "", "", "", ""],
 }
 
@@ -55,8 +59,16 @@ const IMG_FERTILIZANTE: Texture2D = preload("res://assets/Fertilizante.png")
 const IMG_REGADOR: Texture2D = preload("res://assets/Regador.png")
 const IMG_ENXADA: Texture2D = preload("res://assets/Enxada.png")
 const IMG_RASTELO: Texture2D = preload("res://assets/Rastelo.png")
+const IMG_OVOS: Texture2D = preload("res://assets/Ovos.png")
+const IMG_PINTINHO: Texture2D = preload("res://assets/Pintinho.png")
+const IMG_BEZERRINHO: Texture2D = preload("res://assets/Bezerrinho.png")
+const IMG_BACON: Texture2D = preload("res://assets/Bacon.png")
+const IMG_JARRO_LEITE: Texture2D = preload("res://assets/JarroLeite.png")
+const IMG_RACAO: Texture2D = preload("res://assets/Racao.png")
+const IMG_PORQUINHO: Texture2D = preload("res://assets/Porquinho.png")
 const IMAGENS_POR_TEMA: Dictionary = {
 	"rocado": [IMG_ESPIGA_MILHO, IMG_ALGODAO, IMG_BATATAS, IMG_CANA_DE_ACUCAR, IMG_PILHA_CAFE, IMG_LARANJAS],
+	"curral": [IMG_OVOS, IMG_PINTINHO, IMG_BEZERRINHO, IMG_BACON, IMG_JARRO_LEITE, IMG_RACAO, IMG_PORQUINHO],
 	"celeiro": [IMG_MANGUEIRA, IMG_FERTILIZANTE, IMG_REGADOR, IMG_ENXADA, IMG_RASTELO],
 }
 
