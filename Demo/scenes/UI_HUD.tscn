@@ -77,10 +77,11 @@ offset_right = -10.0
 offset_bottom = -6.0
 theme_override_constants/separation = 10
 
-[node name="RewardIconLabel" type="Label" parent="RewardToast/HBoxContainer" unique_id=16500316]
+[node name="RewardIcon" type="TextureRect" parent="RewardToast/HBoxContainer" unique_id=16500316]
+custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "🌽"
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RewardTextLabel" type="Label" parent="RewardToast/HBoxContainer" unique_id=498622111]
 layout_mode = 2

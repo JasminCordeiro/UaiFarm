@@ -1,10 +1,11 @@
 extends CanvasLayer
 
+# Ícones em pixel art: emojis não têm fallback de fonte no export Web
 const RESOURCE_ICONS: Dictionary = {
-	"milho": "🌽",
-	"graos": "🌾",
-	"leite": "🥛",
-	"ovos": "🥚",
+	"milho": preload("res://assets/EspigaMilho.png"),
+	"graos": preload("res://assets/Racao.png"),
+	"leite": preload("res://assets/JarroLeite.png"),
+	"ovos": preload("res://assets/Ovos.png"),
 }
 
 const COFFEE_ICON: Texture2D = preload("res://assets/coffee-energy.png")
@@ -18,7 +19,7 @@ const SETTINGS_PANEL: PackedScene = preload("res://scenes/SettingsPanel.tscn")
 @onready var inventory_label: Label = $TopBarPanel/Margin/TopBar/InventoryLabel
 @onready var settings_button: Button = $TopBarPanel/Margin/TopBar/SettingsButton
 @onready var reward_toast: Panel = $RewardToast
-@onready var reward_icon_label: Label = $RewardToast/HBoxContainer/RewardIconLabel
+@onready var reward_icon: TextureRect = $RewardToast/HBoxContainer/RewardIcon
 @onready var reward_text_label: Label = $RewardToast/HBoxContainer/RewardTextLabel
 
 var ultimos_totais_recurso: Dictionary = {}
@@ -83,7 +84,8 @@ func _mostrar_toast_recompensa(tipo: String, ganho: int) -> void:
 	var em_andamento: bool = reward_toast.visible and reward_toast_tipo_atual == tipo
 	reward_toast_acumulado = reward_toast_acumulado + ganho if em_andamento else ganho
 	reward_toast_tipo_atual = tipo
-	reward_icon_label.text = RESOURCE_ICONS.get(tipo, "+")
+	reward_icon.texture = RESOURCE_ICONS.get(tipo, null)
+	reward_icon.visible = reward_icon.texture != null
 	reward_text_label.text = "+%d %s" % [reward_toast_acumulado, GameState.nome_recurso(tipo).to_lower()]
 	reward_toast.show()
 	reward_toast.modulate = Color(1, 1, 1, 0)

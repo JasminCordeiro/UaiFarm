@@ -305,11 +305,11 @@ func _aplicar_visual_especial_generico(rect: Panel, special: int) -> void:
 		rect.add_child(faixa)
 	elif special == SPECIAL_BOMBA:
 		var lbl := Label.new()
-		lbl.text = "💥"
+		lbl.text = "*"
 		lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		lbl.add_theme_font_size_override("font_size", 30)
+		lbl.add_theme_font_size_override("font_size", 44)
 		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		rect.add_child(lbl)
 
