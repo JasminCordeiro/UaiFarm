@@ -4,7 +4,7 @@
 [ext_resource type="StyleBox" path="res://theme/wood_panel_style.tres" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(220, 170)
+size = Vector2(300, 200)
 
 [node name="CasaTrigger" type="Area2D" unique_id=2040329537]
 script = ExtResource("1")
@@ -13,6 +13,7 @@ script = ExtResource("1")
 shape = SubResource("RectangleShape2D_1")
 
 [node name="CasaSprite" type="Sprite2D" parent="." unique_id=1443725518]
+scale = Vector2(1.1, 1.1)
 
 [node name="Label" type="Label" parent="." unique_id=2134668851]
 offset_left = -38.0
@@ -30,6 +31,8 @@ offset_bottom = 128.0
 horizontal_alignment = 1
 
 [node name="ContextMenu" type="Control" parent="." unique_id=1864078196]
+layout_mode = 3
+anchors_preset = 0
 offset_left = -66.0
 offset_top = 91.0
 offset_right = 74.0

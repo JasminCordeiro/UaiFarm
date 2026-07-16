@@ -5,8 +5,8 @@ signal colhido(quantidade: int)
 const TEX_PLANTADO: Texture2D = preload("res://assets/Milho-Plantado.png")
 const TEX_CRESCENDO: Texture2D = preload("res://assets/Milho-Crescendo.png")
 const TEX_PRONTO: Texture2D = preload("res://assets/Milho.png")
-# Os 3 estagios compartilham a mesma largura de base, so a altura cresce.
-# Escala pensada pra caber lado a lado no espacamento de 40px das fileiras do plantio sem sobrepor.
+# Os 3 estágios compartilham a mesma largura de base, só a altura cresce.
+# Escala pensada pra caber lado a lado no espaçamento de 40px das fileiras do plantio sem sobrepor.
 const ESCALA_PLANTADO: Vector2 = Vector2(0.13, 0.13)
 const ESCALA_CRESCENDO: Vector2 = Vector2(0.13, 0.13)
 const ESCALA_PRONTO: Vector2 = Vector2(0.13, 0.13)

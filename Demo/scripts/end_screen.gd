@@ -6,24 +6,24 @@ func _ready() -> void:
 
 func _montar_resumo() -> void:
 	var dias_jogados: int = GameState.dia_atual - 1
-	$Center/Panel/VBoxContainer/TituloLabel.text = "Demo Concluida!"
+	$Center/Panel/VBoxContainer/TituloLabel.text = "Demo Concluída!"
 	$Center/Panel/VBoxContainer/DiasLabel.text = "Dias jogados: %d" % dias_jogados
 
 	var partes: Array = []
 	for tipo in GameState.recursos.keys():
 		if GameState.recursos[tipo] > 0:
-			partes.append("  %s: %d" % [tipo.capitalize(), GameState.recursos[tipo]])
+			partes.append("  %s: %d" % [GameState.nome_recurso(tipo), GameState.recursos[tipo]])
 	if partes.is_empty():
 		$Center/Panel/VBoxContainer/RecursosLabel.text = "Recursos coletados: nenhum"
 	else:
 		$Center/Panel/VBoxContainer/RecursosLabel.text = "Recursos coletados:\n" + "\n".join(partes)
 
-	var zonas: Array[String] = ["Rocado"]
+	var zonas: Array[String] = ["Roçado"]
 	if GameState.zona_desbloqueada("Curral"):
 		zonas.append("Curral")
 	if GameState.zona_desbloqueada("Celeiro"):
 		zonas.append("Celeiro")
-	$Center/Panel/VBoxContainer/ZonasLabel.text = "Zonas visitaveis: " + ", ".join(zonas)
+	$Center/Panel/VBoxContainer/ZonasLabel.text = "Zonas visitáveis: " + ", ".join(zonas)
 
 func _on_voltar() -> void:
 	get_tree().paused = false

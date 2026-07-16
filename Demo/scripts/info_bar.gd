@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const FALA_TUTORIAL: String = "Uai, meu filho! O rocado ta precisando de cuidado. Anda com WASD/setas ou clique no chao, chega perto e aperta E pra trabalhar!"
+const FALA_TUTORIAL: String = "Uai, meu filho! O roçado tá precisando de cuidado. Anda com WASD/setas ou clique no chão, chega perto e aperta E pra trabalhar!"
 
 @onready var click_catcher: Control = $Control/ClickCatcher
 @onready var painel: Panel = $Control/Panel

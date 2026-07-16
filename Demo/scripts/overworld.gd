@@ -1,17 +1,17 @@
 extends Node2D
 
 const FALAS_DIA: Dictionary = {
-	1: "Vamo comeca, uai! Chega perto do rocado e planta esse milho. A fazenda inteira depende dessa primeira colheita.",
-	2: "Bom dia, Caio! Cafe passado fresquinho na garrafa. Junta milho pro celeiro e grao pro curral — cada canto aberto e mais vida pra fazenda!",
-	3: "Ultimo dia da lida, meu fio! Mostra tudo que aprendeu e deixa essa fazenda um brinco, que seu avo ia ter orgulho.",
+	1: "Vamo começa, uai! Chega perto do roçado e planta esse milho. A fazenda inteira depende dessa primeira colheita.",
+	2: "Bom dia, Caio! Café passado fresquinho na garrafa. Junta milho pro celeiro e grão pro curral — cada canto aberto é mais vida pra fazenda!",
+	3: "Último dia da lida, meu fio! Mostra tudo que aprendeu e deixa essa fazenda um brinco, que seu avô ia ter orgulho.",
 }
 
-# Enquanto a casa nao chega no nivel maximo E o cercado nao e reformado, usa o mapa padrao.
-# So troca pro mapa reformado quando os dois aprimoramentos estiverem completos.
+# Enquanto a casa não chega no nível máximo E o cercado não é reformado, usa o mapa padrão.
+# Só troca pro mapa reformado quando os dois aprimoramentos estiverem completos.
 const BG_PADRAO: Texture2D = preload("res://assets/Background-Principal-Farm.png")
 const BG_CASA_E_CERCADO_REFORMADOS: Texture2D = preload("res://assets/Background-Farm-CasaNivel3-CercadoReformado.png")
 
-@onready var animais_curral: Array[Node2D] = [$Vaca1, $Vaca2, $Vaca3, $Vaca4, $Vaca5, $Porco1, $Porco2, $Porco3]
+@onready var animais_curral: Array[Node2D] = [$Vaca1, $Vaca2, $Vaca3, $Porco1, $Porco2]
 @onready var transicao: ColorRect = $Transicao/ColorRect
 @onready var background_sprite: Sprite2D = $Principal
 
