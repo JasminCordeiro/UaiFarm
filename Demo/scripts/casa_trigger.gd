@@ -34,7 +34,6 @@ func _process(_delta: float) -> void:
 	var perto: bool = global_position.distance_to(player_ref.global_position) <= ADJACENCY_RADIUS
 	if perto != jogador_proximo:
 		jogador_proximo = perto
-		casa_sprite.modulate = Color(1.15, 1.15, 1.15) if perto else Color(1, 1, 1)
 		status_label.modulate = Color(1, 1, 1) if perto else Color(0.8, 0.8, 0.8)
 		if not perto:
 			context_menu.hide()

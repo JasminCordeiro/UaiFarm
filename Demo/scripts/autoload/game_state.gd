@@ -4,6 +4,7 @@ signal cafe_alterado(atual: int, maximo: int)
 signal recurso_alterado(tipo: String, quantidade_total: int)
 signal dia_alterado(dia: int)
 signal casa_melhorada(nivel: int)
+signal cercado_melhorado()
 signal zona_desbloqueada_manualmente(zona: String)
 
 # --- Balanceamento centralizado (ajustar apos playtest) ---
@@ -12,16 +13,21 @@ const CAFE_INICIAL: int = 5
 const DESBLOQUEIO_CELEIRO: Dictionary = {"milho": 10}
 const DESBLOQUEIO_CURRAL: Dictionary = {"milho": 20, "graos": 5}
 const SPAWN_AO_LADO_DA_CASA: Vector2 = Vector2(1010, 332)
-const NIVEL_CASA_MAXIMO: int = 2
+const NIVEL_CASA_MAXIMO: int = 3
 const CUSTO_UPGRADE_CASA: Dictionary = {
 	2: {"milho": 15},
+	3: {"milho": 25, "leite": 10, "graos": 8},
 }
 const CAFE_UPGRADE_CASA: int = 1
+# Só pode ser reformado depois que a casa chega no nivel maximo (NIVEL_CASA_MAXIMO)
+const CUSTO_REFORMA_CERCADO: Dictionary = {"milho": 10, "leite": 12}
+const CAFE_REFORMA_CERCADO: int = 1
 
 var cafe_atual: int = CAFE_INICIAL
 var cafe_maximo: int = CAFE_INICIAL
 var dia_atual: int = 1
 var nivel_casa: int = 1
+var cercado_reformado: bool = false
 var zonas_ja_desbloqueadas: Dictionary = {}
 var tutorial_visto: bool = false
 var dialogo_dia_mostrado: Dictionary = {}
@@ -38,6 +44,7 @@ func reset() -> void:
 	cafe_atual = cafe_maximo
 	dia_atual = 1
 	nivel_casa = 1
+	cercado_reformado = false
 	zonas_ja_desbloqueadas = {}
 	tutorial_visto = false
 	dialogo_dia_mostrado = {}
@@ -127,6 +134,43 @@ func texto_custo_casa() -> String:
 		partes.append("%d %s" % [custo[tipo], tipo])
 	partes.append("%d cafe" % CAFE_UPGRADE_CASA)
 	return ", ".join(partes)
+
+# --- Reforma do cercado (Curral) ---
+# Só libera depois que a casa chega no nivel maximo; usa recursos do proprio Curral (leite)
+
+func pode_reformar_cercado() -> bool:
+	if cercado_reformado:
+		return false
+	if nivel_casa < NIVEL_CASA_MAXIMO:
+		return false
+	if cafe_atual < CAFE_REFORMA_CERCADO:
+		return false
+	return _checar_requisitos(CUSTO_REFORMA_CERCADO)
+
+func reformar_cercado() -> bool:
+	if not pode_reformar_cercado():
+		return false
+	for tipo in CUSTO_REFORMA_CERCADO.keys():
+		recursos[tipo] -= CUSTO_REFORMA_CERCADO[tipo]
+		recurso_alterado.emit(tipo, recursos[tipo])
+	cafe_atual -= CAFE_REFORMA_CERCADO
+	cafe_alterado.emit(cafe_atual, cafe_maximo)
+	cercado_reformado = true
+	cercado_melhorado.emit()
+	Sfx.play_reforma_casa()
+	return true
+
+func texto_custo_cercado() -> String:
+	var partes: Array = []
+	for tipo in CUSTO_REFORMA_CERCADO.keys():
+		partes.append("%d %s" % [CUSTO_REFORMA_CERCADO[tipo], tipo])
+	partes.append("%d cafe" % CAFE_REFORMA_CERCADO)
+	return ", ".join(partes)
+
+func texto_bloqueio_cercado() -> String:
+	if nivel_casa < NIVEL_CASA_MAXIMO:
+		return "Uai, primeiro reforma a casa todinha (nivel %d) pra depois cuidar do cercado!" % NIVEL_CASA_MAXIMO
+	return "Pra reformar o cercado precisa de: %s. Ainda falta coisa, uai!" % texto_custo_cercado()
 
 func texto_requisito(zona: String) -> String:
 	var req: Dictionary = {}

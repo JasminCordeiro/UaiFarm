@@ -10,10 +10,17 @@ const FRASES_FIOTA: Array[String] = [
 
 var is_transitioning: bool = false
 
+@onready var crickets_player: AudioStreamPlayer = $CricketsPlayer
+
 func _ready() -> void:
 	$Panel/VBoxContainer/ConfirmButton.pressed.connect(_on_confirmar)
 	$Panel/VBoxContainer/CancelButton.pressed.connect(_on_cancelar)
 	_atualizar_ui()
+	# Enquanto o jogador decide, a musica do dia para e so o som de grilos toca
+	Music.pause()
+	if crickets_player.stream is AudioStreamMP3:
+		crickets_player.stream.loop = true
+	crickets_player.play()
 
 func _atualizar_ui() -> void:
 	$Panel/VBoxContainer/TituloLabel.text = "Hora de descansar"
@@ -35,11 +42,14 @@ func _on_confirmar() -> void:
 	is_transitioning = true
 	$Panel/VBoxContainer/ConfirmButton.disabled = true
 	$Panel/VBoxContainer/CancelButton.disabled = true
-	Sfx.play_descanso()
+	crickets_player.stop()
 	GameState.avancar_dia()
 	if GameState.demo_concluida():
+		# Fim da demo: sem som de galo, so a musica ambiente volta a tocar
+		Music.resume()
 		get_tree().change_scene_to_file("res://scenes/EndScreen.tscn")
 	else:
+		Sfx.play_descanso()  # a musica do dia volta a tocar sozinha quando esse som terminar
 		GameState.definir_spawn_casa()
 		get_tree().change_scene_to_file("res://scenes/Overworld.tscn")
 
@@ -49,5 +59,7 @@ func _on_cancelar() -> void:
 	is_transitioning = true
 	$Panel/VBoxContainer/ConfirmButton.disabled = true
 	$Panel/VBoxContainer/CancelButton.disabled = true
+	crickets_player.stop()
+	Music.resume()
 	GameState.definir_spawn_casa()
 	get_tree().change_scene_to_file("res://scenes/Overworld.tscn")
