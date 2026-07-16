@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://bmxn1517d74nb"]
+=======
+[gd_resource type="StyleBoxFlat" format=3]
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 
 [resource]
 bg_color = Color(0.45, 0.31, 0.17, 1)

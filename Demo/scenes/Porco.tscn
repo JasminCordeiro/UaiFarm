@@ -135,8 +135,13 @@ animations = [{
 
 [node name="Porco" type="Node2D"]
 script = ExtResource("2")
+<<<<<<< HEAD
 area_min = Vector2(728, 585)
 area_max = Vector2(882, 655)
+=======
+area_min = Vector2(670, 555)
+area_max = Vector2(940, 690)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 speed = 22.0
 passo_linha = 32.0
 
