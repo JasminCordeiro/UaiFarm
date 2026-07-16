@@ -2,7 +2,7 @@ extends Node2D
 
 const FALAS_DIA: Dictionary = {
 	1: "Vamo começa, uai! Chega perto do roçado e planta esse milho. A fazenda inteira depende dessa primeira colheita.",
-	2: "Bom dia, Caio! Café passado fresquinho na garrafa. Junta milho pro celeiro e grão pro curral — cada canto aberto é mais vida pra fazenda!",
+	2: "Bom dia, Caio! Café passado fresquinho na garrafa. Junta milho pro celeiro e grão pro curral: cada canto aberto é mais vida pra fazenda!",
 	3: "Último dia da lida, meu fio! Mostra tudo que aprendeu e deixa essa fazenda um brinco, que seu avô ia ter orgulho.",
 }
 

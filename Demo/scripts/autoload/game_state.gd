@@ -196,7 +196,7 @@ func texto_requisito(zona: String) -> String:
 	var partes: Array = []
 	for tipo in req.keys():
 		partes.append("%d %s" % [req[tipo], nome_recurso(tipo).to_lower()])
-	return "Bloqueado — precisa: " + ", ".join(partes)
+	return "Bloqueado - precisa: " + ", ".join(partes)
 
 func texto_progresso(zona: String) -> String:
 	var req: Dictionary = {}

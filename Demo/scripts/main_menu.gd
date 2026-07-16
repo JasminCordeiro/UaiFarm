@@ -17,7 +17,7 @@ func _on_tutorial() -> void:
 	get_tree().change_scene_to_file("res://scenes/TutorialScreen.tscn")
 
 func _on_credits() -> void:
-	pass
+	get_tree().change_scene_to_file("res://scenes/CreditsScreen.tscn")
 
 func _on_quit() -> void:
 	get_tree().quit()
