@@ -3,63 +3,53 @@ extends Node2D
 @export var area_min: Vector2 = Vector2.ZERO
 @export var area_max: Vector2 = Vector2(100, 100)
 @export var speed: float = 26.0
-@export var pause_min: float = 1.0
-@export var pause_max: float = 3.0
-@export var raio_separacao: float = 40.0
+# distancia (em px) que o bicho sobe/desce ao chegar na lateral do cercado antes
+# de atravessar pro outro lado, tipo um cortador de grama
+@export var passo_linha: float = 28.0
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var _target: Vector2
-var _pausing: bool = false
-var _pause_timer: float = 0.0
+var _indo_direita: bool = false
+var _subindo: bool = true
+var _fase_vertical: bool = false
 
 func _ready() -> void:
 	add_to_group("farm_animals")
-	position = Vector2(randf_range(area_min.x, area_max.x), randf_range(area_min.y, area_max.y))
-	_escolher_novo_alvo()
+	position.x = clampf(position.x, area_min.x, area_max.x)
+	position.y = clampf(position.y, area_min.y, area_max.y)
+	_target = Vector2(area_min.x, position.y)
 
 func _process(delta: float) -> void:
-	if _pausing:
-		_pause_timer -= delta
-		if _pause_timer <= 0.0:
-			_pausing = false
-			_escolher_novo_alvo()
-		_aplicar_separacao(delta)
-		return
 	var direcao: Vector2 = _target - position
 	var distancia: float = direcao.length()
 	if distancia < 2.0:
-		_iniciar_pausa()
+		_proximo_trecho()
 		return
 	var movimento: Vector2 = direcao.normalized() * speed * delta
 	if movimento.length() > distancia:
 		movimento = direcao
 	position += movimento
-	_aplicar_separacao(delta)
 	_atualizar_animacao(direcao)
 
-func _aplicar_separacao(delta: float) -> void:
-	var empurrao: Vector2 = Vector2.ZERO
-	for outro in get_tree().get_nodes_in_group("farm_animals"):
-		if outro == self:
-			continue
-		var diferenca: Vector2 = position - outro.position
-		var dist: float = diferenca.length()
-		if dist > 0.0 and dist < raio_separacao:
-			empurrao += diferenca.normalized() * (raio_separacao - dist)
-	if empurrao == Vector2.ZERO:
+# Alterna entre andar de lado a lado e subir/descer uma fileira, sempre em
+# linha reta. Ao alcancar o topo do cercado, inverte e volta descendo pelo
+# mesmo percurso; ao alcancar a base, sobe de novo — e assim por diante.
+func _proximo_trecho() -> void:
+	if _fase_vertical:
+		_fase_vertical = false
+		_indo_direita = not _indo_direita
+		_target = Vector2(area_max.x if _indo_direita else area_min.x, position.y)
 		return
-	position += empurrao * 3.0 * delta
-	position.x = clampf(position.x, area_min.x, area_max.x)
-	position.y = clampf(position.y, area_min.y, area_max.y)
-
-func _escolher_novo_alvo() -> void:
-	_target = Vector2(randf_range(area_min.x, area_max.x), randf_range(area_min.y, area_max.y))
-
-func _iniciar_pausa() -> void:
-	_pausing = true
-	_pause_timer = randf_range(pause_min, pause_max)
-	sprite.stop()
+	var proxima_linha: float = position.y - passo_linha if _subindo else position.y + passo_linha
+	if _subindo and proxima_linha <= area_min.y:
+		proxima_linha = area_min.y
+		_subindo = false
+	elif not _subindo and proxima_linha >= area_max.y:
+		proxima_linha = area_max.y
+		_subindo = true
+	_fase_vertical = true
+	_target = Vector2(position.x, proxima_linha)
 
 func _atualizar_animacao(direcao: Vector2) -> void:
 	var anim: StringName
