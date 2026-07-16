@@ -33,6 +33,7 @@ position = Vector2(6, 417)
 
 [node name="CasaTrigger" parent="." unique_id=1950213014 instance=ExtResource("5")]
 position = Vector2(973, 148)
+scale = Vector2(1.2, 1.2)
 
 [node name="ZoneTrigger_Rocado" parent="." unique_id=108337746 instance=ExtResource("3")]
 position = Vector2(517, 239)
