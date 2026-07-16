@@ -1,0 +1,54 @@
+name: Deploy Demo no itch.io
+
+on:
+  # Publica automaticamente a cada push na main que toque no jogo ou neste workflow
+  push:
+    branches: [main]
+    paths:
+      - "Demo/**"
+      - ".github/workflows/deploy-itch.yml"
+  # Permite rodar manualmente pela aba Actions do GitHub (bom para testar)
+  workflow_dispatch:
+
+env:
+  # Alvo do butler no formato usuario/jogo:canal
+  # Pagina do jogo: https://uaifarm.itch.io/demo
+  ITCH_TARGET: uaifarm/demo:web
+  PROJECT_DIR: Demo
+
+jobs:
+  build-e-deploy:
+    runs-on: ubuntu-latest
+    # Imagem mantida pelo projeto godot-ci: traz o editor headless 4.7.1,
+    # os templates de export e o butler ja instalados
+    container:
+      image: barichello/godot-ci:4.7.1-stable
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Disponibilizar templates de export
+        # A imagem instala os templates em /root, mas o Actions roda com HOME=/github/home
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates
+          mv /root/.local/share/godot/export_templates/* ~/.local/share/godot/export_templates/
+
+      - name: Importar assets do projeto
+        run: godot --headless --path "$PROJECT_DIR" --import
+
+      - name: Exportar para Web
+        run: |
+          mkdir -p build/web
+          godot --headless --path "$PROJECT_DIR" --export-release "Web" "$GITHUB_WORKSPACE/build/web/index.html"
+
+      - name: Guardar build como artifact do workflow
+        # Permite baixar o .zip do build na pagina do run, mesmo se o passo do itch falhar
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+
+      - name: Publicar no itch.io via butler
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: butler push build/web "$ITCH_TARGET" --userversion "1.0.${{ github.run_number }}"

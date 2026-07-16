@@ -4,6 +4,7 @@ vertical-slice/.godot/
 
 # Builds locais exportadas (nao versionadas - distribuir via GitHub Release ou itch.io)
 /_builds_local/
+/_builds_web/
 # Godot 4+ specific ignores
 .godot/
 .nomedia
@@ -21,3 +22,6 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Documentacao Final
+/Documentacao-Final
