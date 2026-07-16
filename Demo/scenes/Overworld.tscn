@@ -64,6 +64,7 @@ puzzle_reward_amount = 12
 puzzle_move_limit = 22
 puzzle_score_target = 350
 puzzle_tema = "celeiro"
+deslocamento_menu = Vector2(35, 30)
 
 [node name="Vaca1" parent="." unique_id=1959444081 instance=ExtResource("10_vaca")]
 position = Vector2(848, 561)

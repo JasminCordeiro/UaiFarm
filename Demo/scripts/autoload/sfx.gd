@@ -29,11 +29,14 @@ func play_desbloqueio_zona() -> void:
 	_play(_desbloqueio_stream)
 
 func play_descanso() -> void:
-	_play(_descanso_stream)
+	var player := _play(_descanso_stream)
+	# A musica do dia so volta depois que o galo (som de descanso) termina de tocar
+	if player:
+		player.finished.connect(Music.resume)
 
-func _play(stream: AudioStream, pitch_variance: float = 0.0) -> void:
+func _play(stream: AudioStream, pitch_variance: float = 0.0) -> AudioStreamPlayer:
 	if stream == null:
-		return
+		return null
 	var player := AudioStreamPlayer.new()
 	player.stream = stream
 	player.bus = BUS_NAME
@@ -42,3 +45,4 @@ func _play(stream: AudioStream, pitch_variance: float = 0.0) -> void:
 	add_child(player)
 	player.finished.connect(player.queue_free)
 	player.play()
+	return player

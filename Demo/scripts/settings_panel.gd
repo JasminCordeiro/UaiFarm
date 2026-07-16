@@ -5,6 +5,7 @@ const MAIN_MENU := "res://scenes/MainMenu.tscn"
 var show_game_actions: bool = false
 
 @onready var music_button: Button = $Center/PanelContainer/Margin/VBoxContainer/MusicRow/MusicButton
+@onready var music_volume_slider: HSlider = $Center/PanelContainer/Margin/VBoxContainer/MusicVolumeRow/MusicVolumeSlider
 @onready var sfx_button: Button = $Center/PanelContainer/Margin/VBoxContainer/SfxRow/SfxButton
 @onready var game_actions: VBoxContainer = $Center/PanelContainer/Margin/VBoxContainer/GameActions
 @onready var return_menu_button: Button = $Center/PanelContainer/Margin/VBoxContainer/GameActions/ReturnMenuButton
@@ -14,6 +15,7 @@ var show_game_actions: bool = false
 
 func _ready() -> void:
 	music_button.pressed.connect(_on_music_pressed)
+	music_volume_slider.value_changed.connect(_on_music_volume_changed)
 	sfx_button.pressed.connect(_on_sfx_pressed)
 	return_menu_button.pressed.connect(_on_return_menu_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
@@ -21,6 +23,7 @@ func _ready() -> void:
 	dim.gui_input.connect(_on_dim_input)
 	game_actions.visible = show_game_actions
 	close_button.text = "Continuar Jogando" if show_game_actions else "Fechar"
+	music_volume_slider.value = AudioSettings.music_volume
 	_refresh_buttons()
 
 func _refresh_buttons() -> void:
@@ -30,6 +33,9 @@ func _refresh_buttons() -> void:
 func _on_music_pressed() -> void:
 	AudioSettings.toggle_music()
 	_refresh_buttons()
+
+func _on_music_volume_changed(value: float) -> void:
+	AudioSettings.set_music_volume(value)
 
 func _on_sfx_pressed() -> void:
 	AudioSettings.toggle_sfx()

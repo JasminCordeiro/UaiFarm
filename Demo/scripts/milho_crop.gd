@@ -3,9 +3,13 @@ extends Area2D
 signal colhido(quantidade: int)
 
 const TEX_PLANTADO: Texture2D = preload("res://assets/Milho-Plantado.png")
+const TEX_CRESCENDO: Texture2D = preload("res://assets/Milho-Crescendo.png")
 const TEX_PRONTO: Texture2D = preload("res://assets/Milho.png")
-const ESCALA_PLANTADO: Vector2 = Vector2(0.28, 0.28)
-const ESCALA_PRONTO: Vector2 = Vector2(0.4, 0.4)
+# Os 3 estagios compartilham a mesma largura de base, so a altura cresce.
+# Escala pensada pra caber lado a lado no espacamento de 40px das fileiras do plantio sem sobrepor.
+const ESCALA_PLANTADO: Vector2 = Vector2(0.13, 0.13)
+const ESCALA_CRESCENDO: Vector2 = Vector2(0.13, 0.13)
+const ESCALA_PRONTO: Vector2 = Vector2(0.13, 0.13)
 const RAIO_COLETA_CLIQUE: float = 90.0
 
 @export var tempo_crescimento: float = 10.0
@@ -13,6 +17,7 @@ const RAIO_COLETA_CLIQUE: float = 90.0
 
 var pronto: bool = false
 var foi_colhido: bool = false
+var em_crescimento_medio: bool = false
 var tempo_restante_s: float = 0.0
 
 @onready var sprite: Sprite2D = $Sprite
@@ -37,9 +42,17 @@ func _process(delta: float) -> void:
 	tempo_restante_s -= delta
 	if tempo_restante_s <= 0.0:
 		_amadurecer()
+	elif not em_crescimento_medio and tempo_restante_s <= tempo_crescimento * 0.5:
+		_crescer_estagio_medio()
 
 func tempo_restante() -> int:
 	return ceili(maxf(tempo_restante_s, 0.0))
+
+func _crescer_estagio_medio() -> void:
+	em_crescimento_medio = true
+	sprite.texture = TEX_CRESCENDO
+	sprite.scale = ESCALA_CRESCENDO
+	sprite.offset = Vector2(0, -TEX_CRESCENDO.get_height() / 2.0)
 
 func _amadurecer() -> void:
 	pronto = true

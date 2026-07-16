@@ -60,6 +60,24 @@ custom_minimum_size = Vector2(130, 40)
 layout_mode = 2
 text = "Ligada"
 
+[node name="MusicVolumeRow" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="MusicVolumeLabel" type="Label" parent="Center/PanelContainer/Margin/VBoxContainer/MusicVolumeRow"]
+layout_mode = 2
+text = "Volume"
+vertical_alignment = 1
+
+[node name="MusicVolumeSlider" type="HSlider" parent="Center/PanelContainer/Margin/VBoxContainer/MusicVolumeRow"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+
 [node name="SfxRow" type="HBoxContainer" parent="Center/PanelContainer/Margin/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
