@@ -22,7 +22,7 @@ jobs:
     # Imagem mantida pelo projeto godot-ci: traz o editor headless 4.7.1,
     # os templates de export e o butler ja instalados
     container:
-      image: barichello/godot-ci:4.7.1-stable
+     image: barichello/godot-ci:4.7
     steps:
       - name: Checkout do repositorio
         uses: actions/checkout@v4
