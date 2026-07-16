@@ -126,12 +126,12 @@ func _physics_process(delta: float) -> void:
 func _mover_por_teclado(input_dir: Vector2, delta: float) -> void:
 	# Teclado cancela qualquer destino de clique pendente
 	nav_agent.target_position = global_position
-	# Restringe o movimento a malha de navegacao: projeta o proximo passo
-	# no ponto mais proximo do caminho, deslizando ao longo das bordas.
+	# Restringe o movimento à malha de navegação: projeta o próximo passo
+	# no ponto mais próximo do caminho, deslizando ao longo das bordas.
 	var destino: Vector2 = global_position + input_dir * move_speed * delta
 	var ponto_seguro: Vector2 = NavigationServer2D.map_get_closest_point(nav_agent.get_navigation_map(), destino)
-	# Mapa de navegacao ainda nao sincronizado (primeiros frames) ou ponto
-	# projetado longe demais: nao move, evitando puxar o player pra fora.
+	# Mapa de navegação ainda não sincronizado (primeiros frames) ou ponto
+	# projetado longe demais: não move, evitando puxar o player pra fora.
 	if ponto_seguro.distance_to(destino) > 96.0:
 		velocity = Vector2.ZERO
 		move_and_slide()

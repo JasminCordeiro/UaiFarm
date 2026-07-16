@@ -30,7 +30,7 @@ func play_desbloqueio_zona() -> void:
 
 func play_descanso() -> void:
 	var player := _play(_descanso_stream)
-	# A musica do dia so volta depois que o galo (som de descanso) termina de tocar
+	# A música do dia só volta depois que o galo (som de descanso) termina de tocar
 	if player:
 		player.finished.connect(Music.resume)
 

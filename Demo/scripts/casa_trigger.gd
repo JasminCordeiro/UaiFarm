@@ -1,11 +1,14 @@
 extends Area2D
 
-const ADJACENCY_RADIUS: float = 110.0
+const ADJACENCY_RADIUS: float = 140.0
 const TEXTURAS_CASA: Array = [
 	"res://assets/casa-1.png",
 	"res://assets/casa-2.png",
 	"res://assets/casa-3.png",
 ]
+# Escala independente por nivel (indice 0 = casa nivel 1, etc.) — ajuste aqui pra mudar
+# o tamanho de um nivel especifico sem afetar os outros
+const ESCALAS_CASA: Array = [1.1, 1.1, 1.1]
 
 @onready var context_menu: Control = $ContextMenu
 @onready var action_button: Button = $ContextMenu/ActionButton
@@ -44,12 +47,14 @@ func _process(_delta: float) -> void:
 func _atualizar_sprite() -> void:
 	var idx: int = clampi(GameState.nivel_casa - 1, 0, TEXTURAS_CASA.size() - 1)
 	casa_sprite.texture = load(TEXTURAS_CASA[idx])
+	var escala: float = ESCALAS_CASA[idx]
+	casa_sprite.scale = Vector2(escala, escala)
 
 func _on_casa_melhorada(nivel: int) -> void:
 	_atualizar_sprite()
 	var info_bar = get_tree().get_first_node_in_group("info_bar")
 	if info_bar:
-		info_bar.mostrar_mensagem("Dona Fiota", "Uai, que capricho! A casa subiu pro nivel %d!" % nivel)
+		info_bar.mostrar_mensagem("Dona Fiota", "Uai, que capricho! A casa subiu pro nível %d!" % nivel)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -78,7 +83,7 @@ func _abrir_menu() -> void:
 	action_button.text = "Descansar"
 	action_button.disabled = false
 	if GameState.nivel_casa >= GameState.NIVEL_CASA_MAXIMO:
-		upgrade_button.text = "Nivel maximo"
+		upgrade_button.text = "Nível máximo"
 		upgrade_button.disabled = true
 	else:
 		upgrade_button.text = "Melhorar (Nv %d)" % (GameState.nivel_casa + 1)

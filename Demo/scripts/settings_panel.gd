@@ -7,6 +7,7 @@ var show_game_actions: bool = false
 @onready var music_button: Button = $Center/PanelContainer/Margin/VBoxContainer/MusicRow/MusicButton
 @onready var music_volume_slider: HSlider = $Center/PanelContainer/Margin/VBoxContainer/MusicVolumeRow/MusicVolumeSlider
 @onready var sfx_button: Button = $Center/PanelContainer/Margin/VBoxContainer/SfxRow/SfxButton
+@onready var sfx_volume_slider: HSlider = $Center/PanelContainer/Margin/VBoxContainer/SfxVolumeRow/SfxVolumeSlider
 @onready var game_actions: VBoxContainer = $Center/PanelContainer/Margin/VBoxContainer/GameActions
 @onready var return_menu_button: Button = $Center/PanelContainer/Margin/VBoxContainer/GameActions/ReturnMenuButton
 @onready var quit_button: Button = $Center/PanelContainer/Margin/VBoxContainer/GameActions/QuitButton
@@ -17,6 +18,7 @@ func _ready() -> void:
 	music_button.pressed.connect(_on_music_pressed)
 	music_volume_slider.value_changed.connect(_on_music_volume_changed)
 	sfx_button.pressed.connect(_on_sfx_pressed)
+	sfx_volume_slider.value_changed.connect(_on_sfx_volume_changed)
 	return_menu_button.pressed.connect(_on_return_menu_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	close_button.pressed.connect(_on_close_pressed)
@@ -24,6 +26,7 @@ func _ready() -> void:
 	game_actions.visible = show_game_actions
 	close_button.text = "Continuar Jogando" if show_game_actions else "Fechar"
 	music_volume_slider.value = AudioSettings.music_volume
+	sfx_volume_slider.value = AudioSettings.sfx_volume
 	_refresh_buttons()
 
 func _refresh_buttons() -> void:
@@ -40,6 +43,9 @@ func _on_music_volume_changed(value: float) -> void:
 func _on_sfx_pressed() -> void:
 	AudioSettings.toggle_sfx()
 	_refresh_buttons()
+
+func _on_sfx_volume_changed(value: float) -> void:
+	AudioSettings.set_sfx_volume(value)
 
 func _on_return_menu_pressed() -> void:
 	get_tree().paused = false

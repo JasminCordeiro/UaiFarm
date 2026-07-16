@@ -1,11 +1,11 @@
 extends Control
 
 const FRASES_FIOTA: Array[String] = [
-	"Uai, que dia produtivo! Vamos descansar e continuar amanha, so!",
-	"A terra nao mente... e nem o cansaco! Durma bem, Caio!",
-	"Todo dia tem seu trabai. Amanha tem mais, pode cre!",
-	"O rocado agradece o suor de hoje. Ta ficando bonito, Caio!",
-	"Quem planta colhe, fia! So continuar assim...",
+	"Uai, que dia produtivo! Vamos descansar e continuar amanhã, só!",
+	"A terra não mente... e nem o cansaço! Durma bem, Caio!",
+	"Todo dia tem seu trabai. Amanhã tem mais, pode cre!",
+	"O roçado agradece o suor de hoje. Tá ficando bonito, Caio!",
+	"Quem planta colhe, fia! Só continuar assim...",
 ]
 
 var is_transitioning: bool = false
@@ -24,11 +24,11 @@ func _ready() -> void:
 
 func _atualizar_ui() -> void:
 	$Panel/VBoxContainer/TituloLabel.text = "Hora de descansar"
-	$Panel/VBoxContainer/DiaLabel.text = "Dia %d concluido..." % GameState.dia_atual
+	$Panel/VBoxContainer/DiaLabel.text = "Dia %d concluído..." % GameState.dia_atual
 	var idx: int = (GameState.dia_atual - 1) % FRASES_FIOTA.size()
 	$Panel/VBoxContainer/FiotaLabel.text = "Dona Fiota: \"%s\"" % FRASES_FIOTA[idx]
 	var proximo: int = GameState.dia_atual + 1
-	$Panel/VBoxContainer/StatusLabel.text = "Ao confirmar, o cafe volta ao maximo e o Dia %d comeca." % proximo
+	$Panel/VBoxContainer/StatusLabel.text = "Ao confirmar, o café volta ao máximo e o Dia %d começa." % proximo
 	if proximo > GameState.DIAS_DA_DEMO:
 		$Panel/VBoxContainer/ConfirmButton.text = "Encerrar Demo"
 	else:

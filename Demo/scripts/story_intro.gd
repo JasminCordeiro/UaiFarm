@@ -6,10 +6,10 @@ const CAR_SLIDE_INDEX := 2
 const FIOTA_SLIDE_INDEX := 3
 
 const SLIDES: Array[String] = [
-	"Belo Horizonte, dias atuais. Desde que trocou o interior pela cidade grande, Caio vinha se sentindo cada vez mais sufocado — rotina de escritorio, contas apertadas e planilhas que nao faziam sentido nenhum.",
-	"Ate que uma carta muda tudo: seu avo falecera e deixou pra ele a Fazenda Uai, nos arredores de Conselheiro Lafaiete, MG.",
-	"Foi ai que Caio percebeu: fazia tempo que nao era feliz ali. Arrumou as malas e topou o desafio — hora de voltar pras raizes da familia.",
-	"Ao chegar, encontrou tudo abandonado: rocado seco, curral vazio, celeiro sem estoque... Foi recebido por Dona Fiota, velha amiga do avo, que cuidava do lugar havia anos.\n\"Uai, meu fio, ta na hora de arregacar as manga e dar vida a essa terra de novo!\" — Dona Fiota",
+	"Belo Horizonte, dias atuais. Desde que trocou o interior pela cidade grande, Caio vinha se sentindo cada vez mais sufocado — rotina de escritório, contas apertadas e planilhas que não faziam sentido nenhum.",
+	"Até que uma carta muda tudo: seu avô falecera e deixou pra ele a Fazenda Uai, nos arredores de Conselheiro Lafaiete, MG.",
+	"Foi aí que Caio percebeu: fazia tempo que não era feliz ali. Arrumou as malas e topou o desafio — hora de voltar pras raízes da família.",
+	"Ao chegar, encontrou tudo abandonado: roçado seco, curral vazio, celeiro sem estoque... Foi recebido por Dona Fiota, velha amiga do avô, que cuidava do lugar havia anos.\n\"Uai, meu fio, tá na hora de arregaçar as mangas e dar vida a essa terra de novo!\" — Dona Fiota",
 ]
 
 @onready var story_label: Label = $Center/PanelContainer/Margin/HBox/StoryLabel
@@ -103,7 +103,7 @@ func _finish() -> void:
 		GameState.cena_destino = OVERWORLD
 		get_tree().change_scene_to_file(LOADING_SCREEN))
 
-# --- Animacao do carro (frame unico, movimento simulado) ---
+# --- Animação do carro (frame único, movimento simulado) ---
 
 func _play_car_crossing() -> void:
 	car.show()

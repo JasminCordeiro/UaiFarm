@@ -100,7 +100,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_tutorialcreditos")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_tutorialcreditos")
 theme_override_styles/hover = SubResource("StyleBoxTexture_tutorialcreditos")
 theme_override_styles/focus = SubResource("StyleBoxTexture_tutorialcreditos")
-text = "CREDITOS"
+text = "CRÉDITOS"
 alignment = 0
 
 [node name="QuitButton" type="Button" parent="Panel/VBoxContainer" unique_id=2058590238]

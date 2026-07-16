@@ -12,7 +12,7 @@ const ICONES: Dictionary = {
 
 static func criar_recurso(contexto: Node, posicao_global: Vector2, tipo: String, quantidade: int) -> void:
 	var icone: String = ICONES.get(tipo, "")
-	criar(contexto, posicao_global, ("+%d %s %s" % [quantidade, tipo, icone]).strip_edges())
+	criar(contexto, posicao_global, ("+%d %s %s" % [quantidade, GameState.nome_recurso(tipo).to_lower(), icone]).strip_edges())
 
 static func criar(contexto: Node, posicao_global: Vector2, texto: String) -> void:
 	var no := TextoFlutuante.new()
