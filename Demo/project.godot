@@ -21,6 +21,7 @@ GameState="*res://scripts/autoload/game_state.gd"
 ClickRipple="*res://scripts/autoload/click_ripple.gd"
 AudioSettings="*res://scripts/autoload/audio_settings.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
+Music="*res://scripts/autoload/music.gd"
 
 [display]
 
@@ -28,6 +29,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/mode=2
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom="res://theme/menu_theme.tres"
 
 [input]
 

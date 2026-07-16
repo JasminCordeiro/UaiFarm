@@ -28,16 +28,23 @@ const FALAS_DERROTA: Array[String] = [
 @export var cena_plantacao: PackedScene
 @export var plantas_por_vitoria: int = 5
 @export var tempo_crescimento: float = 10.0
+# Ajuste fino pra afastar o menu de partes do cenario (ex.: o telhado do Celeiro)
+@export var deslocamento_menu: Vector2 = Vector2.ZERO
 
+# Posicoes alinhadas aos dois canteiros de terra do Rocado (background):
+# canteiro de cima = 2 fileiras x 4 plantas, canteiro de baixo = 3 fileiras x 4 plantas
 const DESLOCAMENTOS_PLANTIO: Array = [
-	Vector2(-84, -67), Vector2(-41, -67), Vector2(2, -67), Vector2(45, -67), Vector2(88, -67),
-	Vector2(-84, -12), Vector2(-41, -12), Vector2(2, -12), Vector2(45, -12), Vector2(88, -12),
-	Vector2(-84, 53), Vector2(-41, 53), Vector2(2, 53), Vector2(45, 53), Vector2(88, 53),
-	Vector2(-84, 88), Vector2(-41, 88), Vector2(2, 88), Vector2(45, 88), Vector2(88, 88),
+	Vector2(-76, -65), Vector2(-36, -65), Vector2(4, -65), Vector2(44, -65),
+	Vector2(-76, -35), Vector2(-36, -35), Vector2(4, -35), Vector2(44, -35),
+	Vector2(-76, 38), Vector2(-36, 38), Vector2(4, 38), Vector2(44, 38),
+	Vector2(-76, 58), Vector2(-36, 58), Vector2(4, 58), Vector2(44, 58),
+	Vector2(-76, 78), Vector2(-36, 78), Vector2(4, 78), Vector2(44, 78),
 ]
 
 @onready var context_menu: Control = $ContextMenu
 @onready var action_button: Button = $ContextMenu/ActionButton
+@onready var upgrade_button: Button = $ContextMenu/UpgradeButton
+@onready var upgrade_bg_panel: Panel = $ContextMenu/UpgradeBgPanel
 @onready var radius_indicator = $RadiusIndicator
 @onready var name_label: Label = $Label
 @onready var status_label: Label = $StatusLabel
@@ -51,6 +58,7 @@ var plantacoes: Array = []
 func _ready() -> void:
 	input_event.connect(_on_input_event)
 	action_button.pressed.connect(_on_action_button_pressed)
+	upgrade_button.pressed.connect(_on_upgrade_button_pressed)
 	context_menu.hide()
 	player_ref = get_tree().get_first_node_in_group("player")
 	radius_indicator.definir_raio(adjacency_radius)
@@ -72,6 +80,9 @@ func _process(_delta: float) -> void:
 		_atualizar_proximidade(perto)
 		if not perto:
 			context_menu.hide()
+			var info_bar = get_tree().get_first_node_in_group("info_bar")
+			if info_bar:
+				info_bar.fechar_por_distancia()
 
 # --- Plantio (usado no Rocado) ---
 
@@ -111,8 +122,9 @@ func _plantar(total: int) -> void:
 		var planta = cena_plantacao.instantiate()
 		planta.quantidade = qtd
 		planta.tempo_crescimento = tempo_crescimento
+		# jitter pequeno pra parecer organico sem sobrepor as plantas vizinhas na fileira
 		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[i] \
-			+ Vector2(randf_range(-8, 8), randf_range(-8, 8))
+			+ Vector2(randf_range(-3, 3), randf_range(-3, 3))
 		planta.colhido.connect(_on_planta_colhida)
 		get_tree().current_scene.add_child(planta)
 		plantacoes.append(planta)
@@ -185,6 +197,10 @@ func _try_open_menu() -> void:
 	if not jogador_proximo:
 		context_menu.hide()
 		return
+	var info_bar_atual = get_tree().get_first_node_in_group("info_bar")
+	if info_bar_atual:
+		info_bar_atual.fechar_para_nova_acao()
+	_posicionar_menu()
 	if not GameState.zona_desbloqueada(zone_name):
 		if GameState.requisitos_zona_atendidos(zone_name):
 			modo_desbloqueio = true
@@ -204,9 +220,42 @@ func _try_open_menu() -> void:
 	modo_desbloqueio = false
 	action_button.text = action_label
 	action_button.disabled = false
+	_atualizar_upgrade_button()
 	context_menu.show()
 
+# Centraliza o menu em cima do jogador (que para dentro do raio de adjacencia,
+# nao num ponto fixo), pra garantir leitura mesmo vindo de qualquer direcao.
+func _posicionar_menu() -> void:
+	if player_ref == null:
+		return
+	context_menu.position = to_local(player_ref.global_position) + deslocamento_menu
+
+# Reforma do cercado: acao exclusiva do Curral, só disponível depois da casa toda reformada
+func _atualizar_upgrade_button() -> void:
+	if zone_name != "Curral" or GameState.cercado_reformado:
+		upgrade_button.hide()
+		upgrade_bg_panel.hide()
+		return
+	upgrade_button.show()
+	upgrade_bg_panel.show()
+	upgrade_button.text = "Reformar cercado"
+	upgrade_button.disabled = not GameState.pode_reformar_cercado()
+
+func _on_upgrade_button_pressed() -> void:
+	if GameState.reformar_cercado():
+		upgrade_button.hide()
+		var info_bar = get_tree().get_first_node_in_group("info_bar")
+		if info_bar:
+			info_bar.mostrar_mensagem("Dona Fiota", "Uai, cercado novinho em folha! Ficou show de bola!")
+	else:
+		var info_bar = get_tree().get_first_node_in_group("info_bar")
+		if info_bar:
+			info_bar.mostrar_mensagem("Dona Fiota", GameState.texto_bloqueio_cercado())
+
 func _on_action_button_pressed() -> void:
+	var info_bar_atual = get_tree().get_first_node_in_group("info_bar")
+	if info_bar_atual:
+		info_bar_atual.fechar_para_nova_acao()
 	if modo_desbloqueio:
 		_confirmar_desbloqueio()
 		return

@@ -14,23 +14,32 @@ const PORTRAITS: Dictionary = {
 }
 
 var tutorial_ativo: bool = false
+var fechar_no_movimento: bool = false
 
 func _ready() -> void:
 	add_to_group("info_bar")
 	fechar_button.pressed.connect(_fechar)
 	click_catcher.gui_input.connect(_on_click_catcher_input)
 	if not GameState.tutorial_visto:
-		mostrar_mensagem("Dona Fiota", FALA_TUTORIAL, true)
+		mostrar_mensagem("Dona Fiota", FALA_TUTORIAL, true, true)
 	else:
 		painel.hide()
+
+func _input(event: InputEvent) -> void:
+	if not fechar_no_movimento or not painel.visible:
+		return
+	if event.is_action_pressed("mover_cima") or event.is_action_pressed("mover_baixo") \
+			or event.is_action_pressed("mover_esquerda") or event.is_action_pressed("mover_direita"):
+		_fechar()
 
 func _on_click_catcher_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton and event.pressed) \
 			or (event is InputEventScreenTouch and event.pressed):
 		_fechar()
 
-func mostrar_mensagem(nome: String, texto: String, marcar_como_tutorial: bool = false) -> void:
+func mostrar_mensagem(nome: String, texto: String, marcar_como_tutorial: bool = false, fechar_ao_mover: bool = false) -> void:
 	tutorial_ativo = marcar_como_tutorial
+	fechar_no_movimento = fechar_ao_mover
 	nome_label.text = nome + ":"
 	mensagem_label.text = texto
 	_atualizar_portrait(nome)
@@ -58,6 +67,19 @@ func _fechar() -> void:
 	if tutorial_ativo:
 		GameState.tutorial_visto = true
 		tutorial_ativo = false
+	fechar_no_movimento = false
 	painel.hide()
 	portrait.hide()
 	click_catcher.hide()
+
+func fechar_por_distancia() -> void:
+	if tutorial_ativo or not painel.visible:
+		return
+	painel.hide()
+	portrait.hide()
+	click_catcher.hide()
+
+func fechar_para_nova_acao() -> void:
+	if not painel.visible:
+		return
+	_fechar()
