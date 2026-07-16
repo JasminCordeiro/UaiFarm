@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://crtacm2qaav24" path="res://scripts/overworld.gd" id="7"]
 [ext_resource type="PackedScene" path="res://scenes/Vaca.tscn" id="10_vaca"]
 [ext_resource type="PackedScene" path="res://scenes/Porco.tscn" id="11_porco"]
-[ext_resource type="Texture2D" uid="uid://bhmmhj0k5kjtq" path="res://assets/Curral.png" id="13_vvo0y"]
 [ext_resource type="PackedScene" path="res://scenes/MilhoCrop.tscn" id="14_milho"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b5655"]
@@ -93,11 +92,6 @@ position = Vector2(1165, 609)
 [node name="UI_HUD" parent="." unique_id=1702996510 instance=ExtResource("2")]
 
 [node name="UI_InfoBar" parent="." unique_id=1021988062 instance=ExtResource("6")]
-
-[node name="Curral" type="Sprite2D" parent="." unique_id=1883743462]
-position = Vector2(1072.5, 580)
-scale = Vector2(1.0380954, 1)
-texture = ExtResource("13_vvo0y")
 
 [node name="Transicao" type="CanvasLayer" parent="." unique_id=1273601964]
 layer = 10
