@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Vaca.tscn" id="10_vaca"]
 [ext_resource type="PackedScene" path="res://scenes/Porco.tscn" id="11_porco"]
 [ext_resource type="PackedScene" path="res://scenes/MilhoCrop.tscn" id="14_milho"]
+[ext_resource type="PackedScene" path="res://scenes/Galinha.tscn" id="15_galinha"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b5655"]
 vertices = PackedVector2Array(14, 706.28906, 14, 639.2578, 132.92969, 707.4922, 135.21094, 709.9922, 1174.3828, 77.27344, 1189.7109, 87.671875, 1153.1563, 110.63281, 1107, 116, 1069.9375, 424.71094, 1079.1563, 432.20313, 1078.6016, 432.57813, 1024.0234, 449.5625, 1010.0469, 431.78906, 1015.90625, 422.5703, 253.82031, 640.09375, 243.95313, 709, 1018.2578, 330, 890.84375, 303.0703, 892.14844, 219.03125, 975.5703, 235.29688, 1071.1172, 329, 246.03906, 297, 155.53125, 298.77344, 163.22656, 244.10938, 245.74219, 194.40625, 561.9531, 512.0625, 561.0469, 709, 265.54688, 613.1172, 408.75, 553.46875, 648.7578, 437.52344, 654.7578, 704.6719, 612, 703.3125, 612, 422.28906, 1135.1719, 298.9297, 1270.5781, 299.92188, 1269.3984, 329, 1009.1719, 431.1328, 1065.3594, 632.14844, 1023.0469, 632.8281, 1072.0625, 452.20313, 389.96094, 126, 637.7422, 126.96094, 633.2422, 306.8672, 413.6797, 304.02344, 398.6172, 299, 373.57813, 299, 354.14063, 126, 293.2422, 126.859375, 342.28125, 301.60938, 291.45313, 149.28125, 8.8828125, 417.9297, 8.203125, 382, 257.04688, 382, 300.8672, 415.9297, 297.29688, 373.46094, 344.45313, 375.8125, 373.92188, 401.59375, 352.8828, 414.70313, 286.8672, 298.10156, 253.4375, 162.61719, 310.10156, 318.42188, 692.10156, 402.1797, 688.10156, 10, 727.0703, 10, 719.35156, 325.6797, 715.3594, 440.54688, 331.5078, 339.32813, 430.5, 535.0625, 432.95313, 512.9297, 1107, 163.0625, 1167.7813, 157.40625, 1239.6875, 153.46875, 1246.1328, 190.00781, 1218.0078, 213.3125, 1133.8438, 220.86719, 1080.3203, 202.5, 1108.7031, 64.10156, 1148.4609, 60.28125, 1174.3828, 77.25781, 729.0703, 301.9297, 851.03125, 330, 273.14844, 579.4531, 270.9375, 562.96875, 269.22656, 544.0625, 275.0078, 533.21094, 302.0625, 508.34375, 354.0625, 517.4297, 403.64063, 397.0078, 846.8203, 210.20313, 891.96094, 219, 783.9922, 219, 849.9922, 66.078125, 778, 162.53906, 778.9375, 13.5625, 848.28125, 10.4375)
@@ -32,7 +33,11 @@ navigation_polygon = SubResource("NavigationPolygon_b5655")
 position = Vector2(6, 417)
 
 [node name="CasaTrigger" parent="." unique_id=1950213014 instance=ExtResource("5")]
+<<<<<<< HEAD
+position = Vector2(967, 146)
+=======
 position = Vector2(973, 148)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 scale = Vector2(1.2, 1.2)
 
 [node name="ZoneTrigger_Rocado" parent="." unique_id=108337746 instance=ExtResource("3")]
@@ -68,6 +73,33 @@ puzzle_tema = "celeiro"
 deslocamento_menu = Vector2(35, 30)
 
 [node name="Vaca1" parent="." unique_id=1959444081 instance=ExtResource("10_vaca")]
+<<<<<<< HEAD
+position = Vector2(1170, 535)
+
+[node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
+position = Vector2(1170, 570)
+
+[node name="Vaca3" parent="." unique_id=289854157 instance=ExtResource("10_vaca")]
+position = Vector2(1170, 605)
+
+[node name="Porco1" parent="." unique_id=870639174 instance=ExtResource("11_porco")]
+position = Vector2(800, 590)
+
+[node name="Porco2" parent="." unique_id=1371058158 instance=ExtResource("11_porco")]
+position = Vector2(800, 622)
+
+[node name="Galinha1" parent="." unique_id=1371058159 instance=ExtResource("15_galinha")]
+position = Vector2(830, 443)
+
+[node name="Galinha2" parent="." unique_id=1371058160 instance=ExtResource("15_galinha")]
+position = Vector2(830, 456)
+
+[node name="Galinha3" parent="." unique_id=1371058161 instance=ExtResource("15_galinha")]
+position = Vector2(830, 469)
+
+[node name="Galinha4" parent="." unique_id=1371058162 instance=ExtResource("15_galinha")]
+position = Vector2(830, 482)
+=======
 position = Vector2(817, 621)
 
 [node name="Vaca2" parent="." unique_id=289854156 instance=ExtResource("10_vaca")]
@@ -81,6 +113,7 @@ position = Vector2(1207, 649)
 
 [node name="Porco2" parent="." unique_id=1371058158 instance=ExtResource("11_porco")]
 position = Vector2(1194, 512)
+>>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 
 [node name="UI_HUD" parent="." unique_id=1702996510 instance=ExtResource("2")]
 
