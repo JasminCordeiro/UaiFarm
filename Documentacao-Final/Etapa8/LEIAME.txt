@@ -2,15 +2,16 @@ JOGO: Uai Farm
 EQUIPE: Jasmin Andrade Cordeiro, Vitor Angelo dos Santos
 DISCIPLINA: Design e Desenvolvimento de Jogos — 2026/1
 
-== DOWNLOAD E INSTALAÇÃO ==
-Link para download: [PENDENTE: publicar a release da demo no GitHub Releases e colar o link aqui]
-Plataforma: Windows (64 bits)
-Requisitos: Windows 10 ou superior; mouse; ~200 MB de espaço em disco.
-Passo a passo de instalação:
-1. Baixe o arquivo Uai-Farm-demo-windows.zip pelo link acima.
-2. Extraia o conteúdo do .zip para qualquer pasta.
-3. Execute Uai-Farm-Demo.exe (não requer instalação — o executável é autocontido).
-4. Caso o Windows SmartScreen exiba um aviso, clique em "Mais informações" > "Executar assim mesmo".
+== ONDE JOGAR ==
+Jogue direto no navegador (sem instalar nada):
+https://uaifarm.itch.io/demo
+
+Plataforma: Web (HTML5) — funciona em Chrome, Firefox e Edge atualizados,
+em qualquer sistema operacional. Recomendado jogar no computador (o jogo
+usa mouse e teclado).
+Observação: o primeiro carregamento baixa ~45 MB; aguarde a barra de
+carregamento concluir. Clique na janela do jogo uma vez para ativar o som
+e o teclado.
 
 == COMO JOGAR ==
 Objetivo: restaurar a fazenda herdada por Caio ao longo de 3 dias. Colete
@@ -21,7 +22,8 @@ o dia. Ao fim do 3º dia, uma tela de encerramento resume seu desempenho.
 
 Controles:
 - Clique esquerdo (mapa) — mover o Caio até o ponto clicado
-- Clique esquerdo (zona próxima) — abrir o menu de ação da zona
+- WASD ou setas — mover o Caio pelo teclado
+- E — interagir com a zona mais próxima
 - Clique esquerdo (peça do puzzle + peça adjacente) — trocar as peças
 - ESC — pausar o jogo / fechar o menu de pausa
 
@@ -29,22 +31,27 @@ Dicas para o testador:
 - Comece pelo Roçado (a Dona Fiota indica): é a única zona aberta no Dia 1.
 - No puzzle, combine 3+ peças iguais para pontuar; combos de 4+ criam peças
   especiais (colheitadeira limpa a linha, tesoura limpa a coluna, bomba
-  explode uma área 3x3). Atinga a meta de pontos antes de acabar os movimentos.
+  explode uma área 3x3). Atinja a meta de pontos antes de acabar os movimentos.
 - Junte 10 milhos para desbloquear o Celeiro; com 20 milhos + 5 grãos você
   desbloqueia o Curral.
 - Com 15 milhos + 1 café dá para reformar a casa do Caio.
+- Com a casa no nível 2, dá para reformar o cercado do Curral
+  (8 milhos + 8 leites + 1 café) — os animais do curral aumentam.
 - Ficar parado no puzzle por alguns segundos faz o jogo sugerir uma jogada.
 
 == VÍDEOS ==
-Vídeo do jogo / gameplay no YouTube: [PENDENTE: gravar (2–5 min) e colar o link]
-Vídeo original: [PENDENTE: subir a cópia no Google Drive e colar o link]
+Vídeo do jogo / gameplay no YouTube: [COLAR O LINK]
+Vídeo original (cópia no Google Drive): [COLAR O LINK]
 
 == INFORMAÇÕES COMPLEMENTARES ==
-- Classificação indicativa: Livre (L) / ESRB E — exibida na abertura do jogo.
+- Classificação indicativa: Livre (L) / ESRB E — exibida na tela de créditos
+  do jogo.
 - A demo cobre 3 dias de jogo com dificuldade progressiva nos puzzles
   (menos movimentos e metas maiores a cada dia). Duração típica: 10–15 min.
 - Não há sistema de save: a sessão é contínua do menu à tela final.
 - Volumes de música e efeitos são ajustáveis no menu de configurações.
+- O deploy da versão Web é automatizado: cada atualização na branch main do
+  repositório publica a nova build no itch.io via GitHub Actions.
 - Repositório com todo o histórico de desenvolvimento (do vertical slice à
   demo): https://github.com/JasminCordeiro/UaiFarm
 

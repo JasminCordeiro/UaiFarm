@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dglg3a67120su"]
 
 [ext_resource type="Script" uid="uid://tyf3p2q5nsr3" path="res://scripts/casa_trigger.gd" id="1"]
-[ext_resource type="StyleBox" path="res://theme/wood_panel_style.tres" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(300, 200)
@@ -38,25 +37,23 @@ offset_top = 91.0
 offset_right = 74.0
 offset_bottom = 191.0
 
-[node name="BgPanel" type="Panel" parent="ContextMenu" unique_id=1606258025]
+[node name="VBox" type="VBoxContainer" parent="ContextMenu" unique_id=1310700]
 layout_mode = 0
-offset_right = 140.0
-offset_bottom = 100.0
-mouse_filter = 2
-theme_override_styles/panel = ExtResource("2")
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+offset_bottom = -6.0
+theme_override_constants/separation = 4
+alignment = 1
 
-[node name="ActionButton" type="Button" parent="ContextMenu" unique_id=1606258024]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 9.0
-offset_right = 133.0
-offset_bottom = 47.0
+[node name="ActionButton" type="Button" parent="ContextMenu/VBox" unique_id=1606258024]
+custom_minimum_size = Vector2(128, 38)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Descansar"
 
-[node name="UpgradeButton" type="Button" parent="ContextMenu" unique_id=1699121631]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 50.0
-offset_right = 133.0
-offset_bottom = 88.0
+[node name="UpgradeButton" type="Button" parent="ContextMenu/VBox" unique_id=1699121631]
+custom_minimum_size = Vector2(128, 38)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Melhorar"

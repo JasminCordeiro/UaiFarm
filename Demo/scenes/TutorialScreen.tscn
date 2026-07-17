@@ -50,7 +50,7 @@ horizontal_alignment = 1
 
 [node name="HowToLabel" type="Label" parent="Panel/VBoxContainer"]
 size_flags_vertical = 3
-text = "1. Clique no chão para mover o Caio.\n2. Aproxime-se de uma zona (Roçado, Curral, Celeiro).\n3. Clique na zona e confirme a ação para abrir o puzzle.\n4. Cada tentativa consome 1 café.\n5. Vença o Match-3 para ganhar recursos.\n6. Com recursos suficientes, novas zonas desbloqueiam.\n7. Na Casa, escolha Descansar para recuperar café e avançar o dia."
+text = "1. Clique no chão para mover o Caio.\n2. Aproxime-se de uma zona (Roçado, Curral, Celeiro).\n3. Clique na zona e confirme a ação para abrir o puzzle.\n4. Cada tentativa consome 1 café.\n5. Vença o Match-3 para ganhar recursos.\n6. Com recursos suficientes, novas zonas desbloqueiam.\n7. Na Casa, escolha Descansar para recuperar café e avançar o dia.\n8. Com a casa no nível 2, reforme o cercado no Curral (custa milho\n    e leite) para ganhar mais animais."
 autowrap_mode = 2
 
 [node name="HintLabel" type="Label" parent="Panel/VBoxContainer"]

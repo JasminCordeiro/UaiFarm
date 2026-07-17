@@ -19,8 +19,9 @@ const CUSTO_UPGRADE_CASA: Dictionary = {
 	3: {"milho": 25, "leite": 10, "graos": 8},
 }
 const CAFE_UPGRADE_CASA: int = 1
-# Só pode ser reformado depois que a casa chega no nível máximo (NIVEL_CASA_MAXIMO)
-const CUSTO_REFORMA_CERCADO: Dictionary = {"milho": 10, "leite": 12}
+# Só pode ser reformado depois que a casa chega no NIVEL_CASA_REFORMA_CERCADO
+const NIVEL_CASA_REFORMA_CERCADO: int = 2
+const CUSTO_REFORMA_CERCADO: Dictionary = {"milho": 8, "leite": 8}
 const CAFE_REFORMA_CERCADO: int = 1
 
 var cafe_atual: int = CAFE_INICIAL
@@ -148,12 +149,12 @@ func texto_custo_casa() -> String:
 	return ", ".join(partes)
 
 # --- Reforma do cercado (Curral) ---
-# Só libera depois que a casa chega no nível máximo; usa recursos do próprio Curral (leite)
+# Libera a partir da casa nível 2; usa recursos do próprio Curral (leite)
 
 func pode_reformar_cercado() -> bool:
 	if cercado_reformado:
 		return false
-	if nivel_casa < NIVEL_CASA_MAXIMO:
+	if nivel_casa < NIVEL_CASA_REFORMA_CERCADO:
 		return false
 	if cafe_atual < CAFE_REFORMA_CERCADO:
 		return false
@@ -180,8 +181,8 @@ func texto_custo_cercado() -> String:
 	return ", ".join(partes)
 
 func texto_bloqueio_cercado() -> String:
-	if nivel_casa < NIVEL_CASA_MAXIMO:
-		return "Uai, primeiro reforma a casa todinha (nível %d) pra depois cuidar do cercado!" % NIVEL_CASA_MAXIMO
+	if nivel_casa < NIVEL_CASA_REFORMA_CERCADO:
+		return "Uai, primeiro melhora a casa (nível %d) pra depois cuidar do cercado!" % NIVEL_CASA_REFORMA_CERCADO
 	return "Pra reformar o cercado precisa de: %s. Ainda falta coisa, uai!" % texto_custo_cercado()
 
 func texto_requisito(zona: String) -> String:

@@ -135,13 +135,8 @@ animations = [{
 
 [node name="Vaca" type="Node2D"]
 script = ExtResource("2")
-<<<<<<< HEAD
 area_min = Vector2(1125, 529)
 area_max = Vector2(1217, 641)
-=======
-area_min = Vector2(1045, 480)
-area_max = Vector2(1265, 690)
->>>>>>> 6de8ea022fa4c08e4b31311084eec8745042b63b
 speed = 26.0
 passo_linha = 35.0
 

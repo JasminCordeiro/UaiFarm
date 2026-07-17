@@ -41,9 +41,8 @@ const DESLOCAMENTOS_PLANTIO: Array = [
 ]
 
 @onready var context_menu: Control = $ContextMenu
-@onready var action_button: Button = $ContextMenu/ActionButton
-@onready var upgrade_button: Button = $ContextMenu/UpgradeButton
-@onready var upgrade_bg_panel: Panel = $ContextMenu/UpgradeBgPanel
+@onready var action_button: Button = $ContextMenu/VBox/ActionButton
+@onready var upgrade_button: Button = $ContextMenu/VBox/UpgradeButton
 @onready var radius_indicator = $RadiusIndicator
 @onready var name_label: Label = $Label
 @onready var status_label: Label = $StatusLabel
@@ -226,16 +225,15 @@ func _try_open_menu() -> void:
 func _posicionar_menu() -> void:
 	context_menu.position = deslocamento_menu
 
-# Reforma do cercado: ação exclusiva do Curral, só disponível depois da casa toda reformada
+# Reforma do cercado: ação exclusiva do Curral, libera a partir da casa nível 2.
+# O botão fica sempre clicável (como o Melhorar da casa): sem os requisitos,
+# a Dona Fiota explica o que falta em vez de o botão simplesmente não responder.
 func _atualizar_upgrade_button() -> void:
 	if zone_name != "Curral" or GameState.cercado_reformado:
 		upgrade_button.hide()
-		upgrade_bg_panel.hide()
 		return
 	upgrade_button.show()
-	upgrade_bg_panel.show()
 	upgrade_button.text = "Reformar cercado"
-	upgrade_button.disabled = not GameState.pode_reformar_cercado()
 
 func _on_upgrade_button_pressed() -> void:
 	if GameState.reformar_cercado():

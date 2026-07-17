@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dqphpxsdt13ey" path="res://scripts/zone_trigger.gd" id="1"]
 [ext_resource type="Script" uid="uid://djqlnupygwqbo" path="res://scripts/radius_indicator.gd" id="2"]
-[ext_resource type="StyleBox" path="res://theme/wood_panel_style.tres" id="3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(60, 60)
@@ -34,32 +33,31 @@ horizontal_alignment = 1
 
 [node name="ContextMenu" type="Control" parent="." unique_id=839186617]
 visible = false
+layout_mode = 3
+anchors_preset = 0
 offset_left = -55.0
 offset_top = -28.0
 offset_right = 55.0
 offset_bottom = 69.0
 
-[node name="UpgradeBgPanel" type="Panel" parent="ContextMenu" unique_id=767522595]
-visible = false
+[node name="VBox" type="VBoxContainer" parent="ContextMenu" unique_id=1297025264]
 layout_mode = 0
-offset_right = 110.0
-offset_bottom = 97.0
-mouse_filter = 2
-theme_override_styles/panel = ExtResource("3")
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+offset_bottom = -3.0
+theme_override_constants/separation = 4
+alignment = 1
 
-[node name="ActionButton" type="Button" parent="ContextMenu" unique_id=767522593]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 105.0
-offset_bottom = 46.0
+[node name="ActionButton" type="Button" parent="ContextMenu/VBox" unique_id=767522593]
+custom_minimum_size = Vector2(100, 41)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Trabalhar"
 
-[node name="UpgradeButton" type="Button" parent="ContextMenu" unique_id=767522594]
+[node name="UpgradeButton" type="Button" parent="ContextMenu/VBox" unique_id=767522594]
 visible = false
-layout_mode = 0
-offset_left = 5.0
-offset_top = 50.0
-offset_right = 105.0
-offset_bottom = 91.0
+custom_minimum_size = Vector2(100, 41)
+layout_mode = 2
+size_flags_horizontal = 4
 text = "Reformar cercado"
