@@ -16,9 +16,14 @@ var _fase_vertical: bool = false
 
 func _ready() -> void:
 	add_to_group("farm_animals")
-	position.x = clampf(position.x, area_min.x, area_max.x)
+	# Cada bicho começa num ponto, direção e ritmo próprios (dentro da mesma área),
+	# senão todos marcham sincronizados, um em cima do outro
+	position.x = randf_range(area_min.x, area_max.x)
 	position.y = clampf(position.y, area_min.y, area_max.y)
-	_target = Vector2(area_min.x, position.y)
+	_indo_direita = randf() < 0.5
+	_subindo = randf() < 0.5
+	speed *= randf_range(0.8, 1.25)
+	_target = Vector2(area_max.x if _indo_direita else area_min.x, position.y)
 
 func _process(delta: float) -> void:
 	var direcao: Vector2 = _target - position

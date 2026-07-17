@@ -65,6 +65,9 @@ func _ready() -> void:
 	GameState.recurso_alterado.connect(_on_recurso_alterado)
 	_atualizar_visual_bloqueio()
 	_atualizar_status()
+	if plantar_apos_vitoria:
+		# deferido: durante o _ready a cena ainda não é a current_scene
+		_restaurar_plantio.call_deferred()
 
 func _process(_delta: float) -> void:
 	_atualizar_status_plantio()
@@ -119,16 +122,39 @@ func _plantar(total: int) -> void:
 			continue
 		var planta = cena_plantacao.instantiate()
 		planta.quantidade = qtd
+		planta.indice_plantio = i
 		planta.tempo_crescimento = tempo_crescimento
 		# sem jitter: plantas ficam alinhadas em linha reta, seguindo a fileira do canteiro
 		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[i]
 		planta.colhido.connect(_on_planta_colhida)
 		get_tree().current_scene.add_child(planta)
 		plantacoes.append(planta)
+	_sincronizar_plantio_pendente()
+
+# As plantas vivem na cena, mas a cena é recriada ao descansar; o GameState
+# guarda o que ficou plantado pra replantar no dia seguinte
+func _sincronizar_plantio_pendente() -> void:
+	_limpar_plantacoes_invalidas()
+	GameState.plantio_pendente = plantacoes.map(
+		func(p): return {"indice": p.indice_plantio, "qtd": p.quantidade})
+
+func _restaurar_plantio() -> void:
+	if cena_plantacao == null or GameState.plantio_pendente.is_empty():
+		return
+	for item in GameState.plantio_pendente:
+		var indice: int = clampi(item["indice"], 0, DESLOCAMENTOS_PLANTIO.size() - 1)
+		var planta = cena_plantacao.instantiate()
+		planta.quantidade = item["qtd"]
+		planta.indice_plantio = indice
+		planta.nascer_pronto = true  # cresceu durante a noite
+		planta.global_position = global_position + DESLOCAMENTOS_PLANTIO[indice]
+		planta.colhido.connect(_on_planta_colhida)
+		get_tree().current_scene.add_child(planta)
+		plantacoes.append(planta)
 
 func _on_planta_colhida(_quantidade: int) -> void:
+	_sincronizar_plantio_pendente()
 	# quando a última planta for colhida, restaura o texto da zona
-	_limpar_plantacoes_invalidas()
 	if plantacoes.is_empty():
 		_atualizar_status()
 

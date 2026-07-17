@@ -15,6 +15,11 @@ const RAIO_COLETA_CLIQUE: float = 90.0
 @export var tempo_crescimento: float = 10.0
 @export var quantidade: int = 3
 
+# Preenchidos pelo ZoneTrigger: posição na fileira (pra persistir no GameState)
+# e se a planta volta de um descanso já madura (cresceu durante a noite)
+var indice_plantio: int = -1
+var nascer_pronto: bool = false
+
 var pronto: bool = false
 var foi_colhido: bool = false
 var em_crescimento_medio: bool = false
@@ -35,6 +40,8 @@ func _ready() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ONE, 0.3) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if nascer_pronto:
+		_amadurecer()
 
 func _process(delta: float) -> void:
 	if pronto:

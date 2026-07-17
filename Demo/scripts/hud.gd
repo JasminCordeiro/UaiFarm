@@ -70,6 +70,9 @@ func _on_recurso_alterado(tipo: String, quantidade_total: int) -> void:
 func _atualizar_inventario() -> void:
 	var partes: Array = []
 	for tipo in GameState.recursos.keys():
+		if tipo == "ovos":
+			# nenhuma zona da demo recompensa ovos; não polui a barra com "Ovos: 0"
+			continue
 		partes.append("%s: %d" % [GameState.nome_recurso(tipo), GameState.recursos[tipo]])
 	inventory_label.text = " | ".join(partes)
 	# o texto muda de tamanho conforme os números crescem; reajusta a barra pro conteúdo novo

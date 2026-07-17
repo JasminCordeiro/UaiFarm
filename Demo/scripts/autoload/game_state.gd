@@ -29,6 +29,10 @@ var cafe_maximo: int = CAFE_INICIAL
 var dia_atual: int = 1
 var nivel_casa: int = 1
 var cercado_reformado: bool = false
+# Milho plantado no Roçado: a cena é recriada ao descansar, então o plantio
+# fica guardado aqui e é replantado (já maduro) no dia seguinte.
+# Cada item: {"indice": posição na fileira, "qtd": milhos da planta}
+var plantio_pendente: Array = []
 var zonas_ja_desbloqueadas: Dictionary = {}
 var tutorial_visto: bool = false
 var dialogo_dia_mostrado: Dictionary = {}
@@ -58,6 +62,7 @@ func reset() -> void:
 	dia_atual = 1
 	nivel_casa = 1
 	cercado_reformado = false
+	plantio_pendente = []
 	zonas_ja_desbloqueadas = {}
 	tutorial_visto = false
 	dialogo_dia_mostrado = {}
